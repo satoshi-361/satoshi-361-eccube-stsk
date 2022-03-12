@@ -1,0 +1,1 @@
+# satoshi-361-eccube-stsk

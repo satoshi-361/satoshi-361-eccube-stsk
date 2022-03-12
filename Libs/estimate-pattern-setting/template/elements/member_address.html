@@ -1,0 +1,156 @@
+<style>
+  .errBox { outline: solid red; }
+  .errMsg { color: red; }
+</style>
+<table class="customer_form">
+  <tbody>
+    <tr id="name_row" class="inp1">
+      <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>お名前</th>
+      <td class="name_td">
+        <?php if($isConfirmed) { ?>
+          <?php echo $member['name1']; ?>
+        <?php } else { ?>
+          姓 <input name="member[name1]" id="name1" type="text" <?php if(!empty($errMsg['name1'])) { echo 'class="errBox"'; } ?> value="<?php echo $member['name1']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>
+          <?php if(!empty($errMsg['name1'])) { ?>
+             <p class="errMsg"><?php echo $errMsg['name1']; ?></p>
+          <?php } ?>
+        <?php } ?>
+      </td>
+      <td class="name_td">
+        <?php if($isConfirmed) { ?>
+          <?php echo $member['name2']; ?>
+        <?php } else { ?>
+          名 <input name="member[name2]" id="name2" type="text" <?php if(!empty($errMsg['name2'])) { echo 'class="errBox"'; } ?> value="<?php echo $member['name2']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>
+          <?php if(!empty($errMsg['name2'])) { ?>
+            <p class="errMsg"><?php echo $errMsg['name2']; ?></p>
+         <?php } ?>
+        <?php } ?> 
+      </td>
+    </tr>
+    <tr id="furikana_row" class="inp1">
+      <th scope="row">フリガナ</th>
+      <td>
+        <?php if($isConfirmed) { ?>
+          <?php echo $member['name3']; ?>
+        <?php } else { ?>
+          姓 <input name="member[name3]" id="name3" type="text" value="<?php echo $member['name3']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active">
+        <?php } ?>
+      </td>
+      <td>
+        <?php if($isConfirmed) { ?>
+          <?php echo $member['name4']; ?>
+        <?php } else { ?>
+          名 <input name="member[name4]" id="name4" type="text" value="<?php echo $member['name4']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active">
+        <?php } ?>
+      </td>
+    </tr>
+    <tr id="zipcode_row">
+      <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>郵便番号</th>
+      <td colspan="2">
+        <?php if($isConfirmed) { ?>
+          <?php echo $member['zipcode']; ?>
+        <?php } else { ?>
+          <input name="member[zipcode]" id="zipcode" type="text" <?php if(!empty($errMsg['zipcode'])) { echo 'class="errBox"'; } ?> value="<?php echo $member['zipcode']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: inactive" required>
+          <input type="button" id="search_zipcode" class="search-zipcode button" value="住所検索" onclick="AjaxZip3.zip2addr('member[zipcode]', '', 'member[pref]', 'member[address1]');">100-1000
+          <?php if(!empty($errMsg['zipcode'])) { ?>
+            <p class="errMsg"><?php echo $errMsg['zipcode']; ?></p>
+          <?php } ?>
+        <?php } ?>
+      </td>
+    </tr>
+    <input type="hidden" name="member[country]" id="member_country" value="JP">
+    <tr id="states_row">
+      <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>都道府県</th>
+      <td colspan="2">
+        <?php if($isConfirmed) { ?>
+          <?php echo $member['pref']; ?>
+        <?php } else { ?>
+          <select name="member[pref]" id="member_pref" class="pref <?php if(!empty($errMsg['pref'])) { echo 'errBox'; } ?>" required>
+            <option value="">--選択--</option> 
+            <?php foreach($prefs as $pref) { ?>
+              <option value="<?php echo $pref;?>" <?php if($member['pref'] == $pref) echo 'selected'; ?> ><?php echo $pref; ?></option>
+            <?php } ?>
+            <?php if(!empty($errMsg['pref'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['pref']; ?></p>
+            <?php } ?>
+        <?php } ?>
+      </select>
+      </td>
+      </tr>
+      <tr id="address1_row" class="inp2">
+        <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>市区郡町村</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $member['address1']; ?>
+          <?php } else { ?>
+            <input name="member[address1]" id="address1" <?php if(!empty($errMsg['address1'])) { echo 'class="errBox"'; } ?> type="text" value="<?php echo $member['address1']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>横浜市上北町
+            <?php if(!empty($errMsg['address1'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['address1']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="address2_row">
+        <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>番地</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $member['address2']; ?>
+          <?php } else { ?>
+            <input name="member[address2]" id="address2" <?php if(!empty($errMsg['address2'])) { echo 'class="errBox"'; } ?> type="text" value="<?php echo $member['address2']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>3-24-555
+            <?php if(!empty($errMsg['address2'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['address2']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="address3_row">
+        <th scope="row">ビル名</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $member['address3']; ?>
+          <?php } else { ?>
+            <input name="member[address3]" id="address3" type="text" value="<?php echo $member['address3']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active">通販ビル4F
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="tel_row">
+        <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>電話番号</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $member['tel']; ?>
+          <?php } else { ?>
+            <input name="member[tel]" id="tel" type="text" <?php if(!empty($errMsg['tel'])) { echo 'class="errBox"'; } ?> value="<?php echo $member['tel']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: inactive" required>1000-10-1000
+            <?php if(!empty($errMsg['tel'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['tel']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="fax_row">
+        <th scope="row">FAX番号</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $member['fax']; ?>
+          <?php } else { ?>
+            <input name="member[fax]" id="fax" type="text" <?php if(!empty($errMsg['fax'])) { echo 'class="errBox"'; } ?> value="<?php echo $member['fax']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: inactive">1000-10-1000
+            <?php if(!empty($errMsg['fax'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['fax']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>メールアドレス</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $member['mailaddress1']; ?>
+          <?php } else { ?>
+            <input name="member[mailaddress1]" id="mailaddress1" type="email" <?php if(!empty($errMsg['mailaddress1'])) { echo 'class="errBox"'; } ?> value="<?php echo $member['mailaddress1']; ?>" required>
+            <?php if(!empty($errMsg['mailaddress1'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['mailaddress1']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+    </tbody>
+  </table>

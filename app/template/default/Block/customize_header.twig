@@ -1,0 +1,138 @@
+<header id="header">
+    <div class="sitename">
+        <p class="desc">ノベルティ・名入れ・記念品OEM等のプライベートブランド・商品オリジナル製造</p>
+        <h1 class="logo show">
+            <a href="{{ url('homepage') }}"><img src="{{ asset('assets/img/common/header_logo.png') }}" alt="ノベルティの春夏秋冬"></a>
+        </h1>
+        <div class="hide">
+            <a href="{{ url('homepage') }}"><img src="{{ asset('assets/img/common/header_logo_sp.png') }}" alt="ノベルティの春夏秋冬"></a>
+            <div class="search" style="margin-left: 15px">
+                <form method="get" id="searchform" class="searchform" action="{{ path('product_list') }}" role="search">
+                    <p style="width: calc(100% - 70px)"><input type="text" name="name" id="head-s-text" class="search-text" placeholder="≪商品名の部分一致≫と≪品番の部分一致≫"></p>
+                    <p><input type="submit" id="head-s-submit" class="searchsubmit" value="検索"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <nav class="header-menu">
+        <ul class="show">
+            <li>
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ url('logout') }}">
+                        <img src="{{ asset('assets/img/common/ico-h_logout.svg') }}" alt="">ログアウト
+                    </a>
+                {% else %}
+                    <a href="{{ url('mypage_login') }}">
+                        <img src="{{ asset('assets/img/common/ico-h_login.svg') }}" alt="">ログイン
+                    </a>
+                {% endif %}
+            </li>
+            <li>
+                <a href="{{ url('mypage') }}">
+                    <img src="{{ asset('assets/img/common/ico-h_mypage.svg') }}" alt="">マイページ
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('mypage_favorite') }}">
+                    <img src="{{ asset('assets/img/common/star.svg') }}" alt="">お気に入り
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('contact') }}">
+                    <img src="{{ asset('assets/img/common/ico-h_contact.svg') }}" alt="">お問い合せ
+                </a>
+            </li>
+        </ul>
+        <center class="hide">
+            <ul>
+                <li>
+                    {% if is_granted('ROLE_USER') %}
+                        <a href="{{ url('logout') }}">
+                            <img src="{{ asset('assets/img/common/ico-h_login.svg') }}" alt="">ログアウト
+                        </a>
+                    {% else %}
+                        <a href="{{ url('mypage_login') }}">
+                            <img src="{{ asset('assets/img/common/ico-h_login.svg') }}" alt="">ログイン
+                        </a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="{{ url('mypage') }}">
+                        <img src="{{ asset('assets/img/common/ico-h_mypage.svg') }}" alt="">マイページ
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('mypage_favorite') }}">
+                        <img src="{{ asset('assets/img/common/star.svg') }}" alt="">お気に入り
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('contact') }}">
+                        <img src="{{ asset('assets/img/common/ico-h_contact.svg') }}" alt="">お問い合せ
+                    </a>
+                </li>
+                <li onclick="openNav();">
+                    <a>
+                        <img src="{{ asset('assets/img/common/menu.png') }}" style="width: 30px;height: auto; padding-bottom: 5px;" alt="">メニュー
+                    </a>
+                </li>
+            </ul>
+        </center>
+        <div class="search show">
+            <form method="get" id="searchform" class="searchform" action="{{ path('product_list') }}" role="search">
+                <p><input type="text" name="name" id="head-s-text" class="search-text" placeholder="サイト内検索"></p>
+                <p><input type="submit" id="head-s-submit" class="searchsubmit" value="検索"></p>
+            </form>
+        </div>
+        <div id="sp_nav" class="sp_nav" style="right: -100%;">
+            <div class="nav_container">
+                <div onclick="openNav();" class="menu_close">
+                    <img src="{{ asset('assets/img/common/close.png') }}" alt="">
+                </div>
+                <ul>
+                    <li>
+                        <a href="{{ url('homepage')~'user_data/flow' }}">注文・納品の流れ</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('homepage')~'user_data/submission' }}">入稿データについて</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('homepage')~'user_data/print' }}">商品印刷について</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('homepage')~'user_data/faq' }}">よくある質問</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('help_about') }}">会社概要</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('help_privacy') }}">個人情報保護</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="frame_phone show">
+        <p class="number">03-5901-9633<span>運営会社：株式会社秋冬春夏</span></p>
+        <p class="caution">受付時間 10:00～17:00<span class="br"></span>土日・祝祭日を除く</p>
+    </div>
+</header>
+<nav id="globalNav" class="show">
+    <ul>
+        <li><a href="{{ url('homepage')~'user_data/flow' }}">注文・納品の流れ</a></li>
+        <li><img src="{{ asset('assets/img/common/line.svg') }}"></li>
+        <li><a href="{{ url('homepage')~'user_data/submission' }}">入稿データについて</a></li>
+        <li><img src="{{ asset('assets/img/common/line.svg') }}"></li>
+        <li><a href="{{ url('homepage')~'user_data/print' }}">商品印刷について</a></li>
+        <li><img src="{{ asset('assets/img/common/line.svg') }}"></li>
+        <li><a href="{{ url('homepage')~'user_data/faq' }}">よくある質問</a></li>
+        <li><img src="{{ asset('assets/img/common/line.svg') }}"></li>
+        <li><a href="{{ url('help_about') }}">会社概要</a></li>
+        <li><img src="{{ asset('assets/img/common/line.svg') }}"></li>
+        <li><a href="{{ url('help_privacy') }}">個人情報保護</a></li>
+    </ul>
+</nav>
+
+{% if app.request.attributes.get('_route') != 'homepage' %}
+    <main id="main">
+{% endif %}

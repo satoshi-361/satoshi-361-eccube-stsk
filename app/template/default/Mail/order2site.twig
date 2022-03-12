@@ -1,0 +1,63 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+
+{{ Customer.name01 }} {{ Customer.name02 }}様から下記のご注文が届きました。
+ご確認をお願いいたします。
+
+************************************************
+　ご注文内容
+************************************************
+
+商品名： {{ Order['productName'] }}
+色： {{ Order['colors'] }}
+商品合計： {{ Order['totalQuantity'] }}個　×　{{ Order['productPrice'] }}円　　　
+版　代：１版　×　 {{ Order['dataPlacementFee'] }}円　　　
+印刷代： {{ Order['printingFeeQuantity'] }}個　×　{{ Order['printingFee'] }}円
+送　料： {{ Order['shipmentFee'] }}円
+税抜合計： {{ Order['zeinuki'] }}円
+消費税： {{ Order['tax'] }}円
+税込合計： {{ Order['totalAmount'] }}円
+ご要望・ご質問： {{ Customer['contents'] }}
+
+************************************************
+　ご注文者情報
+************************************************
+お名前：{{ Customer.name01 }} {{ Customer.name02 }} 様
+お名前(カナ)：{{ Customer.kana01 }} {{ Customer.kana02 }} 様
+郵便番号：〒{{ Customer.postal_code }}
+住所：{{ Customer.pref }}{{ Customer.addr01 }}{{ Customer.addr02 }}
+電話番号：{{ Customer.phone_number }}
+メールアドレス：{{ Customer.email }}
+
+
+************************************************
+　お届け先情報
+************************************************
+{% if additionalAddress != null %}
+お名前：{{ additionalAddress['name']['name01'] }} {{ additionalAddress['name']['name02'] }} 様
+お名前(カナ)：{{ additionalAddress['kana']['kana01'] }} {{ additionalAddress['kana']['kana02'] }} 様
+郵便番号：〒{{ additionalAddress['postal_code'] }}
+住所：{{ additionalAddress['address']['pref'] }}{{ additionalAddress['address']['addr01'] }}{{ additionalAddress['address']['addr02'] }}
+電話番号：{{ additionalAddress['phone_number'] }}
+
+{% elseif CustomerAddress != null %}
+お名前：{{ CustomerAddress.name01 }} {{ CustomerAddress.name02 }} 様
+お名前(カナ)：{{ CustomerAddress.kana01 }} {{ CustomerAddress.kana02 }} 様
+郵便番号：〒{{ CustomerAddress.postal_code }}
+住所：{{ CustomerAddress.pref }}{{ CustomerAddress.addr01 }}{{ CustomerAddress.addr02 }}
+電話番号：{{ CustomerAddress.phone_number }}
+
+{% else %}
+　納品先は注文者の住所と同じです。
+{% endif %}
+
+{% endautoescape %}

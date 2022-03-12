@@ -1,0 +1,201 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'front_page' %}
+{% set is_sp_sidebar = true %}
+
+{% set categoryRepository = repository('Eccube\\Entity\\Category') %}
+
+{% block stylesheet %}
+    <style>
+    #target ul li a {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+    #target ul li a span:last-child {
+        width: calc(100% - 45px);
+        text-align: center;
+    }
+    /* #target ul li a:hover img {
+        opacity: 0.5
+    }
+    #target ul li a:hover span {
+        color: #888;
+    } */
+    #target ul li {
+        background: linear-gradient(to left, white 50%, #f2f2f2 50%) right;
+        background-size: 200%;
+        -webkit-transition: .3s ease-out;
+        transition: .3s ease-out;
+    }
+    #target ul li:hover {
+        background-position: left;
+    }
+    .page_list .item_sku {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .page_list .item_sku img {
+        width: 20px;
+        height: auto;
+    }
+    .page_list .name a:hover {
+        color: red;
+    }
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script>
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    <article id="main_wrap">
+        <section id="ranking">
+            <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_ranking.png') }}" alt="人気ランキング"></h1>
+            <div class="itemBox">
+                <ul class="wpp-list page_list">
+                    {% for Product in ProductRanks if Product != null %}
+                    <li>
+                        <a href="{{ url('product_detail', {'id': Product.id}) }}" title="{{ Product.name }}">
+                            <p class="print">
+                                {% for productCategory in Product.getProductCategories if productCategory.Category.Parent != null and productCategory.Category.Parent.name == '印刷方法詳細' %}
+                                    <img src="{{ asset('assets/img/' ~ productCategory.Category.image1) }}" alt="{{ productCategory.Category.name }}" />
+                                {% endfor %}
+                            </p>
+                            <p class="image"><img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy"></p>
+                            <div class="body">
+                                <div class="item_sku">
+                                    <p class="cell item-no">{{ Product.getCodeMax }}</p>
+                                    <a href="{{ url('product_add_favorite', {id: Product.id, category_id: 0 }) }}">
+                                        <img src="{{ asset('assets/img/common/star.svg') }}" alt="" loading="lazy" />
+                                    </a>
+                                </div>
+                                <p class="name">
+                                    <a href="{{ url('product_detail', {'id': Product.id}) }}" title="{{ Product.name }}">{{ Product.name }}</a>
+                                </p>
+                                <div class="head">
+                                    <p class="cell price"><span class="ttl">商品価格: </span>{{ Product.getPrice02Min|price }}<em class="tax">（税別）/{{ Product.getPrice02IncTaxMin|number_format }}円(税込)</em></em></p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        <section id="newitem">
+            <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_news.png') }}" alt="新着アイテム"></h1>
+            <div class="itemBox">
+                <ul class="page_list">
+                    {% for Product in NewItems if Product.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
+                    <li>
+                        <a href="{{ url('product_detail', {'id': Product.id}) }}" title="{{ Product.name }}">
+                            <p class="print">
+                                {% for productCategory in Product.getProductCategories if productCategory.Category.Parent != null and productCategory.Category.Parent.name == '印刷方法詳細' %}
+                                    <img src="{{ asset('assets/img/' ~ productCategory.Category.image1) }}" alt="{{ productCategory.Category.name }}" />
+                                {% endfor %}
+                            </p>
+                            <p class="image"><img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" alt="{{ Product.name }}" loading="lazy"></p>
+                            <div class="body">
+                                <div class="item_sku">
+                                    <p class="cell item-no">{{ Product.getCodeMax }}</p>
+                                    <a href="{{ url('product_add_favorite', {id: Product.id, category_id: 0 }) }}">
+                                        <img src="{{ asset('assets/img/common/star.svg') }}" alt="" loading="lazy" />
+                                    </a>
+                                </div>
+                                <p class="name">
+                                    <a href="{{ url('product_detail', {'id': Product.id}) }}" title="{{ Product.name }}">{{ Product.name }}</a>
+                                </p>
+                                <div class="head">
+                                    <p class="cell price"><span class="ttl">商品価格: </span>{{ Product.getPrice02Min|price }}<em class="tax">（税別）/{{ Product.getPrice02IncTaxMin|number_format }}円(税込)</em></em></p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <p class="btn_more"><a href="{{ url('product_list') }}">More view</a></p>
+        </section>
+        <section id="target">
+            <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_target.png') }}" alt="ターゲットで探す"></h1>
+            <div class="itemBox">
+                <ul>
+                    {% for item in Targets|reverse %}
+                        <li class="item3 category">
+                            <a href="" value="{{ item.id }}">
+                                <span class="icon"><img src="{{ asset('assets/img/'~item.image) }}" alt=""></span>
+                                <span>{{ item.name }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        <section id="scene">
+            <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_scene.png') }}" alt="目的・シーンで探す"></h1>
+            <div class="itemBox">
+                <ul>
+                    {% for item in Scenes|reverse %}
+                        <li class="item3 category image">
+                        <a href="" value="{{ item.id }}">
+                            <p class="icon"><img src="{{ asset('assets/img/'~item.image1) }}" alt=""></p>
+                            <p class="label">{{ item.name }}</p>
+                        </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        <section id="season">
+            <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_season.png') }}" alt="季節のノベルティ・記念品"></h1>
+            <div class="frame_btn">
+                <div class="spring category">
+                    <a href="" value="{{ categoryRepository.findOneBy({'name': '春'}).id }}"><img src="{{ asset('assets/img/common/spring.png') }}" alt=""></a>
+                </div>
+                <div class="summer category">
+                    <a href="" value="{{ categoryRepository.findOneBy({'name': '夏'}).id }}"><img src="{{ asset('assets/img/common/summer.png') }}" alt=""></a>
+                </div>
+                <div class="autumn category">
+                    <a href="" value="{{ categoryRepository.findOneBy({'name': '秋'}).id }}"><img src="{{ asset('assets/img/common/autumn.png') }}" alt=""></a>
+                </div>
+                <div class="winter category">
+                    <a href="" value="{{ categoryRepository.findOneBy({'name': '冬'}).id }}"><img src="{{ asset('assets/img/common/winter.png') }}" alt=""></a>
+                </div>
+            </div>
+            <p class="btn_more"><a href="season.html">More view</a></p>
+        </section>
+        <section>
+            <p class="textCenter"><img src="{{ asset('assets/img/common/注文・納品の流れ.png') }}" alt=""></p>
+            <p class="btn_more"><a href="{{ url('homepage')~'user_data/flow' }}">More View</a></p>
+        </section>
+        <section id="faq">
+            <h1>よくある質問</h1>
+            <dl class="faq">
+                <dt>在庫数はどのように確認できますか？</dt>
+                <dd>お問合せメール又はお電話頂ければ、現在の在庫数を確認いたします。 在庫数は日々変動します、予めご了承ください。
+                </dd>
+                <dt>在庫が無い場合、発注出来ないのでしょうか？</dt>
+                <dd>在庫がない場合、商品はご注文いただけません。</dd>
+                <dt>欠品中の商品の次回入荷予定を教えてもらえますか？</dt>
+                <dd>次回入荷の予定が立っているものは、入荷目安をお伝えすることができます。</dd>
+                <dt>在庫数を毎日アナウンスできますか？</dt>
+                <dd>申し訳ございません、在庫数を弊社からアナウンスする事はしておりません。</dd>
+            </dl>
+            <p class="btn_more"><a href="{{ url('homepage')~'user_data/faq' }}">More view</a></p>
+        </section>
+    </article>
+{% endblock %}

@@ -1,0 +1,55 @@
+</main>
+<footer id="footer">
+    <div class="nav_wrapper">
+        <div class="navarea clearfix">
+            <p class="sns">
+                <a href="https://www.instagram.com/stsk_novelty_official/?hl=ja" target="_blank"><img src="{{ asset('assets/img/common/footer_sns_insta.png') }}" alt="Instagram"></a>
+                <a href="https://www.facebook.com/stsk.official" target="_blank"><img src="{{ asset('assets/img/common/footer_sns_fb.png') }}" alt="Facebook"></a>
+                <a href="https://twitter.com/stsk_official" target="_blank"><img src="{{ asset('assets/img/common/footer_sns_tw.png') }}" alt="Twitter"></a>
+            </p>
+            <dl>
+                <dt>ご利用ガイド</dt>
+                <!--<dd>予算で探す</dd>-->
+                <dd><a href="{{ url('homepage')~'user_data/flow' }}">注文・納品の流れ</a></dd>
+                <dd><a href="{{ url('homepage')~'user_data/submission' }}">入稿データについて</a></dd>
+                <dd><a href="{{ url('homepage')~'user_data/print' }}">商品印刷について</a></dd>
+            </dl>
+            <dl>
+                <dt>弊社のご紹介</dt>
+                <dd><a href="{{ url('help_about') }}">会社概要</a></dd>
+                <dd><a href="{{ url('help_tradelaw') }}">特定商取引法に関する表示</a></dd>
+                <!--<dd>サイトマップ</dd>-->
+            </dl>
+            <dl>
+                <dt>お問い合せ</dt>
+                <dd><a href="{{ url('homepage')~'user_data/faq' }}">よくある質問</a></dd>
+                <dd><a href="{{ url('contact') }}">お問い合せ</a></dd>
+                <dd><a href="{{ url('sample_order_contact') }}">サンプル購入依頼フォーム</a></dd>
+            </dl>
+        </div>
+        <div class="sp_navarea hide">
+        </div>
+        <div class="infoarea">
+            <dl>
+                <dt>お支払いについて</dt>
+                <dd>
+                    <p class="sttl">銀行振込</p>
+                    <p>ご注文後、請求書を発行・お送り致します。<br> 請求書に記載している 弊社振込口座番号にご入金くださいませ。</p>
+                </dd>
+                <dt>運営会社</dt>
+                <dd class="clearfix"> <img src="{{ asset('assets/img/common/footer_logo.png') }}" alt="" class="lf15"> 株式会社 秋冬春夏<br> 〒114-0012
+                    <br>東京都北区田端新町1-7-8　相光ビル3階<br> TEL.03-5901-9633
+                    <br> FAX.03-5901-9634 
+                </dd>
+            </dl>
+        </div>
+    </div>
+</footer>
+<div class="copy">
+    <p class="wrapper">当サイト内で掲載している画像や文章、デザインなどを無断で複製・コピー・転用を禁じます。<br> &copy; 2020 Shu-tou-shun-ca corp. All rights Reserved.</p>
+</div>
+{% if is_sp_sidebar is defined and is_sp_sidebar == true %}
+<div id="sidebar" class="side_show hide" onclick="openside()">
+    <a href="#side">商品検索</a>
+</div>
+{% endif %}

@@ -1,0 +1,488 @@
+@charset "utf-8";
+
+
+/* トップ画像
+********************************************************************************/
+.frameTop{
+	width:100%;
+	text-align:center;
+	background:url(../../img/bg_mainImage.png) repeat-x bottom;
+}
+.frameTop .mainImage{
+	margin: 0px auto;
+	display:block;
+}
+.frameTop .mainImage img{
+	margin:0 auto;
+	display:block;
+}
+
+
+
+.box_green{
+	background: url(../../img/bg_green.png) center repeat-y;
+	color:#ffe062;
+}
+.box_plad{
+	background:url(../../img/bg_plad.jpg) no-repeat center;
+}
+.box_red{
+	background-color:#ff3200;
+}
+.section{
+	padding:30px 0 10px 0;
+}
+
+
+/* タイトル */
+.box_green h2{
+	background: url(../../img/bg_white.png) repeat-x top;
+}
+.box_green .note{
+	padding-bottom:40px;
+	text-decoration:underline;
+	text-align:center;
+	font-size:24px;
+}
+
+
+.list_reason{
+	margin:10px auto 0 auto;
+	padding-left:12px;
+	width:970px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	align-content: space-around;
+	flex-wrap: wrap;
+	text-align:center;
+}
+.list_reason li:nth-child(odd) img{
+	margin-top:30px;
+}
+.list_reason img{
+	display:block;
+}
+
+
+
+/* 商品紹介
+*******************************************************************/
+.sectionItem{
+	margin-bottom:40px;
+	padding-bottom:20px;
+	background:url(../../img/line_white.png) no-repeat center bottom;
+}
+.sectionItem:last-of-type{
+	margin:0;
+	padding:0;
+	background:none;
+}
+
+.frameItem{
+	margin:0 auto 120px auto;
+	padding-left:220px;
+	padding-bottom:20px;
+	width:1000px;
+	color:#ffe062;
+}
+.frameItem:last-child{
+	margin:0 auto 30px auto;
+}
+
+/*  */
+.frameItem h3{
+	color:#ffe900;
+	font-size:48px;
+	font-weight:normal;
+}
+.frameItem h3 span{
+	margin-left:15px;
+	font-size:24px;
+}
+
+/*  */
+.frameItem .txt{
+	margin-top:1em;
+	width:100%;
+	height:310px;
+	position:relative;
+	font-size:18px;
+}
+#blanket2 .txt{
+	height:340px !important;
+}
+#towel .txt{
+	height:390px !important;
+}
+#tote .txt{
+	height:380px !important;
+}
+#tapestry .txt{
+	height:420px;
+}
+#tapestry2 .txt{
+	height:220px;
+}
+#cushion .txt{
+	height:380px;
+}
+#pillow .txt{
+	height:440px;
+}
+#accessory .txt{
+	height:300px;
+}
+
+
+/*  */
+.txt .photo{
+	position: absolute;
+	top:0;
+	left:570px;
+	width:370px;
+}
+#blanket2 .txt .photo{
+}
+#towel .txt .photo{
+	left:540px;
+}
+#tote .txt .photo{
+	left:600px;
+}
+#tapestry .txt .photo{
+	left:640px;
+}
+#tapestry2 .txt .photo{
+}
+#cushion .txt .photo{
+}
+#pillow .txt .photo{
+}
+
+/*  */
+.frameItem .cmt{
+	margin:30px 0 20px 0;
+	color:#FFF;
+	font-size:16px;
+}
+#blanket2 .cmt{
+}
+#towel .cmt{
+	padding-bottom:20px;
+}
+#tote .cmt{
+	padding-bottom:60px;
+}
+#tapestry .cmt{
+}
+#tapestry2 .cmt{
+}
+#cushion .cmt{
+	padding-bottom:40px;
+}
+#pillow .cmt{
+	padding-bottom:90px;
+}
+#accessory .cmt{
+	margin:10px 0;
+	padding-bottom:60px;
+}
+
+
+/*  */
+.frameItem .txt dt{
+	width:3em;
+	background:url(../../img/divider.png) no-repeat right;
+}
+.frameItem .txt dd{
+	margin-top:-1.5em;
+	padding-left:3.5em;
+}
+
+/*  */
+.frameItem .box_sample{
+	position:absolute;
+	top:170px;
+	left:290px;
+	width:262px;
+	height:107px;
+	background-color:#999;
+}
+#blanket2 .box_sample{
+	top:210px;
+	left:300px;
+}
+#towel .box_sample{
+	top:170px;
+	left:290px;
+	height:196px;
+}
+#tote .box_sample{
+	top:220px;
+	left:290px;
+}
+#tapestry .box_sample{
+	top:260px;
+	left:350px;
+	height:136px;
+}
+#tapestry2 .box_sample{
+	top:60px;
+	left:350px;
+	height:136px;
+}
+#cushion .box_sample{
+	top:250px;
+	left:290px;
+}
+#pillow .box_sample{
+	top:300px;
+	left:290px;
+}
+#accessory .box_sample{
+	top:170px;
+	left:290px;
+}
+
+/*  */
+.frameItem h4{
+	margin:30px 0 5px 0;
+	font-weight:normal;
+	font-size:18px;
+}
+#tapestry h4{
+	margin:40px 0 15px 0;
+	font-weight:bold;
+	font-size:24px !important;
+}
+
+.frameItem .price{
+	position:relative;
+	width:100%;
+	height:155px;
+}
+.frameItem .price p{
+	position:absolute;
+	top:58px;
+	left:738px;
+	width:200px;
+}
+.frameItem .price p img{
+	margin-bottom:11px;
+	display:block;
+}
+
+#towel .price{
+	height:258px !important;
+}
+#tote .price{
+	height:307px !important;
+}
+
+
+
+/* お客様の声 */
+#frameVoice{
+	margin:0 auto;
+	width:1100px;
+	height:960px;
+	position:relative;
+}
+#frameVoice #voice_A{
+	position:absolute;
+	top:20px;
+	left:0;
+	width:810px;
+	height:333px;
+}
+#frameVoice #voice_B{
+	position:absolute;
+	top:290px;
+	right:0;
+	width:848px;
+	height:284px;
+}
+#frameVoice #voice_C{
+	position:absolute;
+	top:570px;
+	left:140px;
+	width:862px;
+	height:355px;
+}
+
+/* 流れ */
+#frameFlow{
+	margin:20px auto;
+	width:979px;
+	height:1420px;
+	background:url(../../img/flow/image_flow.png) no-repeat center top;
+}
+#frameFlow h3{
+	color:#0180ac;
+	font-size:28px;
+}
+#frameFlow ul{
+	width:979px;
+	height:1420px;
+	position:relative;
+}
+#frameFlow ul li{
+	width:420px;
+}
+#frameFlow ul li:nth-child(1){
+	position:absolute;
+	top:315px;
+	left:40px;
+}
+#frameFlow ul li:nth-child(2){
+	position:absolute;
+	top:450px;
+	right:0;
+}
+#frameFlow ul li:nth-child(3){
+	position:absolute;
+	top:830px;
+	left:40px;
+}
+#frameFlow ul li:nth-child(4){
+	position:absolute;
+	top:935px;
+	right:0;
+}
+#frameFlow ul li:nth-child(5){
+	position:absolute;
+	top:1330px;
+	left:220px;
+}
+
+/* よくある質問 */
+#frameFaq{
+	margin:0 auto;
+	padding-bottom:80px;
+	width:982px;
+}
+#frameFaq h2{
+	padding:30px 0;
+}
+#frameFaq li{
+	margin-bottom:30px;
+	padding:20px;
+	background:#FFF;
+}
+#frameFaq li .qes{
+	padding-left:80px;
+	background:url(../../img/Q.png) no-repeat left top;
+	color:#0180ac;
+	font-weight:bold;
+	font-size:28px;
+	line-height:52px;
+}
+#frameFaq li .ans{
+	margin-top:15px;
+	padding:5px 5px 5px 60px;
+	background:#eee url(../../img/A.png) no-repeat 15px 10px;
+	color:#444;
+	font-size:24px;
+}
+
+
+/* お問合せフォーム */
+#frameContact{
+	margin:0 auto;
+	padding:100px 0;
+	width:684px;
+	text-align:left;
+}
+#frameContact dl{
+	margin-top:30px;
+	padding:50px 80px;
+	text-align:left;
+	background:#FFF;
+}
+#frameContact form input,
+#frameContact form textarea{
+	padding:10px;
+	border:1px solid #ccc;
+	width:100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+#frameContact form textarea{
+	height:180px;
+}
+#frameContact dd{
+	margin-bottom:20px;
+	font-weight:normal;
+}
+#frameContact dt{
+	margin-bottom:10px;
+	color:#545454;
+	line-height:1;
+	font-weight:bold;
+	font-size:120%;
+}
+#frameContact .nes{
+	margin-left:10px;
+	padding:4px 5px;
+	color:#FFF;
+	display:inline-block;
+	background-color:#F00;
+	font-weight:normal;
+	font-size:13px;
+	vertical-align: top;
+}
+#frameContact .submit_btn{
+	text-align:center;
+}
+#frameContact .submit_btn input.btn_m{
+	margin:30px auto 0 auto;
+    border: 0px;
+    width:380px;
+    height:77px;
+    background: url(../../img/bg_button.png) no-repeat;
+	color:#FFF;
+	font-size:25px;
+	text-align:center;
+	font-weight:bold;
+	line-height:62px;
+}
+#frameContact .submit_btn input.btn_s{
+	margin:30px 20px 0 20px;
+    border: 0px;
+    width:230px;
+    height:77px;
+    background: url(../../img/bg_button2.png) center center no-repeat;
+	color:#FFF;
+	font-size:25px;
+	text-align:center;
+	font-weight:bold;
+	line-height:62px;
+}
+#frameContact .box_msg{
+	margin:50px auto;
+	padding:50px;
+	background:#FFF;
+}
+#frameContact .box_msg h3{
+	margin-bottom:30px;
+	border-bottom:1px solid #aaa;
+	text-align:center;
+	font-size:24px;
+}
+#frameContact dl.conf dt{
+	padding:5px 0;
+	border-bottom:1px solid #ccc;
+}
+#frameContact dl.conf dd{
+	padding-bottom:10px;
+	border-bottom:2px dotted #ff0000;
+}
+.error_msg{
+	color:#f00;
+}

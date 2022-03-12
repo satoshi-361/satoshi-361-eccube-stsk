@@ -1,0 +1,278 @@
+@charset "utf-8";
+body {
+	color: #545454;
+	font-size: 15px;
+	font-family: "Hiragino Kaku Gothic ProN", "メイリオ", sans-serif;
+	background-color: #FFF;
+	line-height: 175%;
+}
+/* convinience */
+.w980 {
+	width: 980px;
+	margin: 0 auto;
+}
+/*=============*/
+
+
+.header {
+	width: 100%;
+	height: 100px;
+}
+.header_inner {
+	width: 1280px;
+	margin: 0 auto;
+	
+}
+.header_inner h1 {
+	float: left;
+	padding-top: 8px;
+	padding-left:25px;
+}
+.header_inner ul {
+	float:right;
+	padding-right:25px;
+}
+.header_inner ul li.contact {
+	padding-top: 22px;
+	float: left;
+	padding-right: 24px;
+}
+.header_inner ul li.tel {
+	padding-top: 24px;
+	float: left;
+}
+.main {
+	background-color: #A4D6EE;
+	height: 500px;
+	text-align: center;
+	margin-bottom: 40px;
+}
+.main_inner {
+	margin: 0 auto;
+}
+.cv {
+	background: url("../images/bg_cv.jpg") no-repeat center top;
+	width: 1040px;
+	height: 289px;
+	position: relative;
+	padding-bottom: 60px;
+	margin: 0 auto;
+}
+.cv p.cv_tel {
+	position: absolute;
+	top: 190px;
+	left: 510px;
+}
+.cv p.cv_contact {
+	position: absolute;
+	top: 184px;
+	left: 120px;
+}
+h2.ttl {
+	background: url("../images/bg_ttl.png") no-repeat center top;
+	width: 100%;
+	height: 206px;
+	position: relative;
+	padding-bottom: 30px;
+}
+h2.ttl p {
+	left: 50%;
+	margin-left: -490px;
+	position: absolute;
+}
+.reason {
+	padding-bottom: 45px;
+}
+ul.product {
+	padding-bottom: 70px;
+}
+.compare {
+	padding-bottom: 45px;
+}
+ul.price {
+	width: 900px;
+	margin: 0 auto;
+	text-align: center;
+	padding-bottom: 30px;
+}
+ul.price li {
+	padding-bottom: 55px;
+}
+ul.price li.bottom {
+	padding-bottom: 15px;
+}
+ul.price li.caution {
+	text-align: left;
+	padding-bottom: 0;
+}
+.pricebtn {
+	text-align: center;
+	padding-bottom: 70px;
+}
+.voice {
+	padding-bottom: 55px;
+}
+.flow {
+	padding-bottom: 55px;
+}
+.faq {
+	background: url("../images/bg_stripe.jpg") repeat left top;
+	width: 100%;
+	padding-bottom: 30px;
+}
+.faq_inner {
+	width: 980px;
+	margin: 0 auto;
+}
+.faq_inner p {
+	padding-bottom: 35px;
+}
+.faq_inner ul li {
+	padding-bottom: 25px;
+}
+.faq_inner ul {
+	padding-bottom: 25px;
+}
+.form {
+	background-color: #009EEF;
+}
+.form_inner {
+	width: 800px;
+	margin: 0 auto;
+	padding: 45px 0 60px 0;
+}
+.form_inner p {
+	border: #FFF 4px solid;
+	color: #FFF;
+	padding: 20px;
+	text-align: center;
+}
+.form_inner h2 {
+	margin: 35px 0;
+	text-align: center;
+}
+.bg_form_inner {
+	margin: 0 auto;
+	width: 600px;
+	background-color: #FFF;
+	padding: 25px 30px 20px 50px;
+}
+.bg_form_inner dl {
+	text-align: left;
+	padding-top: 20px;
+	width: 560px;
+}
+.bg_form_inner dt {
+	font-size: 17px;
+	font-weight: bold;
+	padding-bottom: 8px;
+}
+.bg_form_inner dd {
+	padding-top: 5px;
+	margin-bottom: 5px;
+	font-size: 13px;
+}
+input {
+	border: 0;
+	padding: 10px;
+	font-size: 1.3em;
+	color: #aaa;
+	border: solid 1px #ccc;
+	width: 560px;
+}
+textarea {
+	border: 0;
+	padding: 10px;
+	font-size: 1.3em;
+	color: #aaa;
+	border: solid 1px #ccc;
+	width: 560px;
+	height: 200px;
+}
+.bg_form_inner dt span {
+	background-color: #FF0000;
+	padding: 2px 6px;
+	font-size: 10px;
+	color: #FFF;
+	margin-left: 8px;
+	vertical-align: top;
+}
+.footer {
+	background-color: #FFF;
+	width: 100%;
+	padding: 35px 0;
+}
+.footer_inner {
+	width: 980px;
+	margin: 0 auto;
+}
+.footer_inner .companybox {
+	float: left;
+	text-align: justify;
+	width: 600px;
+}
+.footer_inner .companybox dl {
+	border-bottom-color: #ccc;
+	border-bottom-style: dotted;
+	border-bottom-width: 1px;
+	float: left;
+	padding-bottom: 10px;
+	width: 600px;
+}
+.footer_inner .companybox dl dt {
+	float: left;
+	font-size: 95%;
+	font-weight: bold;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 20px;
+	padding-top: 10px;
+	width: 120px;
+}
+.footer_inner .companybox dl dd {
+	float: left;
+	font-size: 95%;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 10px;
+	width: 460px;
+}
+.company_left {
+	width: 600px;
+	float: left;
+}
+.company_right {
+	width: 350px;
+	float: right;
+}
+.company_right p {
+	margin-bottom: 25px;
+	padding-top: 15px;
+}
+.copyright p {
+	padding: 18px 0;
+	text-align: right;
+	color: #000;
+	font-size: 11px;
+}
+p.thanks {
+	font-size: 24px;
+	font-weight: bold;
+	color: #665E4D;
+	padding: 0;
+	margin-top: 35px;
+	margin-bottom: 15px;
+}
+p.thanks_txt {
+	padding: 0;
+	color: #665E4D;
+	margin-bottom: 35px;
+}
+.cf:after {
+	content: "";
+	clear: both;
+	height: 0;
+	display: block;
+	visibility: hidden;
+}

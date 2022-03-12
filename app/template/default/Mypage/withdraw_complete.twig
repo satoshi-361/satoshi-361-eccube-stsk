@@ -1,0 +1,44 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'withdraw' %}
+
+{% set body_class = 'mypage' %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/itms.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css">
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_list">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>マイページ</li>
+            </ul>
+        </div>
+        <section class="section">
+            <div class="ec-reportHeading">
+                <h2>{{ 'front.mypage.withdraw_complete_message__title'|trans }}</h2>
+            </div>
+            <p class="ec-reportDescription">{{ 'front.mypage.withdraw_complete_message__body'|trans|nl2br }}</p>
+            
+            <div class="ec-off4Grid">
+                <div class="ec-off4Grid__cell">
+                    <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'common.go_to_top'|trans }}</a>
+                </div>
+            </div>
+        </section>
+    </article>
+{% endblock %}

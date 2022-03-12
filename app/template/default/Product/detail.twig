@@ -1,0 +1,738 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'product_page' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/itms.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/slick/slick-theme.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/slick/slick.css') }}" />
+
+    <style>
+        section.check-products ul {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        section.check-products ul li {
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border: 1px dashed #ccc;
+        }
+        section.check-products ul a {
+            color: #000;
+            text-decoration: none;
+        }
+        section.check-products img {
+            max-width: 100%;
+            height: auto;
+        }
+        section.check-products .text p {
+            font-weight: bold;
+        }
+        @media only screen and (max-width: 768px) {
+            section.check-products ul {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        #when_to_btn_show {
+            margin-top: 10px;
+            color: #666;
+        }
+        @media only screen and (max-width: 576px) {
+            .lv_h1_bottom_img img {
+                width: 370px !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{{ asset('assets/libs/slick/slick.min.js') }}"></script>
+    <script>
+        eccube.classCategories = {{ class_categories_as_json(Product)|raw }};
+
+        // 規格2に選択肢を割り当てる。
+        function fnSetClassCategories(form, classcat_id2_selected) {
+            var $form = $(form);
+            var product_id = $form.find('input[name=product_id]').val();
+            var $sele1 = $form.find('select[name=classcategory_id1]');
+            var $sele2 = $form.find('select[name=classcategory_id2]');
+            eccube.setClassCategories($form, product_id, $sele1, $sele2, classcat_id2_selected);
+        }
+
+        {% if form.classcategory_id2 is defined %}
+        fnSetClassCategories(
+            $('#form1'), {{ form.classcategory_id2.vars.value|json_encode|raw }}
+        );
+        {% elseif form.classcategory_id1 is defined %}
+        eccube.checkStock($('#form1'), {{ Product.id }}, {{ form.classcategory_id1.vars.value|json_encode|raw }}, null);
+        {% endif %}
+    </script>
+    <script>
+        $(function() {
+            // bfcache無効化
+            $(window).bind('pageshow', function(event) {
+                if (event.originalEvent.persisted) {
+                    location.reload(true);
+                }
+            });
+
+            $('.item_visual').slick({
+                dots: false,
+                arrows: false,
+                responsive: [{
+                    breakpoint: 768,
+                    settings: {
+                        dots: true
+                    }
+                }]
+            });
+
+            $('.slideThumb').on('click', function() {
+                var index = $(this).attr('data-index');
+                $('.item_visual').slick('slickGoTo', index, false);
+            })
+        });
+    </script>
+    <script>
+        $(function() {
+            $('.add-cart').on('click', function(event) {
+                {% if form.classcategory_id1 is defined %}
+                // 規格1フォームの必須チェック
+                if ($('#classcategory_id1').val() == '__unselected' || $('#classcategory_id1').val() == '') {
+                    $('#classcategory_id1')[0].setCustomValidity('{{ 'front.product.product_class_unselected'|trans }}');
+                    return true;
+                } else {
+                    $('#classcategory_id1')[0].setCustomValidity('');
+                }
+                {% endif %}
+
+                {% if form.classcategory_id2 is defined %}
+                // 規格2フォームの必須チェック
+                if ($('#classcategory_id2').val() == '__unselected' || $('#classcategory_id2').val() == '') {
+                    $('#classcategory_id2')[0].setCustomValidity('{{ 'front.product.product_class_unselected'|trans }}');
+                    return true;
+                } else {
+                    $('#classcategory_id2')[0].setCustomValidity('');
+                }
+                {% endif %}
+
+                // 個数フォームのチェック
+                if ($('#quantity').val() < 1) {
+                    $('#quantity')[0].setCustomValidity('{{ 'front.product.invalid_quantity'|trans }}');
+                    return true;
+                } else {
+                    $('#quantity')[0].setCustomValidity('');
+                }
+
+                event.preventDefault();
+                $form = $('#form1');
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: $form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function(xhr, settings) {
+                        // Buttonを無効にする
+                        $('.add-cart').prop('disabled', true);
+                    }
+                }).done(function(data) {
+                    // レスポンス内のメッセージをalertで表示
+                    $.each(data.messages, function() {
+                        $('#ec-modal-header').html(this);
+                    });
+
+                    $('.ec-modal').show()
+
+                    // カートブロックを更新する
+                    $.ajax({
+                        url: "{{ url('block_cart') }}",
+                        type: 'GET',
+                        dataType: 'html'
+                    }).done(function(html) {
+                        $('.ec-headerRole__cart').html(html);
+                    });
+                }).fail(function(data) {
+                    alert('{{ 'front.product.add_cart_error'|trans }}');
+                }).always(function(data) {
+                    // Buttonを有効にする
+                    $('.add-cart').prop('disabled', false);
+                });
+            });
+
+            // 「imageList」内の「img」をマウスオーバーした場合
+            $('#thumbnail img').click(function(){
+                // マウスオーバーしている画像をメインの画像に反映
+                $('#mainarea img').attr('src', $(this).attr('src'));
+                $(this).parents('ul').find('li.active').removeClass('active');
+                $(this).parent().addClass('active');
+            });
+
+        });
+
+        $('.ec-modal-wrap').on('click', function(e) {
+            // モーダル内の処理は外側にバブリングさせない
+            e.stopPropagation();
+        });
+        $('.ec-modal-overlay, .ec-modal, .ec-modal-close, .ec-inlineBtn--cancel').on('click', function() {
+            $('.ec-modal').hide()
+        });
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "{{ Product.name }}",
+        "image": [
+            {% for img in Product.ProductImage %}
+                "{{ app.request.schemeAndHttpHost }}{{ asset(img, 'save_image') }}"{% if not loop.last %},{% endif %}
+
+            {% else %}
+                "{{ app.request.schemeAndHttpHost }}{{ asset(''|no_image_product, 'save_image') }}"
+            {% endfor %}
+        ],
+        "description": "{{ Product.description_list | default(Product.description_detail) | replace({'\n': '', '\r': ''}) | slice(0,300) }}",
+        {% if Product.code_min %}
+        "sku": "{{ Product.code_min }}",
+        {% endif %}
+        "offers": {
+            "@type": "Offer",
+            "url": "{{ url('product_detail', {'id': Product.id}) }}",
+            "priceCurrency": "{{ eccube_config.currency }}",
+            "price": {{ Product.getPrice02IncTaxMin }},
+            "availability": "{{ Product.stock_find ? "InStock" : "OutOfStock" }}"
+        }
+    }
+    </script>
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>{{ Product.name }}</li>
+            </ul>
+        </div>
+        <div>
+        <h1 class="lv_h1">
+            <span>
+                {% if Product.page_title == '' %}
+                    {{ Product.name }}
+                {% else %}
+                    {{ Product.page_title }}
+                {% endif %}
+            </span>
+        </h1>
+        {# <div class="lv_h1_bottom_img">
+            {% if Product.name|length > 12 %}
+                <img src="{{ asset('assets/img/common/吹き出しライン.svg') }}" alt="" style="width: 400px">
+            {% else %}
+                <img src="{{ asset('assets/img/common/吹き出しライン.svg') }}" alt="">
+            {% endif %}
+        </div> #}
+        <div class="text">
+            <p>{{ Product.description_detail|nl2br }}</p>
+        </div>
+        <section class="item_wrap">
+            <section class="area-details">
+                <div class="photoarea">
+                    <p id="mainarea">
+                        <img width="500" height="500"  src="{{ asset(Product.getMainListImage, 'save_image') }}" class="attachment-medium size-medium" loading="lazy" />
+                    </p>
+                    <div id="thumbnail">
+                        <ul>
+                            {% for ProductImage in Product.ProductImage %}
+                                <li><img src="{{ asset(ProductImage, 'save_image') }}" width="500" height="500" alt=""></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="image_download">
+                    {% if Product.template_file != null %}
+                    <a href="{{ asset(Product.getTemplateFile, 'save_image') }}" download>
+                        <img src="{{ asset('assets/img/common/image_download.png') }}" alt="" style="width: 100%;">
+                    </a>
+                    {% else %}
+                        <img src="{{ asset('assets/img/common/image_download.png') }}" alt="" style="width: 100%;">
+                    {% endif %}
+                </div>
+                <div class="section_innner">
+                    <h2 class="lv_h2">商品仕様</h2>
+                    <table>
+                        <tr>
+                            <th>品番</th>
+                            <td>{{ Product.getCodeMax }}</td>
+                        </tr>
+                        <tr>
+                            <th>サイズ</th>
+                            <td>{{ Product.size }}</td>
+                        </tr>
+                        <tr>
+                            <th>本体色</th>
+                            {% set colors = Product.body_color|split('/') %}
+                            <td>
+                                {% for index, clr in colors %}
+                                    {% if index > 0 %} / {% endif %}
+                                    {{ clr }}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>個装形態</th>
+                            <td>{{ Product.packaging_form }}</td>
+                        </tr>
+                        <tr>
+                            <th>素材</th>
+                            <td>{{ Product.material }}</td>
+                        </tr>
+                        <tr>
+                            <th>最小発注数</th>
+                            <td>{{ Product.min_quantity }}個</td>
+                        </tr>
+                        <tr>
+                            <th>備考</th>
+                            <td>{{ Product.note }}</td>
+                        </tr>
+                        <tr>
+                            <th>印刷・範囲</th>
+                            <td>{{ Product.print_range }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+            <section class="area-price">
+                <div class="head-block">
+                    <dl class="pricebox">
+                        <dt>商品価格：</dt>
+                        <dd><span>{{ Product.getPrice02Min|number_format }}</span>円（税別）/{{ Product.getPrice02IncTaxMin }}円(税込）</dd>
+                        <dd>
+                            <a href="{{ url('product_add_favorite', {id: Product.id}) }}"><img src="{{ asset('assets/img/item/btn_add_favorite.png') }}" alt=""></a>
+                        </dd>
+                    </dl>
+                    <p class="color">
+                        {% for productCategory in Product.getProductCategories if productCategory.Category.Parent != null and productCategory.Category.Parent.name == '印刷方法詳細' %}
+                            <img src="{{ asset('assets/img/' ~ productCategory.Category.image1) }}" alt="{{ productCategory.Category.name }}">
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="auto-estimation">
+                    <div class="aiosl_div" id="aiosl_estimate"><span class="aiosl_title"><img src="{{ asset('assets/img/common/auto_up.svg') }}" alt=""></span>
+                        <div class="aiosl_e_color">
+                            {% set body_colors = Product.body_color|split('/') %}
+                            {# {% if body_colors|length > 0 %} #}
+                                <p class="aiosl_idx">注文数</p>
+                                <ul class="aiosl_e_ul">
+                                {% for ct in body_colors %}
+                                    <li>
+                                        <label class="enter_flex"><span class="enter_txt">{{ ct }}</span><input type="number" class="aiosl_quantity" name="quantity[{{ ct }}]" value="" maxlength="9"><i>個</i></label>
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            {# {% else %}
+                            <p class="aiosl_idx">注文数 <input type="number" class="aiosl_quantity" style="margin-left: 50px" name="quantity[]" value="" maxlength="9"><i>個</i></p>
+                            {% endif %} #}
+                            <p class="total_quantity">合計部数 <span id="aiosl_total_num">0</span>個</p>
+                            <span class="aiosl_idx">印刷方法</span>
+                            <select id="aiosl_print_case">
+								<option value="">印刷なし</option>
+                                {% for productCategory in Product.getProductCategories if productCategory.Category.Parent != null and productCategory.Category.Parent.Parent != null and productCategory.Category.Parent.Parent.name == '印刷方法詳細' %}
+                                    <option value="{{ productCategory.Category.Name }}">{{ productCategory.Category.Name|split('　')[0] }}</option>
+                                {% endfor %}
+							</select><br>
+                            <div id="aiosl_err_msg" style="display:none;"></div>
+                        </div>
+                        <button class="aiosl_calc_btn">計算する</button>
+                        <div class="aiosl_e_res">
+                            <dl>
+                                <p class="aiosl_idx"><img src="{{ asset('assets/img/common/yen.png') }}">見積金額（概算）</p>
+                                <div class="aiosl_e_res_div">
+                                    <dt>商品</dt>
+                                    <dd>
+                                        <span id="aiosl_product_fee_breakdown" class="aiosl_breakdown">---</span>
+                                        <span id="aiosl_product_fee">---</span>
+                                    </dd>
+                                </div>
+                                <div class="aiosl_e_res_div">
+                                    <dt>版代</dt>
+                                    <dd>
+                                        <span id="aiosl_edition_fee_breakdown" class="aiosl_breakdown">---</span>
+                                        <span id="aiosl_edition_fee">---</span>
+                                    </dd>
+                                </div>
+                                <div class="aiosl_e_res_div">
+                                    <dt>印刷代</dt>
+                                    <dd>
+                                        <span id="aiosl_print_fee_breakdown" class="aiosl_breakdown">---</span>
+                                        <span id="aiosl_print_fee">---</span>
+                                    </dd>
+                                </div>
+                                <div class="aiosl_e_res_div">
+                                    <dt>送料</dt>
+                                    <dd>
+                                        <span id="aiosl_shipment_fee_breakdown" class="aiosl_breakdown">---</span>
+                                        <span id="aiosl_shipment_fee">---</span>
+                                    </dd>
+                                </div>
+                                <div class="aiosl_e_res_div">
+                                    <dt>税抜合計</dt>
+                                    <dd>
+                                        <span id="aiosl_total_excluding_tax">---</span>
+                                    </dd>
+                                </div>
+                                <div class="aiosl_e_res_div">
+                                    <dt>消費税</dt>
+                                    <dd style="border-bottom: none">
+                                        <span id="aiosl_tax">---</span>
+                                    </dd>
+                                </div>
+                                <div class="total_price">
+                                    <dt>税込合計</dt>
+                                    <dd>
+                                        <span id="aiosl_total">---</span>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                    <script>
+                        {% set printPriceRepository = repository('Plugin\\PrintPrice\\Entity\\Config') %}
+                        {% set categoryRepository = repository('Eccube\\Entity\\Category') %}
+
+                        var arr = [];
+
+                        {% set printCategories = [] %}
+                        {% for middlePrintCategory in categoryRepository.findOneBy({'name': '印刷方法詳細'}).getChildren %}
+                            {% set printCategories = printCategories|merge(middlePrintCategory.getChildren) %}
+                        {% endfor %}
+                        {% for printCategory in printCategories %}
+                            {% set printPrices = printPriceRepository.findBy({'category_id': printCategory.id}, {'header_id': 'ASC'}) %}
+
+                            {% if printPrices|length > 1 %}
+                                var item = [];
+                                var printing_custom_fee = [];
+
+                                item['name'] = '{{ printCategory.name }}';
+                                item['data_placement_fee'] = '{{ printPrices[0].price }}';
+                                item['printing_fee'] = '{{ printPrices[1].price }}';
+
+                                {% for index, item in printPrices if index > 1 %}
+                                    var header = "{{ printPriceRepository.findOneBy({'category_id': 0, 'header_id': item.getHeaderId}).price }}";
+                                    printing_custom_fee[header] = '{{ item.price }}';
+                                {% endfor %}
+                                item['printing_custom_fee'] = printing_custom_fee;
+
+                                arr['{{ printCategory.name }}'] = item;
+                            {% endif %}
+                        {% endfor %}
+
+                                var getTotalCount = function() {
+                                    let total = 0;
+                                    document.querySelectorAll("#aiosl_estimate .aiosl_quantity").forEach(function(elm) {
+                                        if (elm.value == "") {
+                                            return;
+                                        }
+                                        total += parseInt(elm.value, 10);
+                                    });
+                                    document.getElementById("aiosl_total_num").textContent = total;
+                                    document.querySelectorAll(".aiosl_e_res span").forEach(function(elm) {
+                                        elm.textContent = "---";
+                                    });
+                                }
+
+                                /* 合計数表示 */
+                                document.querySelectorAll("#aiosl_estimate .aiosl_quantity").forEach(function(inputBox) {
+                                    inputBox.addEventListener("change", function() {
+                                        let total = 0;
+                                        document.querySelectorAll("#aiosl_estimate .aiosl_quantity").forEach(function(elm) {
+                                            if (elm.value == "") {
+                                                return;
+                                            }
+                                            total += parseInt(elm.value, 10);
+                                        });
+                                        document.getElementById("aiosl_total_num").textContent = total;
+                                        document.querySelectorAll(".aiosl_e_res span").forEach(function(elm) {
+                                            elm.textContent = "---";
+                                        });
+                                        document.getElementById("aiosl_pdf_dl").style.visibility = "hidden";
+                                        document.getElementById("aiosl_pdf_dl_btn").style.visibility = "hidden";
+                                        document.getElementById("aiosl_order").style.visibility = "hidden";
+                                        document.getElementById("aiosl_order_btn").style.visibility = "hidden";
+                                    });
+                                    
+                                }, false);
+
+                                document.querySelector("#aiosl_print_case").addEventListener("change", function() {
+                                    document.querySelectorAll(".aiosl_e_res span").forEach(function(elm) {
+                                        elm.textContent = "---";
+                                    });
+                                    document.getElementById("aiosl_pdf_dl").style.visibility = "hidden";
+                                    document.getElementById("aiosl_pdf_dl_btn").style.visibility = "hidden";
+                                    document.getElementById("aiosl_order").style.visibility = "hidden";
+                                    document.getElementById("aiosl_order_btn").style.visibility = "hidden";
+                                });
+
+                                /* 見積計算 */
+                                document.querySelector(".aiosl_calc_btn").addEventListener("click", function() {
+                                    getTotalCount();
+
+                                    // 準備
+                                    var total = parseInt(document.querySelector("#aiosl_total_num").textContent, 10);
+                                    if (!inputValidation()) {
+                                        return false;
+                                    }
+                                    if (total == 0) {
+                                        return;
+                                    }
+                                    var type = document.getElementById("aiosl_print_case").value;
+                                    var price = (document.querySelector(".pricebox span").textContent).replace(/,/g, "");
+                                    price = parseInt(price, 10);
+                                    var printingFee = 0;
+                                    var dataPlacementFee = 0;
+                                    var tax = 0;
+                                    var shipmentFee = 0;
+                                    var printingFeeQuantity = 1;
+                                    // 計算
+                                    if (type) {
+                                        console.log(arr);
+                                        console.log(type);
+                                        printingFee = parseInt(arr[type]["printing_fee"], 10);
+                                        dataPlacementFee = parseInt(arr[type]["data_placement_fee"], 10);
+                                        var beforeKey = 9999999999999;
+                                        var printFeeBreakdown = "１式　×　" + printingFee + " 円";
+                                        if (arr[type]["printing_custom_fee"]) {
+                                            Object.keys(arr[type]["printing_custom_fee"]).reverse().forEach(function(key) {
+                                                if (arr[type]["printing_custom_fee"][key] == "") {
+                                                    return;
+                                                }
+                                                key = parseInt(key, 10);
+                                                if (beforeKey > total && total >= key) {
+                                                    printFeeBreakdown = total + " 個　×　" + parseInt(arr[type]["printing_custom_fee"][key], 10) + " 円";
+                                                    printingFeeQuantity = total;
+                                                    printingFee = parseInt(arr[type]["printing_custom_fee"][key], 10);
+                                                }
+                                                beforeKey = key;
+                                            });
+                                        }
+                                        document.getElementById("aiosl_edition_fee").textContent = dataPlacementFee + " 円";
+                                        document.getElementById("aiosl_edition_fee_breakdown").textContent = "１版　×　" + dataPlacementFee + " 円";
+                                        document.getElementById("aiosl_print_fee").textContent = (printingFee * printingFeeQuantity) + " 円";
+                                        document.getElementById("aiosl_print_fee_breakdown").textContent = printFeeBreakdown;
+                                    }
+                                    shipmentFee = ((price * total) + dataPlacementFee + (printingFee * printingFeeQuantity)) < 35000 ? 800 : 0;
+                                    document.getElementById("aiosl_shipment_fee").textContent = shipmentFee + " 円";;
+                                    document.getElementById("aiosl_shipment_fee_breakdown").textContent = "";
+                                    var zeinukiTotal = (price * total) + dataPlacementFee + (printingFee * printingFeeQuantity) + shipmentFee;
+                                    document.getElementById("aiosl_total_excluding_tax").textContent = zeinukiTotal + " 円";
+                                    document.getElementById("aiosl_product_fee").textContent = (price * total) + " 円";
+                                    document.getElementById("aiosl_product_fee_breakdown").textContent = total + " 個　×　" + price + " 円";
+                                    tax = Math.round(((price * total) + dataPlacementFee + (printingFee * printingFeeQuantity) + shipmentFee) * 0.1);
+                                    document.getElementById("aiosl_tax").textContent = tax + " 円";
+                                    var totalAmount = zeinukiTotal + tax;
+                                    document.getElementById("aiosl_total").textContent = totalAmount.toLocaleString() + " 円";
+                                    document.getElementById("aiosl_pdf_dl").style.visibility = "visible";
+                                    document.getElementById("aiosl_pdf_dl_btn").style.visibility = "visible";
+                                    
+                                    document.getElementById("when_to_btn_show").style.display = "none";
+                                    document.getElementById("aiosl_order").style.visibility = "visible";
+                                    document.getElementById("aiosl_order_btn").style.visibility = "visible";
+                                    // hiddenに値代入
+                                    document.getElementById("aioslProductName").value = "{{ Product.name }}";
+                                    document.getElementById("aioslProductPrice").value = price;
+                                    document.getElementById("aioslTotalQuantity").value = total;
+                                    document.getElementById("aioslPrintingFee").value = printingFee;
+                                    document.getElementById("aioslPrintingFeeQuantity").value = printingFeeQuantity;
+                                    document.getElementById("aioslDataPlacementFee").value = dataPlacementFee;
+                                    document.getElementById("aioslShipmentFee").value = shipmentFee;
+                                    document.getElementById("aioslZeinuki").value = zeinukiTotal;
+                                    document.getElementById("aioslTax").value = tax;
+                                    document.getElementById("aioslTotalAmount").value = totalAmount;
+                                    {% if is_granted('ROLE_USER') %}
+                                        {% set customerRepository = repository('Eccube\\Entity\\Customer') %}
+                                        {% set customer = customerRepository.find(app.user.id) %}
+                                        document.getElementById("aioslCompanyName").value = "{{customer.company_name }}";
+                                        document.getElementById("aioslUserName").value = "{{customer.name01 ~ customer.name02 }}様";
+                                    {% else %}
+                                        document.getElementById("aioslUserName").value = "";
+                                    {% endif %}
+                                    console.log(total);
+                                }, false);
+
+                                function inputValidation() {
+                                    var isValid = true;
+                                    var nums = document.querySelectorAll(".aiosl_quantity");
+                                    var total = 0;
+                                    nums.forEach(function(elm) {
+                                        total += elm.value;
+                                        if (elm.value < 0 || elm.value == "-0") {
+                                            elm.setCustomValidity("個数は1以上となるように入力してください。");
+                                            elm.checkValidity();
+                                            elm.reportValidity();
+                                            isValid = false;
+                                        }
+                                    });
+                                    document.getElementById("aiosl_err_msg").innerHTML = "";
+                                    document.getElementById("aiosl_err_msg").style.display = "none";
+                                    if (total < parseInt('{{ Product.min_quantity }}', 10)) {
+                                        document.getElementById("aiosl_err_msg").innerHTML = "{{ Product.min_quantity }}個以上からお見積り・発注が可能です。";
+                                        document.getElementById("aiosl_err_msg").style.display = "block";
+                                        isValid = false;
+                                    }
+                                    return isValid;
+                                }
+                    </script>
+                    <!-- // AIOSL追記分 -->
+                    <ul class="btns">
+                        <li class="sample">
+                            <a href="{{ url('sample_order_contact', {product_id : Product.id}) }}"><img src="{{ asset('assets/img/common/ico_sample.svg') }}" alt="">サンプル注文する<br>《3個まで》</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('contact') }}" style="margin-top: 8px"><img style="width: 30px" src="{{ asset('assets/img/common/メール.svg') }}" alt="">お問い合わせ</a>
+                        </li>
+                        <!--<li><a href="#">見積書ダウンロード</a></li>-->
+                        <!-- AIOSL追記分 -->
+                        <script>
+                                    function _btnClickAiosl(action) {
+                                        var actionUrl = "";
+                                        if (action == 1) {
+                                            actionUrl = "../../Libs/estimate-pattern-setting/download-pdf.php";
+                                            
+                                        } else if (action == 2) {
+                                            actionUrl = "{{ url('order_contact') }}";
+                                            _getColor();
+                                        }
+                                        document.estimate_form.action = actionUrl;
+                                        document.estimate_form.submit();
+                                    }
+
+                                    function _getColor() {
+                                        var nums = document.querySelectorAll(".aiosl_quantity");
+                                        const orderForm = document.getElementById("estimate_form");
+                                        nums.forEach(function(elm) {
+                                            if (elm.value > 0) {
+                                                const inpHidden = document.createElement("input");
+                                                inpHidden.setAttribute("type", "hidden");
+                                                inpHidden.setAttribute("name", elm.name);
+                                                inpHidden.setAttribute("value", elm.value);
+                                                orderForm.appendChild(inpHidden);
+                                            }
+                                        });
+                                    }
+                        </script>
+                        <p id="when_to_btn_show">
+                        個数を入力後【計算するボタン】をクリックすると<br/>
+                        ≪見積もりダウンロード≫≪注文する≫ボタンが表示されます</p>
+                        <li id="aiosl_pdf_dl">
+                            <button type="button" id="aiosl_pdf_dl_btn" onclick="_btnClickAiosl(1)" style="font-size: 12px;"><img style="width: 30px" src="{{ asset('assets/img/common/電卓.svg') }}" alt="">見積書ダウンロード</button>
+                        </li>
+                        <li id="aiosl_order">
+                            <button type="button" id="aiosl_order_btn" onclick="_btnClickAiosl(2)" style="font-size: 12px;"><img style="width: 35px" src="{{ asset('assets/img/common/ベクトルスマートオブジェクト1.svg') }}" alt="">注文する</button>
+                        </li>
+                        <form id="estimate_form" name="estimate_form" action="#" method="post">
+                            <input type="hidden" name="IsOrderFlg" value="1">
+                            <input type="hidden" id="aioslProductName" name="order[productName]" value="">
+                            <input type="hidden" id="aioslProductPrice" name="order[productPrice]" value="">
+                            <input type="hidden" id="aioslTotalQuantity" name="order[totalQuantity]" value="">
+                            <input type="hidden" id="aioslPrintingFee" name="order[printingFee]" value="">
+                            <input type="hidden" id="aioslPrintingFeeQuantity" name="order[printingFeeQuantity]" value="">
+                            <input type="hidden" id="aioslDataPlacementFee" name="order[dataPlacementFee]" value="">
+                            <input type="hidden" id="aioslShipmentFee" name="order[shipmentFee]" value="">
+                            <input type="hidden" id="aioslZeinuki" name="order[zeinuki]" value="">
+                            <input type="hidden" id="aioslTax" name="order[tax]" value="">
+                            <input type="hidden" id="aioslTotalAmount" name="order[totalAmount]" value="">
+                            <input type="hidden" id="aioslCompanyName" name="order[companyName]" value="">
+                            <input type="hidden" id="aioslUserName" name="order[userName]" value="">
+                        </form>
+                        <!-- //AIOSL追記分 -->
+                    </ul>
+                </div>
+            </section>
+        </section>
+        <section class="item_connection">
+        </section>
+        <section class="section" id="print-image">
+            <h1 class="lv_h2">印刷各種商品イメージ</h1>
+            <div class="text textCenter">
+                <p class="textCenter"><img src="{{ asset('assets/img/item/print-image.png') }}" alt=""></p>
+            </div>
+        </section>
+        <section class="section" id="kanren">
+            <h1 class="lv_h2">関連商品</h1>
+            <ul>
+                {% for RelatedProduct in Product.RelatedProducts %}
+                    {% set ChildProduct = RelatedProduct.ChildProduct %}
+                    {% if ChildProduct.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
+                        <li>
+                             <a href="{{ url('product_detail', {'id': ChildProduct.id}) }}" title="{{ ChildProduct.name }}">
+                                <p class="photo"> 
+                                    <img src="{{ asset(ChildProduct.main_list_image|no_image_product, 'save_image') }}" width="400" height="400" alt="{{ ChildProduct.name }}" class="attachment-400x400 size-400x400" loading="lazy">
+                                </p>
+                                <div class="text">
+                                    <div class="head">
+                                        <p class="no">{{ ChildProduct.getCodeMax }}</p>
+                                        <p class="price">{{ ChildProduct.getPrice02IncTaxMin|price }}</p>
+                                    </div>
+                                    <p>{{ ChildProduct.name }}</p>
+                                </div>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="section check-products">
+            <h1 class="lv_h3">最近見た商品</h1>
+            <div class="recently">
+                <div class="recently_view">
+                {% for CheckProduct in CheckProducts if CheckProduct.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
+                    <a href="{{ url('product_detail', {'id': CheckProduct.id}) }}">
+                    <img width="400" height="400" src="{{ asset(CheckProduct.main_list_image|no_image_product, 'save_image') }}" class="attachment-400x400 size-400x400" alt="{{ CheckProduct.name }}" loading="lazy" />
+                    </a>
+                {% endfor %}
+                </div>
+            </div>
+        </section>
+    </article>
+    <script>
+        $(function() {
+            $('.recently_view').slick({
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [{
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        infinite: true,
+                        dots: true
+                    }
+                }, {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                }, {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }]
+            });
+        });
+    </script>
+{% endblock %}

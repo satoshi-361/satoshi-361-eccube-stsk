@@ -1,0 +1,65 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'registration_page' %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+
+    <style>
+        .btnSend a {
+            padding: 15px 3em;
+            background-color: #43b8a5;
+            color: #FFF;
+            border: 1px;
+            cursor: pointer;
+            margin: 0 3px;
+            font-family: source-han-sans-cjk-ja, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            text-decoration: none;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-size: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 200px;
+            height: auto;
+        }
+        h1 {
+            padding-top: 40px;
+            margin-bottom: 30px;
+        }
+        p {
+            margin: 20px auto;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>お問い合せ</li>
+            </ul>
+        </div>
+        <section class="section form">
+            <h1 class="lv_h1"><span>{{ 'front.contact.complete_message__title'|trans }}</span></h1>
+            <p>{{ 'front.contact.complete_message__body'|trans }}</p>
+            <p class="btnSend">
+                <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'common.go_to_top'|trans }}</a>
+            </p>
+        </section>
+    </article>
+{% endblock %}
+

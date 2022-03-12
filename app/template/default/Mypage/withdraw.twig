@@ -1,0 +1,52 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'withdraw' %}
+
+{% set body_class = 'mypage' %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/itms.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css">
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_list">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>マイページ</li>
+            </ul>
+        </div>
+        <div class="ec-mypageRole page_mypage">
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <section class="section">
+            <form method="post" action="{{ url('mypage_withdraw') }}">
+                {{ form_widget(form._token) }}
+                <div class="ec-off3Grid">
+                    <div class="ec-off3Grid__cell">
+                        <p class="ec-withdrawRole__description" style="font-weight: bold; font-size: 14px">退会手続きが完了した時点で、現在保存されている<br/>購入履歴やお届け先等の情報は、すべて削除されますのでご注意ください。
+                        </p>
+                    </div>
+                </div>
+                <div class="ec-off4Grid">
+                    <div class="ec-off4Grid__cell">
+                        <button type="submit" class="ec-blockBtn--cancel" name="mode"
+                                value="confirm">{{ 'front.mypage.withdraw_confirm'|trans }}</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </article>
+{% endblock %}

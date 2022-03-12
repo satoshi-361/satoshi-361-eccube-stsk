@@ -1,0 +1,80 @@
+<style>
+    .aiosl_e_res{ border: 1px #ededed solid; margin-top: 10px; margin-bottom: 10px; padding: 10px 20px; }
+    .aiosl_idx{ font-weight: bold; }
+    .aiosl_e_res dl { position: relative; padding-bottom: 15px; }
+    .aiosl_e_res dl .aiosl_e_res_div dd:last-child{ padding-bottom:10px; border-bottom: 1px dashed lightgray; }
+    .aiosl_e_res dt { position: absolute; left: 0; padding: 10px 0; }
+    .aiosl_e_res dd { padding: 5px 0 5px 60px; text-align: right; color: gray; }
+    .aiosl_e_res dd span { display: inline-block; vertical-align: top; }
+    .aiosl_e_res dd span:last-child { color: black; padding-left: 10px; }
+    #aiosl_total{ font-size: xx-large; }
+    .aiosl_breakdown{ font-size: small; vertical-align: top; }
+</style>
+<div class="aiosl_e_res">
+    <dl>
+        <p class="aiosl_idx">見積金額（概算）</p>
+        <div class="aiosl_e_res_div">
+            <dt>商品名</dt>
+            <dd>
+                <span><?php echo $order['productName']; ?></span>
+            </dd>
+        </div>
+        <div class="aiosl_e_res_div">
+            <dt>色</dt>
+            <dd>
+                <?php foreach($colorNames as $val){ ?>
+                    <div>
+                        <span class="aiosl_breakdown"><?php echo $val['name']; ?></span>
+                        <span><?php echo $val['quantity']; ?> 個</span>
+                    </div>
+                <?php } ?>
+            </dd>
+        </div>
+        <div class="aiosl_e_res_div">
+            <dt>商品合計</dt>
+            <dd>
+                <span class="aiosl_breakdown"><?php echo $order['totalQuantity']; ?> 個　×　<?php echo $order['productPrice']; ?> 円</span>
+                <span><?php echo $order['totalQuantity'] * $order['productPrice']; ?> 円</span>
+            </dd>
+        </div>
+        <div class="aiosl_e_res_div">
+            <dt>版代</dt>
+            <dd>
+                <span class="aiosl_breakdown">１版　×　<?php echo $order['dataPlacementFee']; ?> 円</span>
+                <span><?php echo $order['dataPlacementFee']; ?> 円</span>
+            </dd>
+        </div>
+        <div class="aiosl_e_res_div">
+            <dt>印刷代</dt>
+            <dd>
+                <span class="aiosl_breakdown"><?php echo $order['printingFeeQuantity']; ?>　×　<?php echo $order['printingFee']; ?> 円</span>
+                <span><?php echo $order['printingFeeQuantity'] * $order['printingFee']; ?> 円</span>
+            </dd>
+        </div>
+        <div class="aiosl_e_res_div">
+            <dt>送料</dt>
+            <dd>
+                <span class="aiosl_breakdown"></span>
+                <span><?php echo $order['shipmentFee']; ?> 円</span>
+            </dd>
+        </div>
+        <div class="aiosl_e_res_div">
+            <dt>税抜合計</dt>
+            <dd>
+                <span><?php echo $order['zeinuki']; ?> 円</span>
+            </dd>
+        </div>
+        <div class="aiosl_e_res_div">
+            <dt>消費税</dt>
+            <dd>
+                <span id="aiosl_tax"><?php echo $order['tax']; ?> 円</span>
+            </dd>
+        </div>
+        <div class="">
+            <dt>税込合計</dt>
+            <dd>
+                <span><?php echo $order['totalAmount']; ?> 円</span>
+            </dd>
+        </div>
+    </dl>
+</div>

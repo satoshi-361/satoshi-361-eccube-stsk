@@ -1,0 +1,54 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <style>
+        .caution { color: red; }
+        .order_info { font-size: x-large; text-align:center; }
+        .order_info_span { border-bottom: thick solid lightgray; }
+        .msg { margin: 50px 0px; }
+        .address { margin: 20px 0px; }
+        #etc { width: 100%; height: 150px; outline: none; }
+        .btn_area { margin-top: 70px; text-align:center; }
+        #nextBtn { width: 30%; background: gray; color: white; border: none; cursor: pointer; }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+{% endblock javascript %}
+
+
+{% block main %}
+    <article id="main_wrap">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>ご注文情報入力</li>
+            </ul>
+        </div>
+        <section class="section">
+          <header class="item-header">
+            <h1 class="lv_h1"></h1>
+          </header>
+          <div class="msg">
+            <p>
+                ありがとうございます、注文情報を承りました。<br/>
+                当社よりご連絡させていただきます。<br/>
+                ご不明点がございましたら、メール又はお電話にてお気軽にお問合せくださいませ。
+            </p>
+          </div>
+        </section>
+    </article>
+{% endblock %}

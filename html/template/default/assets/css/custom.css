@@ -1,0 +1,142 @@
+#main_wrap dl {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    line-height: 45px;
+}
+
+#main_wrap dl input,
+#main_wrap dl select,
+#main_wrap dl textarea {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    padding: 0.55em;
+}
+
+#main_wrap dt {
+    width: 130px;
+}
+
+#main_wrap dd {
+    width: 95%;
+    padding-left: 10px
+}
+
+#main_wrap dl input[type="text"] {
+    width: 95%;
+}
+
+#main_wrap dl .ec-halfInput input {
+    width: 45%;
+    margin-right: 3px;
+}
+
+#main_wrap .ec-mypageRole {
+    margin-top: 20px
+}
+
+#main_wrap .ec-layoutRole__main {
+    padding-left: 30px;
+}
+
+@media only screen and (max-width: 768px) {
+    .ec-layoutRole__main {
+        padding-left: 10px;
+    }
+}
+
+#main_wrap h1,
+#main_wrap h2,
+#main_wrap h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#main_wrap p {
+    margin-bottom: 10px;
+}
+
+#main_wrap span.yubin {
+    margin: 0.5714285em;
+    padding: 5px 20px;
+    background: #efefef;
+    border: 0;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    cursor: pointer;
+}
+
+#main_wrap span.yubin:hover {
+    background-color: #ddd;
+}
+
+#main_wrap button {
+    padding: 15px 3em;
+    background-color: #43b8a5;
+    color: #FFF;
+    border: 1px;
+    cursor: pointer;
+    margin: 0 3px;
+    font-family: source-han-sans-cjk-ja, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    font-size: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 200px;
+    height: auto;
+}
+
+#main_wrap .ec-zipInput {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#main_wrap .ec-zipInput input[type="text"] {
+    width: 350px;
+}
+
+#main_wrap .ec-required {
+    margin-left: 5px;
+    font-size: 11px;
+    color: red;
+}
+
+#main_wrap .ec-off4Grid__cell {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#main_wrap .ec-borderedDefs {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#main_wrap a.btn-kind1,
+#main_wrap a.btn-kind1:hover {
+    color: #ea6968
+}
+
+.ec-addressList__item {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.ec-addressList__action {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.ec-addressList__address div {
+    margin-bottom: 5px;
+}

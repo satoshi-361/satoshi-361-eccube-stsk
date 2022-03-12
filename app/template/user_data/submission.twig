@@ -1,0 +1,184 @@
+{% extends 'default_frame.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_data">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="https://www.s-t-s-k.com/test" style="color: #007DD4;">ホーム</a></li>
+                <li>入稿データについて</li>
+            </ul>
+        </div>
+        <section class="section_first">
+            <div class="post text">
+                <h1 class="title_squirrel">入稿データについて</h1>
+                <section class="section">
+                    <h1 class="title_green m-0">データ入稿の注意点</h1>
+                    <div class="text" style="text-align: center;">
+                        <p class="textCenter">データ入稿の際にいくつかの注意点があります。ご理解とご協力をお願いします。</p>
+                        <p class="caution">ご不明な点がございましたら、お気軽に連絡ください！</p>
+                    </div>
+                    <div class="section_innner">
+                        <h2 class="lv_h3">1.入稿方法</h2>
+                        <div class="layout_box1">
+                            <div class="box-item50 w-50">
+                                <div class="section_innner">
+                                    <p class="sub_title">メール入稿（5MBまで）</p>
+                                    <p>ご入金確認後、弊社から約１～３営業日中にご入金確認メールと ともにデザインテンプレートを送付いたします。（デザインテンプ レートがない場合もございます）返信メールに入稿データを添付 して送信してください。データが複数になる場合は、1つのフォルダ にまとめたうえで、圧縮をかけて送信してください。
+                                    </p>
+                                    <p class="before_ref">要圧縮（zipかlzh）</p>
+                                    <p class="before_ref">メールの本文に「お客様のお名前（社名）とご連絡先」をご記入ください。
+                                    </p>
+                                    <p class="before_ref"> お客様がご契約されているプロバイダの送信容量の制限により、送信できない場合もございます。
+                                    </p>
+                                    <p class="before_ref">5MBを超えるデータの場合は、ギガファイル便・ファイヤーストレージなどのファイル転送サービスをご利用ください。
+                                    </p>
+                                </div>
+                                <!-- <div class="section_innner">
+                                    <p class="sub_title">②担当者宛てにメールで入稿</p>
+                                    <p>専属の担当者が付きますので、メールでご入稿ください。<br /> ※５MB以上のデータはデータ便でお送りください。
+                                    </p>
+                                </div> -->
+                            </div>
+                            <div class="box-item50 w-45">
+                                <p class="sub_title1">【 5MB以上の入稿データ 】</p>
+                                <p style="text-align: center;max-width: 315px;margin: auto;    line-height: 1.5;">WEBへアップロードした後、アップロード情報 （URL）を弊社までメールでお知らせください。
+                                </p>
+                                <div class="share_file">
+                                    <div class="gigafile">
+                                        <div>
+                                            <a href="https://gigafile.nu" target="_blank">
+                                                <img src="{{ asset('assets/img/common/giga1.png') }}" alt="">
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="https://firestorage.jp/" target="_blank">
+                                                <img src="{{ asset('assets/img/common/giga2.png') }}" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section_innner">
+                        <h2 class="lv_h3">2. 入稿データ作成について</h2>
+                        <div class="layout_box1">
+                            <div class="box-item50 w-50">
+                                <div class="section_innner">
+                                    <p class="sub_title">弊社デザインテンプレートをご利用の場合</p>
+                                    <p>各商品ページ専用のデザインテンプレート（PDFデータ）が ダウンロード可能です。イラストレーターで開いてデザインを 作成し、印刷位置の指示を入れてください。
+                                    </p>
+                                </div>
+                                <div class="section_innner">
+                                    <p class="sub_title">弊社デザインテンプレートがない商品の場合</p>
+                                    <p>デザインテンプレートがない場合は、印刷サイズをご確認 いただき、印刷可能範囲内でデザインを作成してください。<br> 印刷可能範囲内で、印刷位置の指示を入れてください。<br> また、デザインサイズと刷り色も空きスペースに記載してください。
+                                    </p>
+                                    <p class="before_ref">印刷箇所が複数ある商品の場合は、いずれか1箇所への印刷が 基本となります。複数箇所へ印刷をご希望の場合は、見積金額 が変わりますので、別途ご相談ください。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="box-item50 w-45">
+                                <p class="sub_title1">商品ページ</p>
+                                <div class="share_file">
+                                    <div class="gigafile">
+                                        <div>
+                                            <img src="{{ asset('assets/img/common/レイヤー 837.png') }}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section_innner">
+                        <h2 class="lv_h3">3. 対応している入稿形式</h2>
+                        <div class="layout_box">
+                            <div class="box-item50">
+                                <p class="text20" style="max-width: 215px; margin: auto;">Adobe Illustrator、Photoshop、<br/>PDF 形式で保存したデータ</p>
+                                <dl class="box">
+                                    <dt>互換性有り●</dt>
+                                    <dd>
+                                        <p class="image"><img loading="lazy" class="alignnone size-full wp-image-122" src="{{ asset('assets/img/common/adobe.png') }}" alt="" width="500" height="135" /></p>
+                                        <p style="padding-left: 50px">※イラストレーターのバージョンはCC<br/>まで　対応しております。<br /> ※画像は埋め込みをしてご入稿ください。</p>
+                                    </dd>
+                                </dl>
+                                <p class="textCenter ar"><img src="{{ asset('assets/img/common/ar_green_dw.svg') }}" alt="" /></p>
+                                <p class="text" style="max-width: 200px;padding-bottom: 0; margin: auto;">互換性のあるデータはこのまま入稿していただけます。</p>
+                                <p style="max-width: 320px;  color: red; margin: auto; text-align: left;">※PDFデータはillustratorの編集機能を保持した 　もの（アウトラインがあるもの）に限ります。
+                                </p>
+                            </div>
+                            <div class="box-item50">
+                                <p class="text20" style="max-width: 255px; margin: auto;">JPEG、PNG などの画像やPowerPoint、Word、Excel形式で保存したデータ</p>
+                                <dl class="box">
+                                    <dt>互換性無し×</dt>
+                                    <dd>
+                                        <p class="image"><img loading="lazy" class="alignnone size-full wp-image-123" src="{{ asset('assets/img/common/office.png') }}" alt="" width="500" height="300" /></p>
+                                    </dd>
+                                </dl>
+                                <p class="textCenter ar"><img src="{{ asset('assets/img/common/ar_green_dw.svg') }}" alt="" /></p>
+                                <p class="text" style="padding-bottom: 0;max-width: 270px; margin: auto;">互換性のないデータは弊社で入稿データを<br/>作成します。（デザイン料別途）</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section_innner">
+                        <h2 class="lv_h3">4.イラストレーターでの作成方法</h2>
+                        <div class="layout_box">
+                            <div class="box-item50">
+                                <dl class="box">
+                                    <dt>①１色印刷の場合</dt>
+                                    <dd>
+                                        <p class="image"><img loading="lazy" class="alignnone size-full wp-image-124" src="{{ asset('assets/img/common/color_1.png') }}" alt="" width="700" height="296" /></p>
+                                        <p style="max-width: 270px;margin: auto;">１色でデザインを作成してください。<br>指定色はデータ内に書き込んでください。</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="box-item50">
+                                <dl class="box">
+                                    <dt>②フルカラー印刷の場合</dt>
+                                    <dd>
+                                        <p class="image"><img loading="lazy" class="alignnone size-full wp-image-125" src="{{ asset('assets/img/common/color_full.png') }}" alt="" width="700" height="296" /></p>
+                                        <p style="max-width: 290px;margin: auto;">CMYK のカラーモードで作成してください。<br>細かいデザインは事前にご相談ください。</p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="layout_box box-mr">
+                            <div class="box-item50">
+                                <p class="sub_title">文字はすべてアウトライン化してください。</p>
+                                <p style="margin-left: 10px;">文字が含まれる場合は、必ずアウトラインを<br/>かけてください。 アウトラインをかけないと<br/>文字化けを起こします。
+                                </p>
+                            </div>
+                            <div class="box-item50">
+                                <p class="image"><img loading="lazy" class="alignnone size-full wp-image-126" src="{{ asset('assets/img/common/outline.png') }}" alt="" width="600" height="141" /></p>
+                            </div>
+                        </div>
+                        <div class="layout_box box-mr">
+                            <div class="box-item50">
+                                <p class="sub_title">細い線・小さい文字はつぶれや擦れが発生します。</p>
+                                <p style="margin-left: 10px;">細かいデザインや、小さい文字は印刷時にカスレが 発生してしまいますので、線は0.8pt以上、ヌキの 線は1.0pt以上、文字は６pt以上で作成してください。<span class="red"><br>※きれいに印刷できる目安は商品の素材によって異なります。</span></p>
+                            </div>
+                            <div class="box-item50">
+                                <p class="image"><img loading="lazy" class="alignnone size-full wp-image-127" src="{{ asset('assets/img/common/line.png') }}" alt="" width="600" height="192" /></p>
+                            </div>
+                        </div>
+                        <div class="layout_box box-mr">
+                            <div class="box-item50">
+                                <p class="sub_title">トリムマーク（トンボ）を作成してください。</p>
+                                <p style="margin-left: 10px;">トリムマークとは、断裁位置の「しるし」のことです。 トリムマークの内トンボと外トンボの間隔は通常3mm となっています。 塗り足しが無かった場合、断裁機のわずかな 位置ズレにより地の色が出てしまいます。 それを防ぐために、仕上がりから３ｍｍ外側まで デザインを伸ばします。</p>
+                            </div>
+                            <div class="box-item50">
+                                <p class="image"><img loading="lazy" class="alignnone size-full wp-image-128" src="{{ asset('assets/img/common/trim.png') }}" alt="" width="600" height="196" /></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- /.post -->
+        </section>
+    </article>
+{% endblock %}

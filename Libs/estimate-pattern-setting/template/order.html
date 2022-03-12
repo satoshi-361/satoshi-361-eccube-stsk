@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<style>
+  .caution { color: red; }
+  .order_info { font-size: x-large; text-align:center; }
+  .order_info_span { border-bottom: thick solid lightgray; }
+  .msg { margin: 50px 0px; }
+  .address { margin: 20px 0px; }
+  #etc { width: 100%; height: 150px; outline: none; }
+  .btn_area { margin-top: 70px; text-align:center; }
+  #nextBtn { width: 30%; background: gray; color: white; border: none; cursor: pointer; }
+</style>
+<body>
+  <article id="main_wrap" class="page_mypage login">
+    <div id="breadcrumb">
+      <ul>
+        <li><a href="<?php echo home_url(); ?>">ホーム</a></li>
+        <li>ご注文情報入力</li>
+      </ul>
+    </div>
+    <section class="section">
+      <header class="item-header">
+			  <h1 class="lv_h1"></h1>
+			</header>
+      <p class="order_info"><span class="order_info_span">ご注文情報</span></p>
+      <div class="msg">
+        <p class="caution">※注意事項</p>
+        <p>・複数商品を注文する場合についても、ご注文依頼は１商品ずつ行ってください。</p>
+        <p>・別の商品にする場合は、商品ページの見積りからやり直してください。</p>
+        <p>・<span class="caution">お支払方法は銀行振込のみとなっております。</span></p>
+        <p>ご注文依頼確認後、担当スタッフよりご請求書をメールにてお送りしております。</p>
+      </div>
+      <?php include('./elements/estimate.html');?>
+      <form action="./confirmation.php" id="confirmationForm" name="confirmationForm" method="post">
+        <div class="address">
+          <h1>お客様情報入力</h1>
+          <?php include_once('./elements/member_address.html'); ?>
+        </div>
+        <div class="address">
+          <input type="checkbox" id="otherAddress" name="otherAddress" onclick="_nonMember()" <?php if($otherAddress == 'on') echo 'checked'; ?>>　お届け先がお客様のご住所でない場合は、こちらにお届け先をご記入ください。
+          <?php include_once('./elements/other_address.html');?>
+        </div>
+        <h1>ご要望・ご質問</h1>
+        <textarea id="etc" name="etc"></textarea>
+        <div class="msg">
+          <p>分納してほしい。500個は東京都・500個は神奈川等</p>
+          <p>印刷色のパントーン・DIC色指定印刷色合わせのロゴ印刷物を送るので色を合わせてほしい</p>
+          <p>送り状の備考欄に記載して頂きたい文言</p>
+          <p>専用納品書を同梱してほしい送り主を秋冬春夏ではなく、お客様名に変えてほしい。</p>
+          <p>配送日時・時間の指定</p>
+          <p>などご要望やご質問はお気軽にご記載ください。</p>
+        </div>
+        <div class="msg">
+          <p class="caution">※注意事項</p>
+          <p>見積金額はご要望によって変更となる場合がございます。</p>
+          <p>最終的な金額は本フォームよりご注文いただいた後、当社より送付されるご請求書を</p>
+          <p>もって確定となりますのでご了承ください。</p>
+        </div>
+        <input type="checkbox" id="agree" onclick="_onCheck()">　注意事項、<a href="#">サイト利用規約</a>、<a href="#">プライバシーポリシー</a>に同意する
+        <?php foreach($order as $key => $val){ ?>
+          <input type="hidden" name="order[<?php echo $key; ?>]" value="<?php echo $val; ?>">
+        <?php } ?>
+        <?php foreach($colorNames as $key => $val){ ?>
+          <input type="hidden" name="quantity[<?php echo $key; ?>]" value="<?php echo $val['quantity']; ?>">
+        <?php } ?>
+        <p class="btn_area"><input type="submit" id="nextBtn" value="次へ" disabled></p>
+      </form>
+    </section>
+  </article>
+  <script>
+    if ( "<?php echo $_POST['otherAddress']; ?>" == 'on') {
+      _nonMember();
+    }
+
+    function _nonMember() {
+      var isCheck = document.getElementById('otherAddress').checked;
+      if (isCheck) {
+        document.getElementsByClassName("other_address")[0].style.display = "";
+      } else {
+        document.getElementsByClassName("other_address")[0].style.display = "none";
+      }
+      var requiredCol = document.querySelectorAll(".required_column");
+      requiredCol.forEach(function(elm) {
+        elm.required = isCheck;
+      });
+    }
+    function _onCheck() {
+      var isChecked = document.getElementById('agree').checked;
+      document.getElementById("nextBtn").disabled  = !(isChecked);
+      document.getElementById("nextBtn").style.background = 'orange';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'mypage' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <style>
+        .reg_btn {
+            padding-top: 85px !important;
+        }
+        .hover-effect:hover {
+            opacity: 0.8;
+        }
+        @media screen and (max-width: 768px) {
+            .login_page .loginbox {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        .member-box {
+            width: 300px;
+        }
+        .member-box .reg_describ {
+            max-width: unset;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}    
+    <article id="main_wrap" class="page_login">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>マイページ</li>
+            </ul>
+        </div>
+        <section class="section_first login_page">
+            <div class="post text">
+                <section id="link1" class="section">
+                    <h1 class="lv_h2">マイページログイン</h1>
+                    <div class="text">
+                        {% if app.session.get('IS_ORDER_CONFIRMED') == 'true' %}
+                        <div class="login_title">
+                            <a href="{{ url('order_contact') }}"><img src="{{ asset('assets/img/common/login_reg.png') }}" alt=""></a>
+                        </div>
+                        {% endif %}
+                        <div class="login_txt">
+                            <p>マイページのご利用にはログインが必要です。下記よりログインしてお進みください。</p>
+                        </div>
+                        <div class="loginbox">
+                            <div class="member-box">
+                                <form name="login_mypage" id="loginform" method="post" action="{{ url('mypage_login') }}">
+                                    {% if app.session.flashBag.has('eccube.login.target.path') %}
+                                        {% for targetPath in app.session.flashBag.peek('eccube.login.target.path') %}
+                                            <input type="hidden" name="_target_path" value="{{ targetPath }}" />
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="box_red">
+                                        会員登録済みのお客様
+                                    </div>
+                                    <div class="" style="padding-left: 10px;">
+                                        <p class="input_row">
+                                            <label>メールアドレス<br />{{ form_widget(form.login_email, {'attr': {'class' : 'loginmail', 'style' : 'ime-mode: disabled;', 'size': 20}}) }}</label>
+                                        </p>
+                                        <p class="input_row1">
+                                            <label>パスワード<br />
+                                            {{ form_widget(form.login_pass,  {'attr': {'class' : 'loginpass', 'size': 20}}) }}</label>
+                                        </p>
+                                        <p class="forgetmenot">
+                                            <label>
+                                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                                    <input type="hidden" name="login_memory" value="1">
+                                                {% else %}
+                                                    {{ form_widget(form.login_memory, { 'label': 'ログイン情報を記憶'|trans, 'attr': {'value': 'forever'} }) }}
+                                                {% endif %}
+                                            </label>
+                                        </p>
+                                        {% for reset_complete in app.session.flashbag.get('password_reset_complete') %}
+                                            <p>{{ reset_complete|trans }}</p>
+                                        {% endfor %}
+                                        {% if error %}
+                                            <p class="ec-errorMessage">{{ error.messageKey|trans(error.messageData, 'validators')|nl2br }}</p>
+                                        {% endif %}
+                                        <div class="submit">
+                                            <input type="submit" name="member_login" id="member_login" class="member_login_button hover-effect" value="" /> </div>
+                                        </div>
+                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                </form>
+                                <p id="nav">
+                                    <a class="ec-link" href="{{ url('forgot') }}" title="パスワードをお忘れですか？">パスワードをお忘れですか？</a>
+                                </p>
+                            </div>
+                            <div class="member-box">
+                                <div class="box_blue">
+                                    はじめてご利用になるお客様
+                                </div>
+                                <p class="reg_describ">マイページをお持ちでない方は<br>「登録する」ボタンからマイページ<br>会員登録を行ってください。</p>
+                                <div class="reg_btn"><a class="ec-link hover-effect" href="{{ url('entry') }}"><img src="{{ asset('assets/img/common/登録するボタン.png') }}" alt=""></a>
+                                </div>
+                            </div>
+                            <!-- new-entry -->
+                        </div>
+                        <!-- .loginbox -->
+                    </div>
+                </section>
+            </div>
+            <!-- /.post -->
+        </section>
+    </article>
+{% endblock %}

@@ -1,0 +1,112 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<body bgcolor="#F0F0F0" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;">
+<br>
+<br>
+<div align="center"><a href="{{ url('homepage') }}" style="font-family:Helvetica, Arial, sans-serif;font-size:30px;color:#333333;text-decoration:none;">{{ BaseInfo.shop_name }}</a></div>
+<!-- 100% background wrapper (grey background) -->
+<table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
+    <tr>
+        <td align="center" valign="top" bgcolor="#F0F0F0" style="background-color:#F0F0F0;border-collapse:collapse;">
+            <br>
+            <!-- 600px container (white background) -->
+            <table id="html-mail-table1" border="0" width="600px" cellpadding="10" cellspacing="0" class="container" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
+                <tr>
+                    <td class="container-padding content" align="left" style="border-collapse:collapse;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff;">
+                        <br>
+                        <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550;">ご注文ありがとうございます。</div>
+                        <br>
+                        <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333;">
+                            
+                            
+                            {{ Customer.name01 }} {{ Customer.name02 }} 様<br/>
+                            <br/>
+                            この度は、【ノベルティの春夏秋冬】をご利用いただき、誠にありがとうございます。<br/>
+                            <br/>
+                            お客様からのご注文を受付いたしました。<br/>
+                            商品はまだ確保されていませんので予めご了承ください。<br/>
+                            <br/>
+                            改めて担当者よりご連絡させていただきます。<br/>
+                            通常2営業日以内にご連絡いたしますが、内容によってはお時間をいただく場合もございます。<br/>
+                            ご不明な点などがございましたら、お気軽にお問い合せください。<br/>
+                            <br/>
+                            <hr style="border-top: 3px double #8c8b8b;">
+                            　ご注文内容<br/>
+                            <hr style="border-top: 3px double #8c8b8b;">
+                            商品名： {{ Order['productName'] }}<br/>
+                            色： {{ Order['colors'] }}<br/>
+                            商品合計： {{ Order['totalQuantity'] }}個　×　{{ Order['productPrice'] }}円　　　<br/>
+                            版　代：１版　×　 {{ Order['dataPlacementFee'] }}円　　　<br/>
+                            印刷代： {{ Order['printingFeeQuantity'] }}個　×　{{ Order['printingFee'] }}円<br/>
+                            送　料： {{ Order['shipmentFee'] }}円<br/>
+                            税抜合計： {{ Order['zeinuki'] }}円<br/>
+                            消費税： {{ Order['tax'] }}円<br/>
+                            税込合計： {{ Order['totalAmount'] }}円<br/>
+                            ご要望・ご質問： {{ Customer.contents }}<br/>
+
+                            <hr style="border-top: 3px double #8c8b8b;">
+                            　ご注文者情報<br/>
+                            <hr style="border-top: 3px double #8c8b8b;">
+                            お名前：{{ Customer.name01 }} {{ Customer.name02 }} 様<br/>
+                            お名前(カナ)：{{ Customer.kana01 }} {{ Customer.kana02 }} 様<br/>
+                            郵便番号：〒{{ Customer.postal_code }}<br/>
+                            住所：{{ Customer.pref }}{{ Customer.addr01 }}{{ Customer.addr02 }}<br/>
+                            電話番号：{{ Customer.phone_number }}<br/>
+                            メールアドレス：{{ Customer.email }}<br/><br/>
+
+                            <hr style="border-top: 3px double #8c8b8b;">
+                            　お届け先情報<br/>
+                            <hr style="border-top: 3px double #8c8b8b;">
+                            {% if additionalAddress != null %}
+                                お名前：{{ additionalAddress['name']['name01'] }} {{ additionalAddress['name']['name02'] }} 様<br/>
+                                お名前(カナ)：{{ additionalAddress['kana']['kana01'] }} {{ additionalAddress['kana']['kana02'] }} 様<br/>
+                                郵便番号：〒{{ additionalAddress['postal_code'] }}<br/>
+                                住所：{{ additionalAddress['address']['pref'] }}{{ additionalAddress['address']['addr01'] }}{{ additionalAddress['address']['addr02'] }}<br/>
+                                電話番号：{{ additionalAddress['phone_number'] }}<br/>
+                            {% elseif CustomerAddress != null %}
+                                お名前：{{ CustomerAddress.name01 }} {{ CustomerAddress.name02 }} 様<br/>
+                                お名前(カナ)：{{ CustomerAddress.kana01 }} {{ CustomerAddress.kana02 }} 様<br/>
+                                郵便番号：〒{{ CustomerAddress.postal_code }}<br/>
+                                住所：{{ CustomerAddress.pref }}{{ CustomerAddress.addr01 }}{{ CustomerAddress.addr02 }}<br/>
+                                電話番号：{{ CustomerAddress.phone_number }}<br/>
+                            {% else %}
+                                　納品先は注文者の住所と同じです。
+                            {% endif %}
+
+                            
+                            <hr style="border-top: 3px double #8c8b8b;">
+                            <img src='http://x20210121.xsrv.jp/html/template/default/assets/img/common/header_logo.png'><br/>
+                            <br/>
+                            《ノベルティの春夏秋冬》<br/>
+                            URL：<br/>
+                            Mail：goods@s-t-s-k.com<br/>
+                            株式会社秋冬春夏<br/>
+                            住所：〒114-0012<br/>
+                            東京都北区田端新町1-7-8相光ビル3F<br/>
+                            TEL：03-5901-9633 ／ FAX：03-5901-9634<br/>
+                            受付時間：10:00～17:00(定休日：土日祝祭日)<br/>
+                            <hr style="border-top: 3px double #8c8b8b;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!--/100% background wrapper-->
+<br>
+<br>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_privacy">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>個人情報保護</li>
+            </ul>
+        </div>
+        <section class="section">
+            <div class="post text">
+                <br />
+                <h1 class="title_squirrel">個人情報保護</h1>
+                <section class="section">
+                    <h1 class="title_green">個人情報</h1>
+                    <div class="text">
+                        <p>個人情報とは、個人に関する情報であって、その情報に含まれる氏名、住所、電話番号、ＦＡＸ番号、メールアドレス、その他の記述等により、その個人を識別できるもの(この情報のみでは識別できないが、他の情報と容易に照合することができ、それにより特定の個人を識別できるものを含む)を言います。
+                        </p>
+                    </div>
+                </section>
+                <section class="section">
+                    <h1 class="title_green">個人情報の利用目的</h1>
+                    <div class="text">
+                        <p>ご提供いただいた個人情報は、以下の目的の範囲内においてのみ使用します。</p>
+                        <ol class="number">
+                            <li>
+                                <p>お問い合わせ頂いた内容に対し、適切に回答を行なうため。</p>
+                            </li>
+                            <li>
+                                <p>ご請求のあった資料・サンプル・商品・見積もり等の送付のため。</p>
+                            </li>
+                            <li>
+                                <p>当社の商品や展示会の情報等のご案内をお届けするため。</p>
+                            </li>
+                            <li>
+                                <p>当ホームページより商談を希望されたお客様に、当社営業所やお取引先様をご紹介やご案内するため。</p>
+                            </li>
+                            <li>
+                                <p>その他、ご利用者様の同意を得た範囲内で使用するため。</p>
+                            </li>
+                        </ol>
+                        <p>上記に記載した以外の目的で個人情報を使用する場合は、<br/>当社で保管する個人情報に基づき、その旨を事前にご案内致します。</p>
+                    </div>
+                </section>
+                <section class="section">
+                    <h1 class="title_green">個人情報の開示について</h1>
+                    <div class="text">
+                        <p>当社は、ご提供いただいた個人情報を、次の場合を除き、第三者へ開示することはいたしません。</p>
+                        <ol class="number">
+                            <li>
+                                <p>ご利用者様の同意がある場合</p>
+                            </li>
+                            <li>
+                                <p>ご利用者様を識別することができない状態で開示する場合</p>
+                            </li>
+                            <li>
+                                <p>当社がホームページを運営する上で必要となる業務委託先に開示する場合（この場合当社は開示先に適切な管理・保護を行なうよう指示、監督を行ないます）、また協力企業となりうる企業、その他の第三者に当社のサービスを説明する際、またその他の合法的な目的のために、ご利用者様の統計情報を開示する場合</p>
+                            </li>
+                            <li>
+                                <p>司法機関または行政機関から法的義務を伴う個人情報の開示要請を受けた場合など法令に基づく場合</p>
+                            </li>
+                        </ol>
+                        <p>上記に記載した以外の目的で個人情報を使用する場合は、<br/>当社で保管する個人情報に基づき、その旨を事前にご案内致します。</p>
+                    </div>
+                </section>
+                <section class="section">
+                    <h1 class="title_green">法令の遵守</h1>
+                    <div class="text">
+                        <p>当社は、個人情報の取扱いに関し、個人情報の取扱いに関する法令、国が定める指針その他の規範を遵守致します。</p>
+                    </div>
+                </section>
+                <section class="section">
+                    <h1 class="title_green">安全管理措置</h1>
+                    <div class="text">
+                        <p>当社は、取得した個人情報を適切に管理するために、安全対策措置を講じ、個人情報の漏えい、滅失又はき損の防止及び是正に取り組みます。</p>
+                    </div>
+                </section>
+                <section class="section">
+                    <h1 class="title_green">個人情報の開示・訂正・削除等の手続きについて</h1>
+                    <div class="text">
+                        <p>当社は、個人情報の取扱いに関し、個人情報の取扱いに関する法令、国が定める指針その他の規範を遵守致します。</p>
+                    </div>
+                </section>
+                <section class="section">
+                    <h1 class="title_green">ご意見･ご相談への対応</h1>
+                    <div class="text">
+                        <p>当社は、個人情報の取扱いに関する苦情及び相談を受けた場合は、その内容について迅速に事実関係等を調査し、合理的な期間内に誠意をもって対応致します。</p>
+                    </div>
+                </section>
+                <section class="section">
+                    <h1 class="title_green">個人情報の管理の改善と最新内容の表示について</h1>
+                    <div class="text">
+                        <p>当社は、ご利用者様の個人情報保護の継続的な改善・向上に努め、個人情報の取り扱いについて適宜見直し改善して参ります。なお、改訂された内容は速やかに通知・公表致します。</p>
+                    </div>
+                </section>
+            </div>
+            <!-- /.post -->
+        </section>
+    </article>
+{% endblock %}

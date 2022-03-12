@@ -1,0 +1,20 @@
+{% if app.request.attributes.get('_route') == 'homepage' %}
+  <link rel="stylesheet" href="{{ asset('assets/css/toppage.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+{% endif %}
+
+<link rel="stylesheet" href="{{ asset('assets/css/slider.css') }}" type="text/css">
+<link type="text/css" rel="stylesheet" href="{{ asset('assets/libs/mmenu/dist/core/css/jquery.mmenu.all.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}" type="text/css">
+
+
+<script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/script_top.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/jquery.easing.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/scroll.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/jquery.biggerlink.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/libs/mmenu/dist/core/js/jquery.mmenu.min.all.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/libs/mmenu/menu.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/jquery.inview.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/js/script.js') }}"></script>

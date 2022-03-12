@@ -1,0 +1,450 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'registration_page' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <style>
+        .aiosl_e_res{ border: 1px #ededed solid; margin-top: 10px; margin-bottom: 10px; padding: 10px 20px; }
+        .aiosl_idx{ font-weight: bold; }
+        .aiosl_e_res dl { position: relative; padding-bottom: 15px; }
+        .aiosl_e_res dl .aiosl_e_res_div dd:last-child{ padding-bottom:10px; border-bottom: 1px dashed lightgray; }
+        .aiosl_e_res dt { position: absolute; left: 0; padding: 10px 0; }
+        .aiosl_e_res dd { padding: 5px 0 5px 60px; text-align: right; color: gray; }
+        .aiosl_e_res dd span { display: inline-block; vertical-align: top; }
+        .aiosl_e_res dd span:last-child { color: black; padding-left: 10px; }
+        #aiosl_total{ font-size: xx-large; }
+        .aiosl_breakdown{ font-size: small; vertical-align: top; }
+        .caution { color: red; }
+        .order_info { font-size: x-large; text-align:center; }
+        .order_info_span { border-bottom: thick solid lightgray; }
+        .msg { margin: 50px 0px; }
+        .address { margin: 20px 0px; }
+        #etc { width: 100%; height: 150px; outline: none; }
+        .btn_area { margin-top: 70px; text-align:center; }
+        #nextBtn { width: 30%; background: gray; color: white; border: none; cursor: pointer; }
+
+        form {
+            margin-top: 30px
+        }
+        .form td.d-flex {
+            display: flex;
+        }
+        .form td.d-flex input {
+            width: 211px;
+        }
+        .order-bold-info {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        span.yubin {
+            margin: 0.5714285em;
+            padding: 5px 20px;
+            background: #efefef;
+            border: 0;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            cursor: pointer;
+        }
+        span.yubin:hover {
+            background-color: #ddd;
+        }
+        a.btn-kind1, a.btn-kind1:hover {
+            color: #ea6968
+        }
+        button {
+            padding: 15px 3em;
+            background-color: #43b8a5;
+            color: #FFF;
+            border: 1px;
+            cursor: pointer;
+            margin: 0 3px;
+            font-family: source-han-sans-cjk-ja, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-size: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 210px;
+            height: auto;
+        }
+        .agreement {
+            margin-top: 20px;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        table.orderer-location {
+            width: 100%;
+            border: 1px #ededed solid;
+        }
+        table.orderer-location th, table.orderer-location td {
+            padding: 10px
+        }
+        .orderer-location .saved_address {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media screen and (max-width: 768px) {
+            .form td.d-flex input {
+                width: calc(50% - 3px);
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+    <script>
+        $(function(){
+            $('#additional_address').on('keyup', '.p-postal-code', function(){
+                var zip = $(this).val();    
+                var element = $(this);            
+                $.getJSON('http://zipcloud.ibsnet.co.jp/api/search?callback=?',
+                {
+                    zipcode: zip
+                })
+                .done(function(data) {
+                    console.log(data);
+                    $(element).parents('tbody').find('.p-region-id').val(data['results'][0]['prefcode']);
+                    $(element).parents('tbody').find('.p-locality p-street-address').val(data['results'][0]['address1']);
+                    // $(element).parents('tbody').find('.p-extended-address').val(data['results'][0]['address2'] + data['results'][0]['address3']);
+                });
+            });
+        });
+    </script>
+    <script>
+        var additional_address = 
+                '<tbody>' +
+                    '<tr>' +
+                        '<th>お名前<span class="hissu">必須</span></th>' +
+                        '<td class="d-flex">' +
+                        '<input type="text" id="additional_name_name01"' +
+                            'name="additional[name][name01]" required="required" placeholder=""' +
+                            'value="">' +
+                        '<input type="text" id="additional_name_name02"' +
+                            'name="additional[name][name02]" required="required" placeholder=""' +
+                            'value="">' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<th>フリガナ</th>' +
+                        '<td class="d-flex">' +
+                        '<input type="text" id="additional_kana_kana01"' +
+                            'name="additional[kana][kana01]" placeholder="" value="">' +
+                        '<input type="text" id="additional_kana_kana02"' +
+                            'name="additional[kana][kana02]" placeholder="" value="">' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<th>電話番号<span class="hissu">必須</span></th>' +
+                        '<td>' +
+                        '<input type="tel" id="additional_phone_number"' +
+                            'name="additional[phone_number]" required="required" placeholder=""' +
+                            'value="">' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<th>住所<span class="hissu">必須</span></th>' +
+                        '<td>〒 <input type="tel" id="additional_postal_code"' +
+                            'name="additional[postal_code]" required="required" class="zip p-postal-code"' +
+                            'placeholder="ハイフン不要" value="">' +
+                        '<select id="additional_address_pref" name="additional[address][pref]" style="margin-left: 5px"' +
+                            'required="required" class="p-region-id">' +
+                            '<option value="">都道府県を選択</option>' +
+                            '<option value="1">北海道</option><option value="2">青森県</option>' +
+                            '<option value="3">岩手県</option>' +
+                            '<option value="4">宮城県</option><option value="5">秋田県</option>' +
+                            '<option value="6">山形県</option><option value="7">福島県</option>' +
+                            '<option value="8">茨城県</option>' +
+                            '<option value="9">栃木県</option><option value="10">群馬県</option>' +
+                            '<option value="11">埼玉県</option><option value="12">千葉県</option>' +
+                            '<option value="13">東京都</option><option value="14">神奈川県</option>' +
+                            '<option value="15">新潟県</option><option value="16">富山県</option>' +
+                            '<option value="17">石川県</option><option value="18">福井県</option>' +
+                            '<option value="19">山梨県</option><option value="20">長野県</option>' +
+                            '<option value="21">岐阜県</option><option value="22">静岡県</option>' +
+                            '<option value="23">愛知県</option><option value="24">三重県</option>' +
+                            '<option value="25">滋賀県</option><option value="26">京都府</option>' +
+                            '<option value="27">大阪府</option><option value="28">兵庫県</option>' +
+                            '<option value="29">奈良県</option><option value="30">和歌山県</option>' +
+                            '<option value="31">鳥取県</option><option value="32">島根県</option>' +
+                            '<option value="33">岡山県</option><option value="34">広島県</option>' +
+                            '<option value="35">山口県</option><option value="36">徳島県</option>' +
+                            '<option value="37">香川県</option><option value="38">愛媛県</option>' +
+                            '<option value="39">高知県</option><option value="40">福岡県</option>' +
+                            '<option value="41">佐賀県</option><option value="42">長崎県</option>' +
+                            '<option value="43">熊本県</option><option value="44">大分県</option>' +
+                            '<option value="45">宮崎県</option><option value="46">鹿児島県</option>' +
+                            '<option value="47">沖縄県</option>' +
+                        '</select>' +
+                        '<input type="text" id="additional_address_addr01"' +
+                            'name="additional[address][addr01]" required="required" class="p-locality ' +
+                            'p-street-address" placeholder="市区町村名" value="">' +
+                        '<input type="text" id="additional_address_addr02"' +
+                            'name="additional[address][addr02]" required="required"' +
+                            'class="p-extended-address" placeholder="番地・ビル名など" value="">' +
+                        '</td>' +
+                    '</tr>' +
+                '</tbody>';
+        $(function(){
+            $('#additional_address').hide();
+            $('#location_differ').on('click', function(){
+                if ($(this).is(':checked')) {
+                    $('#additional_address').append(additional_address);
+                    $('#additional_address').show();
+                } else {
+                    $('#additional_address').empty();
+                    $('#additional_address').hide();
+                }
+            });
+            // $('button[type="submit"]').on('click', function(event){
+            //     event.preventDefault();
+
+            //     $('additional_address').
+            // });
+        })
+    </script>
+{% endblock javascript %}
+
+
+{% block main %}
+    <article id="main_wrap">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>ご注文情報入力</li>
+            </ul>
+        </div>
+        <section class="section form">
+            <h1 class="lv_h1"><span>ご注文情報</span></h1>
+            <div id="memberpages">
+                <div id="newmember">
+                    <div class="header_explanation">
+                        <ul>
+                            <li>※注意事項</li>
+                            <li>・複数商品を注文する場合についても、ご注文依頼は１商品ずつ行ってください。</li>
+                            <li>・別の商品にする場合は、商品ページの見積りからやり直してください。</li>
+                            <li>・お支払方法は銀行振込のみとなっております。</li>
+                            <li>ご注文依頼確認後、担当スタッフより≪正式見積り書 兼 請求書≫をメールにてお送りいたします。</li>
+                        </ul>
+                    </div><!-- .header_explanation -->
+                    <div class="aiosl_e_res">
+                        <dl>
+                            <p class="aiosl_idx">見積金額（概算）</p>
+                            <div class="aiosl_e_res_div">
+                                <dt>商品名</dt>
+                                <dd>
+                                    <span>{{ Order['productName'] }}</span>
+                                </dd>
+                            </div>
+                            <div class="aiosl_e_res_div">
+                                <dt>色</dt>
+                                <dd>
+                                    <span>{{ Order['colors'] }}</span>
+                                </dd>
+                            </div>
+                            <div class="aiosl_e_res_div">
+                                <dt>商品合計</dt>
+                                <dd>
+                                    <span class="aiosl_breakdown">{{ Order['totalQuantity'] }}個　×　{{ Order['productPrice'] }}円</span>
+                                    <span>{{ Order['totalQuantity'] * Order['productPrice'] }}円</span>
+                                </dd>
+                            </div>
+                            <div class="aiosl_e_res_div">
+                                <dt>版代</dt>
+                                <dd>
+                                    <span class="aiosl_breakdown">１版　×　{{ Order['dataPlacementFee'] }}円</span>
+                                    <span>{{ Order['dataPlacementFee'] }}円</span>
+                                </dd>
+                            </div>
+                            <div class="aiosl_e_res_div">
+                                <dt>印刷代</dt>
+                                <dd>
+                                    <span class="aiosl_breakdown">{{ Order['printingFeeQuantity'] }}　×　{{ Order['printingFee'] }}円</span>
+                                    <span>{{ Order['printingFeeQuantity'] * Order['printingFee'] }} 円</span>
+                                </dd>
+                            </div>
+                            <div class="aiosl_e_res_div">
+                                <dt>送料</dt>
+                                <dd>
+                                    <span class="aiosl_breakdown"></span>
+                                    <span>{{ Order['shipmentFee'] }} 円</span>
+                                </dd>
+                            </div>
+                            <div class="aiosl_e_res_div">
+                                <dt>税抜合計</dt>
+                                <dd>
+                                    <span>{{ Order['zeinuki'] }} 円</span>
+                                </dd>
+                            </div>
+                            <div class="aiosl_e_res_div">
+                                <dt>消費税</dt>
+                                <dd>
+                                    <span id="aiosl_tax">{{ Order['tax'] }} 円</span>
+                                </dd>
+                            </div>
+                            <div class="">
+                                <dt>税込合計</dt>
+                                <dd>
+                                    <span>{{ Order['totalAmount'] }} 円</span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <form method="post" action="{{ url('order_contact') }}" novalidate class="h-adr">
+                        <span class="p-country-name" style="display:none;">Japan</span>
+                        {{ form_widget(form._token) }}
+                        <table class="lineBtm" style="margin-bottom: 10px">
+                            <tbody>
+                                <tr style="border-bottom: none">
+                                    <th style="border-bottom: none">商品に関するご要望・備考欄</th>
+                                    <td style="border-bottom: none">
+                                        {{ form_widget(form.contents, { 'attr': { 'placeholder': '' }}) }}
+                                        {{ form_errors(form.contents) }}
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: none">
+                                    <th></th>
+                                    <td style="color: #444">
+                                        下記のようなご要望があれば記載してください。<br/><br/>
+                                        校正サンプルを希望（別途有償）<br/>
+                                        支給シールを貼ってほしい（別途有償）<br/>
+                                        支給紙を封入してほしい（別途有償）<br/>
+                                        分納してほしい。500個は東京都・500個は神奈川等（別途有償）<br/>
+                                        個別OPP袋に入れてほしい（別途有償・商品による）<br/>
+                                        印刷色のパントーン・DIC色指定（無償・シルク印刷、パッド印刷のみ指示色可）<br/>
+                                        送り状の備考欄に記載して頂きたい文言指示（無償）<br/>
+                                        専用納品書を同梱してほしい（無償）<br/>
+                                        送り主を秋冬春夏ではなく、お客様名に変えてほしい。（無償）<br/>
+                                        配送日時・時間の指定（無償・対応できない場合有）<br/>
+                                        等
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: none">
+                                    <th><p class="order-bold-info">注文者情報</p></th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>お名前<span class="hissu">必須</span></th>
+                                    <td class="d-flex">
+                                        {{ form_widget(form.name.name01, { 'attr': { 'placeholder': '' }}) }}
+                                        {{ form_widget(form.name.name02, { 'attr': { 'placeholder': '' }}) }}
+                                        {{ form_errors(form.name.name01) }}
+                                        {{ form_errors(form.name.name02) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>フリガナ</th>
+                                    <td class="d-flex">
+                                        {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': '' }}) }}
+                                        {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': '' }}) }}
+                                        {{ form_errors(form.kana.kana01) }}
+                                        {{ form_errors(form.kana.kana02) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>電話番号<span class="hissu">必須</span></th>
+                                    <td>
+                                        {{ form_widget(form.phone_number, { 'attr': { 'placeholder': '' } }) }}
+                                        {{ form_errors(form.phone_number) }}
+                                    </td>
+                                </tr>
+                                {# <tr>
+                                    <th>Fax</th>
+                                    <td>
+                                        {{ form_widget(form.fax, { 'attr': { 'placeholder': '' } }) }}
+                                        {{ form_errors(form.fax) }}
+                                    </td>
+                                </tr> #}
+                                <tr>
+                                    <th>住所<span class="hissu">必須</span></th>
+                                    <td>〒 {{ form_widget(form.postal_code, { 'attr': { 'class': 'zip p-postal-code', 'placeholder': 'ハイフン不要' } }) }}
+                                        {{ form_errors(form.postal_code) }}
+                                        {{ form_widget(form.address.pref) }}
+                                        {{ form_errors(form.address.pref) }}
+                                        {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': '市区町村名' } }) }}
+                                        {{ form_errors(form.address.addr01) }}
+                                        {{ form_widget(form.address.addr02, { 'attr': { 'placeholder': '番地・ビル名など' } }) }}
+                                        {{ form_errors(form.address.addr02) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>メールアドレス<span class="hissu">必須</span></th>
+                                    <td>
+                                        {{ form_widget(form.email, { 'attr': { 'placeholder': '' }}) }}
+                                        {{ form_errors(form.email) }}
+                                    </td>
+                                </tr>
+                                <input type="hidden" name="order[productName]" value="{{ Order['productName'] }}">
+                                <input type="hidden" name="order[productPrice]" value="{{ Order['productPrice'] }}">
+                                <input type="hidden" name="order[totalQuantity]" value="{{ Order['totalQuantity'] }}">
+                                <input type="hidden" name="order[printingFee]" value="{{ Order['printingFee'] }}">
+                                <input type="hidden" name="order[printingFeeQuantity]" value="{{ Order['printingFeeQuantity'] }}">
+                                <input type="hidden" name="order[dataPlacementFee]" value="{{ Order['dataPlacementFee'] }}">
+                                <input type="hidden" name="order[shipmentFee]" value="{{ Order['shipmentFee'] }}">
+                                <input type="hidden" name="order[zeinuki]" value="{{ Order['zeinuki'] }}">
+                                <input type="hidden" name="order[tax]" value="{{ Order['tax'] }}">
+                                <input type="hidden" name="order[totalAmount]" value="{{ Order['totalAmount'] }}">
+                                <input type="hidden" name="order[userName]" value="{{ Order['userName'] }}">
+                                <input type="hidden" name="order[colors]" value="{{ Order['colors'] }}">
+                            </tbody>
+                        </table>
+                        {% if is_granted('ROLE_USER') %}
+                            {% set CustomerRepository = repository('Eccube\\Entity\\Customer') %}
+                            {% set Customer = CustomerRepository.find(app.user.id) %}
+                        
+                            {% if Customer.CustomerAddresses|length > 0 %}
+                                <p style="margin: 10px 0; padding: 0 10px; display: flex; align-items: center; justify-content: space-between;">
+                                    <span class="order-bold-info" >注文者情報と納品場所が異なる場合</span>
+                                    <a class="ec-inlineBtn btn-kind1" href="{{ url('mypage_delivery_new') }}"><span class="yubin">{{ 'front.mypage.add_customer_address'|trans }}</span></a>
+                                </p>
+                                <table class="orderer-location">
+                                    {% for CustomerAddress in Customer.CustomerAddresses %}
+                                    <tr>
+                                        <td> 
+                                            <label class="saved_address" for="address_{{ CustomerAddress.id }}">
+                                                <div class="ec-addressList__address">
+                                                    {{ CustomerAddress.name01 }}&nbsp;{{ CustomerAddress.name02 }} 様 <br/>
+                                                    {{ 'common.postal_symbol'|trans }}{{ CustomerAddress.postal_code }} {{ CustomerAddress.Pref }}{{ CustomerAddress.addr01 }}{{ CustomerAddress.addr02 }}<br/>
+                                                    {{ CustomerAddress.phone_number }}
+                                                </div>
+                                                   <input type="radio" id="address_{{ CustomerAddress.id }}" name="saved_address" value="{{ CustomerAddress.id }}">
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            {% endif %}
+                        {% else %}
+                        <label for="location_differ" style="margin: 20px">
+                            <input type="checkbox" id="location_differ"> 注文者情報と納品場所が異なる場合
+                        </label>
+                        {% endif %}
+                        <table class="lineBtm" style="margin-top: 4margin-bottom: 10px" id="additional_address">
+                        </table>
+                        <p class="btnSend"><button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">注文画面へ</button></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </article>
+{% endblock %}

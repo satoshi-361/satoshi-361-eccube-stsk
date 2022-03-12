@@ -1,0 +1,91 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'withdraw' %}
+
+{% set body_class = 'mypage' %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/itms.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css">
+    <style>
+        #main_wrap .ec-off4Grid .btn {
+            width: 200px;
+            margin-top: 5px !important;
+            margin-bottom: 5px !important;
+            padding: 15px; 
+            box-sizing: border-box;
+            background-color: #43b8a5;
+            color: white;
+            border: 1px;
+            cursor: pointer;
+            margin: 0 3px;
+            font-family: source-han-sans-cjk-ja, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-size: 14px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+        #main_wrap .ec-off4Grid .btn:hover {
+            background-color: #58cfbc;
+        }
+        @media only screen and (max-width: 768px) {
+            #main_wrap .ec-off4Grid .btn {
+                display: block;
+                margin: auto;
+            }
+        }
+        a {
+            text-decoration: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_list">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>マイページ</li>
+            </ul>
+        </div>
+        <div class="ec-mypageRole page_mypage">
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <section class="section">
+            <div class="ec-off3Grid">
+                    <div class="ec-off3Grid__cell">
+                        <p class="ec-withdrawConfirmRole__title">{{ 'front.mypage.withdraw_execute_message__title'|trans }}</p>
+                        <p class="ec-withdrawConfirmRole__description">{{ 'front.mypage.withdraw_message__body'|trans }}
+                        </p>
+                    </div>
+            </div>
+            <form method="post" action="{{ url('mypage_withdraw') }}">
+                    {{ form_widget(form._token) }}
+                    <div class="ec-off4Grid">
+                        <div class="ec-off4Grid__cell">
+                            <a class="ec-withdrawConfirmRole__cancel ec-blockBtn--cancel btn" href="{{ url('mypage') }}">
+                                {{ 'front.mypage.withdraw_cancel'|trans }}
+                            </a>
+                            <button type="submit" class="btn" name="mode"
+                                    value="complete">{{ 'front.mypage.withdraw_execute'|trans }}
+                            </button>
+                        </div>
+                    </div>
+            </form>
+        </section>
+    </article>
+{% endblock %}

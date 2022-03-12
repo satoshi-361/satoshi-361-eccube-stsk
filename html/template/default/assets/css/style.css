@@ -1,0 +1,242 @@
+@charset "utf-8";
+.kozuka_b {
+    font-family: kozuka-gothic-pro, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.kozuka_m {
+    font-family: kozuka-gothic-pro, sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.kozuka_r {
+    font-family: kozuka-gothic-pro, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+/*page_print
+************************************************************************************/
+
+.page_print {}
+
+.page_print .text p {
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+}
+
+
+/*page_data
+************************************************************************************/
+
+.page_data {}
+
+.page_data .caution {
+    background: #fffac6;
+    text-align: center;
+    font-size: 18px;
+    padding: 7px 40px !important;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.page_data dl.box {
+    border: 2px solid #43b8a5;
+}
+
+.page_data dl.box dt {
+    background: #43b8a5;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    padding: 15px;
+}
+
+.page_data dl.box dd {
+    padding: 15px;
+    line-height: 1.4;
+}
+
+.page_data .layout_box dl.box dd .image img {
+    max-width: 60%;
+    height: auto;
+}
+
+_:-ms-lang(x)::-ms-backdrop,
+.page_data .layout_box dl.box dd .image img {
+    width: 60%;
+    height: auto;
+}
+
+.page_data .layout_box.box-mr {
+    margin: 2em 0;
+}
+
+
+/*page_about
+************************************************************************************/
+
+.page_about .gmap {
+    width: 100%;
+    height: 450px;
+}
+
+.page_about .gmap iframe {
+    width: 100%;
+    height: 100%;
+}
+
+
+/*page_faq
+************************************************************************************/
+
+.page_faq dl.faq dt {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 0 0 10px 1.5em;
+    position: relative;
+}
+
+.page_faq dl.faq dt:before {
+    content: "Q.";
+    font-size: 18px;
+    color: #ff5d5d;
+    display: block;
+    width: 1.5em;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.page_faq dl.faq dd {
+    padding: 0 0 30px 1.5em;
+    margin: 0 0 30px 0;
+    border-bottom: 1px solid #ededed;
+    position: relative;
+}
+
+.page_faq dl.faq dd:before {
+    content: "A.";
+    color: #447d8f;
+    font-size: 16px;
+    font-weight: 700;
+    display: block;
+    width: 1.5em;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/*page_info
+************************************************************************************/
+
+.page_info ul.list li {
+    margin: 25px 1.5%;
+    padding: 15px;
+    background: #FFF;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.page_info ul.list li .title {
+    padding: 15px 15px 10px 15px;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+}
+
+.page_info ul.list li .date {
+    padding-bottom: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+}
+
+@media screen and (max-width: 768px) {
+    .page_info ul.list li {
+        width: 97%;
+    }
+}
+
+
+/*page_mypage
+************************************************************************************/
+
+.page_mypage {}
+
+.page_mypage .pagemenu {
+    margin: 10px 0;
+}
+
+.page_mypage .pagemenu ul {
+    width: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-justify-content: left;
+    justify-content: left;
+}
+
+.page_mypage .pagemenu ul li {
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border: 1px solid #ccc;
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    background: #f1f1f1;
+    margin: 1px;
+}
+
+.page_mypage .pagemenu ul li.select {
+    background: #43b8a5;
+}
+
+.page_mypage .pagemenu ul li a,
+.page_mypage .pagemenu ul li span {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.page_mypage .pagemenu ul li.select a .page_mypage .pagemenu ul li.select span {
+    color: #FFF;
+}
+
+.page_mypage .welcome {
+    padding: 2em 0 0.5em;
+    text-align: right;
+}
+
+.page_mypage .welcome span {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.page_mypage .content_wrap.disnon {
+    display: none;
+}
+
+.page_mypage .content_wrap {
+    padding: 20px 0;
+}

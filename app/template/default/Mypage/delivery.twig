@@ -1,0 +1,82 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'delivery' %}
+
+{% set body_class = 'mypage' %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/itms.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css">
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_list">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>マイページ</li>
+            </ul>
+        </div>
+        <div class="ec-mypageRole page_mypage">
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <section class="section">
+            <div class="ec-mypageRole">
+                {% if Customer.CustomerAddresses|length > 0 %}
+                    <p class="ec-para-normal">{{ 'front.mypage.customer_address_count'|trans({'%count%':Customer.CustomerAddresses|length}) }}</p>
+                {% else %}
+                    <p class="ec-para-normal">{{ 'front.mypage.customer_address_not_found'|trans }}</p>
+                {% endif %}
+                <p style="line-height: 25px">ご登録住所以外へ送付される場合等にご利用ください。<br/><br/>
+                ≪注意事項≫<br/>
+                <span style="color: red">すでにご注文されている商品のお届け先は、マイページから変更することはできません。</span><br/>
+                ご注文後にお届け先の変更をされる場合は、早急に担当スタッフにご連絡ください。</p>
+            </div>
+            <div class="ec-mypageRole">
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <div class="ec-addressRole">
+                            <div class="ec-addressRole__actions">
+                                {% if Customer.CustomerAddresses|length < eccube_config.eccube_deliv_addr_max %}
+                                    <a class="ec-inlineBtn btn-kind1" href="{{ url('mypage_delivery_new') }}"><span class="yubin">{{ 'front.mypage.add_customer_address'|trans }}</span></a>
+                                {% else %}
+                                    <span class="ec-errorMessage">{{ 'common.customer_address_count_is_over'|trans({ '%count%': eccube_config.eccube_deliv_addr_max }) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if Customer.CustomerAddresses|length > 0 %}
+                            <div class="ec-addressList">
+                                {% for CustomerAddress in Customer.CustomerAddresses %}
+                                    <div class="ec-addressList__item">
+                                        <div class="ec-addressList__address">
+                                            <div>{{ CustomerAddress.name01 }}&nbsp;{{ CustomerAddress.name02 }}</div>
+                                            <div>{{ 'common.postal_symbol'|trans }}{{ CustomerAddress.postal_code }} {{ CustomerAddress.Pref }}{{ CustomerAddress.addr01 }}{{ CustomerAddress.addr02 }}</div>
+                                            <div>{{ CustomerAddress.phone_number }}</div>
+                                        </div>
+                                        <div class="ec-addressList__action">
+                                            <a class="ec-inlineBtn btn-kind1" href="{{ url('mypage_delivery_edit', { id : CustomerAddress.id }) }}"><span class="yubin">{{ 'common.change'|trans }}</span></a>
+                                            <a class="ec-addressList__remove btn-kind1" href="{{ url('mypage_delivery_delete', { id : CustomerAddress.id }) }}" {{ csrf_token_for_anchor() }} data-method="delete">
+                                                <span class="yubin">削除</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+{% endblock %}

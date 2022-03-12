@@ -1,0 +1,31 @@
+{% extends 'default_frame.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_print">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="https://www.s-t-s-k.com/test" style="color: #007DD4;">ホーム</a></li>
+                <li>商品印刷について</li>
+            </ul>
+        </div>
+        <section class="section_first">
+            <div class="post text">
+                <br />
+                <h1 class="title_squirrel">印刷方法について</h1>
+                <section class="text section">
+                    <p class="textCenter"><img loading="lazy" src="{{ asset('assets/img/common/01-1.png') }}" alt="" width="1378" height="1926" class="alignnone size-full" /></p>
+                    <p class="textCenter"><img loading="lazy" src="{{ asset('assets/img/common/03-1.png') }}" alt="" width="1378" height="1934" class="alignnone size-full" /></p>
+                    <p class="textCenter"><img loading="lazy" src="{{ asset('assets/img/common/04-1.jpg') }}" alt="" width="1378" height="932" class="alignnone size-full" /></p>
+                    <p class="textCenter"><img loading="lazy" src="{{ asset('assets/img/common/05-1.jpg') }}" alt="" width="1378" height="1026" class="alignnone size-full" /></p>
+                    <p class="textCenter"><img loading="lazy" src="{{ asset('assets/img/common/06-1.jpg') }}" alt="" width="1378" height="1080" class="alignnone size-full" /></p>
+                </section>
+            </div>
+            <!-- /.post -->
+        </section>
+    </article>
+{% endblock %}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<style>
+  .caution { color: red; }
+  .order_info { font-size: x-large; text-align:center; }
+  .order_info_span { border-bottom: thick solid lightgray; }
+  .estimate { margin: 80px 0px 30px 0px; }
+  .msg { margin: 50px 0px; }
+  .address { margin: 20px 0px; }
+  #etc { width: 100%; height: 150px; outline: none; }
+  .btn_area { margin-top: 70px; text-align:center; }
+  #modifyBtn { width: 20%; background: skyblue; color: white; border: none; cursor: pointer; margin: auto 20px; }
+  #orderBtn { width: 20%; background: orange; color: white; border: none; cursor: pointer; margin: auto 20px; }
+</style>
+<body>
+  <article id="main_wrap" class="page_mypage login">
+    <div id="breadcrumb">
+      <ul>
+        <li><a href="<?php echo home_url(); ?>">ホーム</a></li>
+        <li>ご注文情報確認</li>
+      </ul>
+    </div>
+    <section class="section">
+      <header class="item-header">
+			  <h1 class="lv_h1"></h1>
+			</header>
+      <p class="order_info"><span class="order_info_span">ご注文情報</span></p>
+      <div class="estimate">
+        <?php include_once('./elements/estimate.html');?>
+      </div>
+      <div class="address">
+        <p>ご注文者様情報</p>
+        <?php include_once('./elements/member_address.html');?>        
+      </div>
+      <div class="address">       
+        <?php if ($_POST["otherAddress"]) { ?>
+          <?php echo "<p>ご送付先様情報</p>"; ?>
+          <?php include_once('./elements/other_address.html');?>
+        <?php } ?>
+      </div>
+      <h1>ご要望・ご質問</h1>
+      <textarea id="etc" readonly><?php echo $etc; ?></textarea>
+      <form id="order_form" name="order_form" action="" method="post">
+        <?php if ($nonMember) { ?>
+          <?php foreach($nonMember as $key => $val){ ?>
+            <input type="hidden" name="nonMember[<?php echo $key; ?>]" value="<?php echo $val; ?>">
+          <?php } ?>          
+        <?php } ?>
+        <?php foreach($member as $key => $val){ ?>
+          <input type="hidden" name="member[<?php echo $key; ?>]" value="<?php echo $val; ?>">
+        <?php } ?>
+        <?php foreach($order as $key => $val){ ?>
+          <input type="hidden" name="order[<?php echo $key; ?>]" value="<?php echo $val; ?>">
+        <?php } ?>
+        <?php foreach($colorNames as $key => $val){ ?>
+          <input type="hidden" name="quantity[<?php echo $key; ?>]" value="<?php echo $val['quantity']; ?>">
+        <?php } ?>
+        <input type="hidden" name="isModified" value="1">
+        <input type="hidden" name="etc" value="<?php echo $etc; ?>">
+        <div class="btn_area">
+          <input id="modifyBtn" type="button" onclick="_btnClickAiosl(0)" value="修正する">
+          <input id="orderBtn" type="button" onclick="_btnClickAiosl(1)" value="注文する">
+        </div>
+      </form>
+    </section>
+  </article>
+<script>
+  function _btnClickAiosl(actionNum){
+    var actionUrl = "";
+    actionUrl = (actionNum) ? "./thanks.php" : "./order.php";
+    document.order_form.action = actionUrl;
+    document.order_form.submit();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+<style>
+	#main_wrap .ec-mypageRole {
+		margin-top: 20px;
+	}
+  .pagemenu .ec-navlistRole__navlist {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pagemenu .ec-navlistRole__item {
+    margin-right: 15px;
+  }
+  @media only screen and (max-width: 950px) {
+    .pagemenu .ec-navlistRole__item {
+      margin: 15px 17px 15px 0;
+    }
+  }
+  .pagemenu .ec-navlistRole__item a {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #43b8a5;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px;
+  }
+</style>
+<div class="ec-welcomeMsg">
+    <p style="padding-right: 10px; text-align: right">
+    ようこそ<br/>
+    {{ app.user.name01 ~ app.user.name02 }}&nbsp; 様
+    </p>
+</div>
+<div class="ec-navlistRole pagemenu">
+    <ul class="ec-navlistRole__navlist">
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'index' %}select{% endif %}">
+            <a href="{{ url('mypage') }}">{{ '注文履歴'|trans }}</a>
+        </li>
+        {% if BaseInfo.option_favorite_product %}
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'favorite' %}select{% endif %}">
+                <a href="{{ url('mypage_favorite') }}">{{ 'お気に入り一覧'|trans }}</a>
+            </li>
+        {% endif %}
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}select{% endif %}">
+            <a href="{{ url('mypage_change') }}">{{ '会員情報'|trans }}</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}select{% endif %}">
+            <a href="{{ url('mypage_delivery') }}">{{ 'お届け先一覧'|trans }}</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}select{% endif %}">
+            <a href="{{ url('mypage_withdraw') }}">{{ '退会手続き'|trans }}</a>
+        </li>
+    </ul>
+</div>
+
+

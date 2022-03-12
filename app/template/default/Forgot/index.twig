@@ -1,0 +1,72 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css">
+    <style>
+        #main_wrap .ec-borderedDefs dt {
+            width: 150px
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}}}">ホーム</a></li>
+                <li>パスワード再設定</li>
+            </ul>
+        </div>
+        <section class="section form">
+        <div class="ec-role">
+            <div class="ec-pageHeader">
+                <h1>{{ 'front.forgot.title'|trans }}</h1>
+            </div>
+        </div>
+        <div class="ec-forgotRole">
+            <form name="form1" id="form1" method="post" action="{{ url('forgot') }}">
+                {{ form_widget(form._token) }}
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <div class="ec-forgotRole__form">
+                            <div class="ec-forgotRole__intro">
+                                <p class="ec-para-normal">{{ 'front.forgot.message1'|trans }}</p>
+                                <p class="ec-para-normal">{{ 'front.forgot.message2'|trans }}</p>
+                            </div>
+                            <div class="ec-borderedDefs">
+                                <dl>
+                                    <dt>
+                                        {{ form_label(form.login_email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-input{{ has_errors(form.login_email) ? ' error' }}">
+                                            {{ form_widget(form.login_email) }}
+                                            {{ form_errors(form.login_email) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="ec-blockBtn--action">{{ 'common.next'|trans }}</button>
+            </form>
+        </div>
+        </section>
+    </article>
+{% endblock %}
+
+

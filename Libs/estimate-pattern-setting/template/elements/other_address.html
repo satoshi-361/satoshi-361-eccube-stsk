@@ -1,0 +1,156 @@
+<style>
+  .errBox { outline: solid red; }
+  .errMsg { color: red; }
+</style>
+<table class="customer_form other_address" <?php echo $dispStatus; ?> >
+  <tbody>
+    <tr id="name_row_a" class="inp1">
+      <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>お名前</th>
+      <td class="name_td">
+        <?php if($isConfirmed) { ?>
+          <?php echo $nonMember['nonMember_name1']; ?>
+        <?php } else { ?>
+          姓 <input name="nonMember[nonMember_name1]" id="nonMember_name1" type="text" class="required_column <?php if(!empty($errMsg['nonMember_name1'])) { echo 'errBox'; } ?>" value="<?php echo $nonMember['nonMember_name1']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>
+          <?php if(!empty($errMsg['nonMember_name1'])) { ?>
+             <p class="errMsg"><?php echo $errMsg['nonMember_name1']; ?></p>
+          <?php } ?>
+        <?php } ?>
+      </td>
+      <td class="name_td">
+        <?php if($isConfirmed) { ?>
+          <?php echo $nonMember['nonMember_name2']; ?>
+        <?php } else { ?>
+          名 <input name="nonMember[nonMember_name2]" id="nonMember_name2" type="text" class="required_column <?php if(!empty($errMsg['nonMember_name2'])) { echo 'errBox'; } ?>" value="<?php echo $nonMember['nonMember_name2']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>
+          <?php if(!empty($errMsg['nonMember_name2'])) { ?>
+            <p class="errMsg"><?php echo $errMsg['nonMember_name2']; ?></p>
+         <?php } ?>
+        <?php } ?> 
+      </td>
+    </tr>
+    <tr id="furikana_row" class="inp1">
+      <th scope="row">フリガナ</th>
+      <td>
+        <?php if($isConfirmed) { ?>
+          <?php echo $nonMember['nonMember_name3']; ?>
+        <?php } else { ?>
+          姓 <input name="nonMember[nonMember_name3]" id="nonMember_name3" type="text" value="<?php echo $nonMember['nonMember_name3']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active">
+        <?php } ?>
+      </td>
+      <td>
+        <?php if($isConfirmed) { ?>
+          <?php echo $nonMember['nonMember_name4']; ?>
+        <?php } else { ?>
+          名 <input name="nonMember[nonMember_name4]" id="nonMember_name4" type="text" value="<?php echo $nonMember['nonMember_name4']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active">
+        <?php } ?>
+      </td>
+    </tr>
+    <tr id="zipcode_row">
+      <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>郵便番号</th>
+      <td colspan="2">
+        <?php if($isConfirmed) { ?>
+          <?php echo $nonMember['nonMember_zipcode']; ?>
+        <?php } else { ?>
+          <input name="nonMember[nonMember_zipcode]" id="nonMember_zipcode" type="text" class="required_column <?php if(!empty($errMsg['nonMember_zipcode'])) { echo 'errBox'; } ?>" value="<?php echo $nonMember['nonMember_zipcode']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: inactive" required>
+          <input type="button" id="search_zipcode" class="search-zipcode button" value="住所検索" onclick="AjaxZip3.zip2addr('nonMember[nonMember_zipcode]', '', 'nonMember[nonMember_pref]', 'nonMember[nonMember_address1]');">100-1000
+          <?php if(!empty($errMsg['nonMember_zipcode'])) { ?>
+            <p class="errMsg"><?php echo $errMsg['nonMember_zipcode']; ?></p>
+          <?php } ?>
+        <?php } ?>
+      </td>
+    </tr>
+    <input type="hidden" name="nonMember[country]" id="nonMember_country" value="JP">
+    <tr id="states_row">
+      <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>都道府県</th>
+      <td colspan="2">
+        <?php if($isConfirmed) { ?>
+          <?php echo $nonMember['nonMember_pref']; ?>
+        <?php } else { ?>
+          <select name="nonMember[nonMember_pref]" id="nonMember_pref" class="pref required_column <?php if(!empty($errMsg['nonMember_pref'])) { echo 'errBox'; } ?>" required>
+            <option value="">--選択--</option> 
+            <?php foreach($prefs as $pref) { ?>
+              <option value="<?php echo $pref;?>" <?php if($nonMember['nonMember_pref'] == $pref) echo 'selected'; ?> ><?php echo $pref; ?></option>
+            <?php } ?>
+            <?php if(!empty($errMsg['nonMember_pref'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['nonMember_pref']; ?></p>
+            <?php } ?>
+        <?php } ?>
+      </select>
+      </td>
+      </tr>
+      <tr id="address1_row" class="inp2">
+        <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>市区郡町村</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $nonMember['nonMember_address1']; ?>
+          <?php } else { ?>
+            <input name="nonMember[nonMember_address1]" id="nonMember_address1" class="required_column <?php if(!empty($errMsg['nonMember_address1'])) { echo 'errBox'; } ?>" type="text" value="<?php echo $nonMember['nonMember_address1']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>横浜市上北町
+            <?php if(!empty($errMsg['nonMember_address1'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['nonMember_address1']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="address2_row">
+        <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>番地</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $nonMember['nonMember_address2']; ?>
+          <?php } else { ?>
+            <input name="nonMember[nonMember_address2]" id="nonMember_address2" class="required_column <?php if(!empty($errMsg['nonMember_address2'])) { echo 'errBox'; } ?>" type="text" value="<?php echo $nonMember['nonMember_address2']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active" required>3-24-555
+            <?php if(!empty($errMsg['nonMember_address2'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['nonMember_address2']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="address3_row">
+        <th scope="row">ビル名</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $nonMember['nonMember_address3']; ?>
+          <?php } else { ?>
+            <input name="nonMember[nonMember_address3]" id="nonMember_address3" type="text" value="<?php echo $nonMember['nonMember_address3']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: active">通販ビル4F
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="tel_row">
+        <th scope="row"><?php if(!$isConfirmed) {  echo '<em>＊</em>'; } ?>電話番号</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $nonMember['nonMember_tel']; ?>
+          <?php } else { ?>
+            <input name="nonMember[nonMember_tel]" id="nonMember_tel" type="text" class="required_column <?php if(!empty($errMsg['nonMember_tel'])) { echo 'errBox'; } ?>" value="<?php echo $nonMember['nonMember_tel']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: inactive" required>1000-10-1000
+            <?php if(!empty($errMsg['nonMember_tel'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['nonMember_tel']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr id="fax_row">
+        <th scope="row">FAX番号</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $nonMember['nonMember_fax']; ?>
+          <?php } else { ?>
+            <input name="nonMember[nonMember_fax]" id="nonMember_fax" type="text" <?php if(!empty($errMsg['nonMember_fax'])) { echo 'class="errBox"'; } ?> value="<?php echo $nonMember['nonMember_fax']; ?>" onkeydown="if (event.keyCode == 13) {return false;}" style="ime-mode: inactive">1000-10-1000
+            <?php if(!empty($errMsg['nonMember_fax'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['nonMember_fax']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">メールアドレス</th>
+        <td colspan="2">
+          <?php if($isConfirmed) { ?>
+            <?php echo $nonMember['nonMember_mailaddress1']; ?>
+          <?php } else { ?>
+            <input name="nonMember[nonMember_mailaddress1]" id="nonMember_mailaddress1" type="email" <?php if(!empty($errMsg['nonMember_mailaddress1'])) { echo 'class="errBox"'; } ?> value="<?php echo $nonMember['nonMember_mailaddress1']; ?>">
+            <?php if(!empty($errMsg['nonMember_mailaddress1'])) { ?>
+              <p class="errMsg"><?php echo $errMsg['nonMember_mailaddress1']; ?></p>
+            <?php } ?>
+          <?php } ?>
+        </td>
+      </tr>
+    </tbody>
+  </table>

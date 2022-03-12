@@ -1,0 +1,216 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'product_page' %}
+{% set is_sp_sidebar = true %}
+{% set categoryRepository = repository('ECCUBE\\Entity\\Category') %}
+{% set customerFavoriteProductRepository = repository('ECCUBE\\Entity\\CustomerFavoriteProduct') %}
+{% if is_granted('ROLE_USER') %}
+    {% set customerRepository = repository('Eccube\\Entity\\Customer') %}
+    {% set Customer = customerRepository.find(app.user.id) %}
+{% endif %}
+{% set category_id = 0 %}
+{% set search_name = '' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/toppage.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/itms.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+
+    <style>
+    {# .page_list .page-title span {
+        font-size: 16px;
+        background-image: url('{{ asset('assets/img/common/カテゴリ.png') }}');
+        padding: 8px 22px;
+    } #}
+    .page_list .page-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .page_list .page-title div:not(.sort_head) {
+        position: relative;
+        display: inline-flex;
+    }
+    .page_list .page-title .sort_head select {
+        margin-right: 5px;
+        padding: 8px;
+    }
+    .page_list .page-title img {
+        width: 300px;
+        height: auto;
+    }
+    .page_list .page-title span{
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        text-align: center;
+    }
+    .page_list .name a:hover {
+        color: red !important;
+    }
+    @media only screen and (max-width: 768px) {
+        .page_list .page-title {
+            flex-direction: column;
+        }
+        .page_list .sort_head {
+            margin-top: 5px
+        }
+    }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        eccube.productsClassCategories = {
+            {% for Product in pagination %}
+            "{{ Product.id|escape('js') }}": {{ class_categories_as_json(Product)|raw }}{% if loop.last == false %}, {% endif %}
+            {% endfor %}
+        };
+
+        $(function() {
+
+            // 表示件数を変更
+            $('.disp-number').change(function() {
+                var dispNumber = $(this).val();
+                $('#disp_number').val(dispNumber);
+                $('#pageno').val(1);
+                $("#form1").submit();
+            });
+
+            // 並び順を変更
+            $('.order-by').change(function() {
+                var orderBy = $(this).val();
+                $('#orderby').val(orderBy);
+                $('#pageno').val(1);
+                $("#form1").submit();
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+    <article id="main_wrap" class="page_list">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li> 
+                    {% if app.request.get('name') is defined and app.request.get('name') != '' %}
+                        {{ app.request.get('name') }} の検索結果
+                        {% set search_name = app.request.get('name') %}
+                    {% endif %}
+                    {% if app.request.get('category_id') is defined and app.request.get('category_id') != '' %}
+                        {% set Category = categoryRepository.find(app.request.get('category_id')) %}
+                        {% set category_id = app.request.get('category_id') %}
+                        {% set display_category_name = '' %}
+                        {% if Category.Parent.name == 'カテゴリ' %}
+                            {% set display_category_name = 'カテゴリ：' ~ Category.name %}
+                        {% elseif Category.Parent.name == 'ターゲット' %}
+                            {% set display_category_name = Category.name ~ 'におすすめの商品一覧' %}
+                        {% elseif Category.Parent.name == '目的・シーン' %}
+                            {% set display_category_name = Category.name ~ 'におすすめの商品一覧' %}
+                        {% elseif Category.Parent.name == '本体カラー' %}
+                            {% set display_category_name = '本体カラー' ~ Category.name ~ 'の商品一覧' %}
+                        {% elseif Category.Parent.name == '価格帯' %}
+                            {% set display_category_name = Category.name ~ 'の商品一覧' %}
+                        {% elseif Category.Parent.name == '印刷方法詳細' %}
+                            {% set display_category_name = Category.name ~ 'の商品一覧' %}
+                        {% elseif Category.Parent.name == '季節別' %}
+                            {% set display_category_name = Category.name ~ '季節にオススメの商品一覧' %}
+                        {% endif %}
+                        {{ display_category_name }}
+                    {% endif %}
+                </li>
+            </ul>
+            <form name="form1" id="form1" method="get" action="?">
+                {% for item in search_form %}
+                    <input type="hidden" id="{{ item.vars.id }}"
+                        name="{{ item.vars.full_name }}"
+                           {% if item.vars.value is not empty %}value="{{ item.vars.value }}" {% endif %}/>
+                {% endfor %}
+            </form>
+        </div>
+        <h1 class="page-title">
+        {% if app.request.get('category_id') is defined and app.request.get('category_id') != '' %}
+            <div>
+                <span {% if display_category_name|length > 20 %} style="font-size: 14.8px" {% endif %}>{{ display_category_name }}</span>
+                <img src="{{ asset('assets/img/common/カテゴリ.png') }}" {% if display_category_name|length > 20 %} style="width: 400px;" {% elseif display_category_name|length > 16 %} style="width: 350px;" {% endif %}>
+            </div>
+        {% endif %}
+        {% if pagination.totalItemCount > 0 %}
+            <div class="sort_head">
+                {{ form_widget(disp_number_form, {'id': '', 'attr': {'class': 'disp-number'}}) }}
+                {{ form_widget(order_by_form, {'id': '', 'attr': {'class': 'order-by'}}) }}
+            </div>
+        {% endif %}
+        </h1>
+        <p style="margin-bottom: 8px">
+            {% if pagination.totalItemCount == 0 %}
+                該当件数0件です。<br/>
+                他の検索キーワードより再度検索をしてください。
+            {% else %}
+                {{ pagination.totalItemCount }}件の商品が見つかりました。
+            {% endif %}
+        </p>
+        <section class="section">
+            <div class="itemBox">
+                <ul>
+                    {% if pagination.totalItemCount > 0 %}
+                    {% for Product in pagination if Product.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
+                        <li class="post-18088 post type-post status-publish format-standard category-item category-bouhan">
+                            <a href="{{ url('product_detail', {'id': Product.id}) }}" title="{{ Product.name }}">
+                                <p class="print">
+                                    {% for productCategory in Product.getProductCategories if productCategory.Category.Parent != null and productCategory.Category.Parent.name == '印刷方法詳細' %}
+                                        <img src="{{ asset('assets/img/' ~ productCategory.Category.image1) }}" alt="{{ productCategory.Category.name }}">
+                                    {% endfor %}
+                                </p>
+                                <p class="image">
+                                    <img width="500" height="500" src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}" class="attachment-medium size-medium" alt="{{ Product.name }}" loading="lazy" /> 
+                                </p>
+                                <div class="body">
+                                    <div class="item_sku">
+                                        <p class="cell item-no">{{ Product.getCodeMax }}</p>
+                                        <a href="{{ url('product_add_favorite', {id: Product.id, category_id: category_id, name: search_name }) }}">
+                                            {% if is_granted('ROLE_USER') %}
+                                                {% if customerFavoriteProductRepository.isFavorite( Customer, Product ) %}
+                                                    <img src="{{ asset('assets/img/common/star-active.svg') }}" alt="">
+                                                {% else %}
+                                                    <img src="{{ asset('assets/img/common/star.svg') }}" alt="">
+                                                {% endif %}
+                                            {% else %}
+                                                <img src="{{ asset('assets/img/common/star.svg') }}" alt="">
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <p class="name">
+                                        <a href="{{ url('product_detail', {'id': Product.id}) }}" title="{{ Product.name }}">{{ Product.name }}</a>
+                                    </p>
+                                    <div class="head">
+                                        <p class="cell price"><span class="ttl">商品価格: </span>{{ Product.getPrice02Min|number_format }}<em class="tax">円(税別)/{{ Product.getPrice02IncTaxMin|number_format }}円(税込)</em></p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </section>
+        <div class="pagination_wrapper">
+            {% include "pager.twig" with {'pages': pagination.paginationData} %}
+        </div>
+        <!-- .pagenation-wrapper -->
+    </article>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'default_frame.twig' %}
+
+{% set newsRepository = repository('ECCUBE\\Entity\\News') %}
+{% set news = newsRepository.findBy({}, {'publish_date': 'DESC'}, 8, 0) %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+{% endblock %}
+
+{% block main %}
+<article id="main_wrap" class="page_info">
+	<div id="breadcrumb">
+		<ul>
+			<li><a href="https://www.s-t-s-k.com/test">ホーム</a></li>
+			<li>お知らせ</li>
+		</ul>
+	</div>
+	<section class="section">
+		<h1 class="lv_h1"><span>お知らせ</span></h1>
+		<ul class="list">
+			{% for item in news %}
+				<li>
+					<p class="title">{{ item.title }}</p>
+					<p class="date">{{ item.publish_date|date('Y.m.d') }}</p>
+					<div class="text">
+						<p>{{ item.description|nl2br }}</p>
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</section>
+	<section class="section">
+		<ul class="page_navi">
+        <li class="current"><span>1</span></li>
+    </ul>
+	</section>
+</article>
+{% endblock %}

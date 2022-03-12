@@ -1,0 +1,174 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+
+    <style>
+        .form td.d-flex {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .form td.d-flex input {
+            width: 211px;
+        }
+        span.yubin {
+            margin: 0.5714285em;
+            padding: 5px 20px;
+            background: #efefef;
+            border: 0;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            cursor: pointer;
+        }
+        span.yubin:hover {
+            background-color: #ddd;
+        }
+        button {
+            padding: 15px 3em;
+            background-color: #43b8a5;
+            color: #FFF;
+            border: 1px;
+            cursor: pointer;
+            margin: 0 3px;
+            font-family: source-han-sans-cjk-ja, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-size: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 240px;
+            height: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+{% endblock javascript %}
+
+{% block main %}
+    <article id="main_wrap" class="page_contact">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>お問い合せ</li>
+            </ul>
+        </div>
+        <section class="section">
+            <div class="post text">
+                <h1 class="title_squirrel">お問い合せ</h1>
+                <section class="section">
+                    <h1 class="title_green">お問い合せ前のご注意</h1>
+                    <div class="text">
+                        <span class="hissu">必須</span>マークは入力必須項目です。入力されていない場合、返信や資料の送付は出来ません。<br /> こちらで送信頂いた内容は許可無く第三者へ譲渡することはございません。
+                    </div>
+                </section>
+                <section class="section form">
+                    <h1 class="title_green">お問い合せ</h1>
+                    <div class="text">
+                        <div role="form" class="wpcf7" id="wpcf7-f5-p135-o1" lang="ja" dir="ltr">
+                            <div class="screen-reader-response">
+                                <p role="status" aria-live="polite" aria-atomic="true"></p>
+                                <ul></ul>
+                            </div>
+                            <form method="post" action="{{ url('contact') }}" class="h-adr" novalidate>
+                                <span class="p-country-name" style="display:none;">Japan</span>
+                                {{ form_widget(form._token) }}
+                                <table class="lineBtm">
+                                    <tbody>
+                                        <tr>
+                                            <th>法人名・団体名</th>
+                                            <td>
+                                                {{ form_widget(form.company_name, { 'attr': { 'placeholder': '' }}) }}
+                                                {{ form_errors(form.company_name) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>お名前<span class="hissu">必須</span></th>
+                                            <td class="d-flex">
+                                                {{ form_widget(form.name.name01, { 'attr': { 'placeholder': '' }}) }}
+                                                {{ form_widget(form.name.name02, { 'attr': { 'placeholder': '' }}) }}
+                                                {{ form_errors(form.name.name01) }}
+                                                {{ form_errors(form.name.name02) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>フリガナ<span class="hissu">必須</span></th>
+                                            <td class="d-flex">
+                                                {{ form_widget(form.kana.kana01, { 'attr': { 'placeholder': '' }}) }}
+                                                {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': '' }}) }}<br/>
+                                                {{ form_errors(form.kana.kana01) }}
+                                                {{ form_errors(form.kana.kana02) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>E-Mail<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form_widget(form.email.first, { 'attr': { 'placeholder': 'common.mail_address_sample' }}) }}
+                                                {{ form_errors(form.email.first) }}
+                                                {{ form_widget(form.email.second, { 'attr': { 'placeholder': 'common.repeated_confirm' }}) }}
+                                                {{ form_errors(form.email.second) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>電話番号<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form_widget(form.phone_number, { 'attr': { 'placeholder': 'ハイフン不要' } }) }}
+                                                {{ form_errors(form.phone_number) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>FAX</th>
+                                            <td>
+                                                {{ form_widget(form.fax) }}
+                                                {{ form_errors(form.fax) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>住所<span class="hissu">必須</span></th>
+                                            <td>〒 {{ form_widget(form.postal_code, { 'attr': { 'class': 'zip p-postal-code', 'placeholder': 'ハイフン不要' } }) }}
+                                                {{ form_errors(form.postal_code) }}
+                                                {{ form_widget(form.address.pref) }}
+                                                {{ form_errors(form.address.pref) }}
+                                                {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': '市区町村名' } }) }}
+                                                {{ form_errors(form.address.addr01) }}
+                                                {{ form_widget(form.address.addr02, { 'attr': { 'placeholder': '番地・ビル名など' } }) }}
+                                                {{ form_errors(form.address.addr02) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>お問い合せ<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form_widget(form.contents) }}
+                                                {{ form_errors(form.contents) }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                                <p class="btnSend"><button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">確認画面へ進む</button></p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- /.post -->
+        </section>
+    </article>
+{% endblock %}

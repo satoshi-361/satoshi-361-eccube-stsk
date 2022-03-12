@@ -1,0 +1,182 @@
+@charset "utf-8";
+
+@import "base_layout.css";
+@import "common_parts.css";
+
+/* タイトル 
+********************************************************************************/
+h2{
+	text-align:center;
+}
+h2 img{
+	margin:0 auto;
+	display:block;
+}
+.banner{
+	margin:22px 0 50px 0;
+	text-align:center;
+}
+
+
+/*section
+************************************************************************************/
+.article{
+	margin: 0 auto;
+	padding: 0 0 40px 0;
+	width:1400px;
+	text-align: left;
+}
+
+.article:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 1px;
+    overflow: hidden;
+}
+/*\*/
+* html .article{
+    height: 1em;
+}
+.article{
+    display: block;
+}
+/* ▲ */
+/* for IE7 */
+*:first-child+html .article{
+	zoom:1;
+}
+
+.article_box{
+	border: 1px solid #c0c0c0;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin: 15px 0;
+}
+.article_box.text{
+	padding: 10px 20px !important;
+}
+
+.article_innner{
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+}
+
+.text{
+	padding: 10px;
+	line-height: 1.7;
+}
+.text p{
+	padding: 0 0 1em 0;
+}
+.text p:last-child{
+	padding: 0;
+}
+.text:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 1px;
+    overflow: hidden;
+}
+/*\*/
+* html .text{
+    height: 1em;
+}
+.text{
+    display: block;
+}
+/* ▲ */
+/* for IE7 */
+*:first-child+html .text{
+	zoom:1;
+}
+
+.box_line{
+	border-bottom: 1px solid #CCC;
+}
+
+
+/*table
+----------------------------------------------------------------------*/
+table.normal{
+	width: 100%;
+	margin: 5px auto 15px auto;
+	border-collapse:collapse;
+	border: 0;
+	border-top: 1px solid #000;
+}
+
+table.normal caption{
+	padding: 5px 0;
+	text-align: left;
+	display: block;
+	font-weight: bold;
+}
+table.normal caption:before{
+	content: "■";
+}
+
+table.normal th{
+	padding: 5px 10px;
+	text-align: center;
+	border-bottom: 1px solid #000;
+	background-color: #ade2ef;
+	color: #000;
+}
+table.normal th a{
+	color: #000;
+}
+
+table.normal td{
+	padding: 5px 10px;
+	border-left: 1px dotted #000;
+	border-right: 1px dotted #000;
+	border-bottom: 1px solid #000;
+}
+table.normal tr td:last-child{
+	border-right: 0;
+}
+
+table.normal thead th{
+	background: #666;
+	color: #FFF;
+	border-right: 1px dotted #FFF;
+}
+table.normal thead th:last-child{
+	border-right: 0;
+}
+table.normal th span{
+	font-size: 80%;
+	font-weight: normal;
+}
+
+table.widenone{
+	width: auto !important;
+	margin: 5px 0 15px 0;
+}
+
+/*line*/
+table.lineBtm{
+	width: 100%;
+	border-collapse:collapse;
+	border: 0;
+	margin: 5px auto;
+}
+
+table.lineBtm th{
+	padding: 10px;
+	text-align: left;
+	border-bottom: 1px dotted #999999;
+	background: url(../../img/common/table_line.png) no-repeat right bottom;
+}
+
+table.lineBtm td{
+	padding: 10px;
+	border-bottom: 1px dotted #999999;
+	background: url(../../img/common/table_line.png) no-repeat right bottom;
+}
+table.lineBtm td:last-child{
+	background: none;
+}

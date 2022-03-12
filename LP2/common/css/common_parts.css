@@ -1,0 +1,191 @@
+@charset "utf-8";
+
+
+/*text
+************************************************************************************/
+.textCenter{
+ text-align:center;
+}
+.textRight{
+ text-align:right;
+}
+.textLeft{
+ text-align:left;
+}
+.smidashi{
+	font-weight: bold;
+	font-size: 17px;
+	color: #ce4040;
+}
+.bold{
+	font-weight: bold;
+}
+
+strong{
+	background: #fdffbc;
+}
+
+.txt_s{
+	font-size: 12px;
+}
+/* -- float -- */
+.rf10{float:right; margin-left:10px;}
+.rf15{float:right; margin-left:15px;}
+.lf15{float:left; margin-right:15px;}
+.rf{float:right;}
+.lf{float:left;}
+
+.pt30{
+	padding: 30px 0 0 0;
+}
+
+/*list
+----------------------------------------------------------------------*/
+/*number*/
+ul.number{
+	list-style-type: decimal;
+	margin-left: 30px;
+}
+
+ul.number li{
+	margin: 5px 0;
+	background: none;
+	padding: 0;
+	list-style-type: decimal;
+}
+/*number circle*/
+ol.number{
+	counter-reset:number;
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+
+ol.number li{
+	margin: 15px 0;
+	background: none;
+	padding: 0;
+	list-style-type: none;
+}
+
+ol.number li:before {
+	counter-increment: number;
+	content: counter(number);
+	float: left;
+	background: #E3F0F4;
+	width: 2em;
+	height: 2em;
+	border-radius: 50%;
+	color: #214575;
+	text-align: center;
+	line-height: 2.0;
+	margin: 0 7px 0 0;
+}
+ol.number li p,
+ol.number li div{
+	overflow: auto;
+	zoom: 1;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/**/
+ul.square{
+	list-style-type: square;
+	margin-left: 2.4em;
+	margin-top: 5px;
+}
+ul.square li{
+	margin-bottom: 5px;
+	background: none;
+	padding: 0;
+	list-style-type: square;
+}
+ul.square li p{
+	padding: 0;
+}
+
+/*icon*/
+
+ul.icon li{
+	background: url(../../img/common/icon_point.png) no-repeat left 0.4em;
+	padding: 0 0 0 15px;
+	margin: 5px 0;
+	border: 0;
+	width: auto;
+}
+ul.ar_black li,
+a.ar_black{
+	background: url(../../img/common/ar_black.png) no-repeat left 0.4em;
+	padding: 0 0 0 15px;
+	margin: 5px 0;
+	border: 0;
+	width: auto;
+}
+a.pdf{
+	background: url(../../img/common/icon_pdf.png) no-repeat left 0.1em;
+	padding: 0 0 0 25px; 
+}
+
+ul.icoPdf li a{
+	background: url(../../img/common/icon_pdf.png) no-repeat 1em center;
+	padding: 7px 30px 7px 50px;
+	margin: 5px 0;
+	color: #333;
+	border: 1px solid #eeeeee;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+
+ul.inline li,
+ol.inline li{
+	display: inline-block !important;
+	margin: 5px 1.5em 5px 0;
+}
+
+img.R5{
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+.valign{
+	vertical-align: middle !important;
+}
+img.valign{
+	margin: 0 5px;
+}
+
+
+.imp{
+	border-bottom: 1px solid #ea4411;
+	color: #ea4411;
+}
+
+@media screen and (max-width: 768px){
+ul.square{
+	margin-left: 1em;
+}
+}
+
+/*clearfix
+************************************************************************************/
+.clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 1px;
+    overflow: hidden;
+}
+* html .clearfix{
+    height: 1em;
+}
+.clearfix{
+    display: block;
+}
+*:first-child+html .clearfix{
+	zoom:1;
+}
+

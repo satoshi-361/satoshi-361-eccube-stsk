@@ -1,0 +1,178 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
+
+    <style>
+        span.yubin {
+            margin: 0.5714285em;
+            padding: 5px 20px;
+            background: #efefef;
+            border: 0;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            cursor: pointer;
+        }
+        span.yubin:hover {
+            background-color: #ddd;
+        }
+        button {
+            margin: 10px 3px;
+            padding: 15px 3em;
+            background-color: #43b8a5;
+            color: #FFF;
+            border: 1px;
+            cursor: pointer;
+            font-family: source-han-sans-cjk-ja, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            font-size: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 200px;
+            height: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+{% endblock javascript %}
+
+{% block main %}
+    <article id="main_wrap" class="page_contact">
+        <div id="breadcrumb">
+            <ul>
+                <li><a href="{{ url('homepage') }}">ホーム</a></li>
+                <li>お問い合せ</li>
+            </ul>
+        </div>
+        <section class="section">
+            <div class="post text">
+                <h1 class="title_squirrel">お問い合せ</h1>
+                <section class="section">
+                    <h1 class="title_green">お問い合せ前のご注意</h1>
+                    <div class="text">
+                        <span class="hissu">必須</span>マークは入力必須項目です。入力されていない場合、返信や資料の送付は出来ません。<br /> こちらで送信頂いた内容は許可無く第三者へ譲渡することはございません。
+                    </div>
+                </section>
+                <section class="section form">
+                    <h1 class="title_green">お問い合せ</h1>
+                    <div class="text">
+                        <div role="form" class="wpcf7" id="wpcf7-f5-p135-o1" lang="ja" dir="ltr">
+                            <div class="screen-reader-response">
+                                <p role="status" aria-live="polite" aria-atomic="true"></p>
+                                <ul></ul>
+                            </div>
+                            <form method="post" action="{{ url('contact') }}" class="h-adr" novalidate>
+                                {{ form_widget(form._token) }}
+                                <table class="lineBtm">
+                                    <tbody>
+                                        <tr>
+                                            <th>法人名・団体名</th>
+                                            <td>
+                                                {{ form.company_name.vars.data }}
+                                                {{ form_widget(form.company_name, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>お名前<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form.name.name01.vars.data }} {# form.vars.value = form.vars.data = Customer #}
+                                                {{ form.name.name02.vars.data }}
+                                                {{ form_widget(form.name.name01, { type : 'hidden' }) }}
+                                                {{ form_widget(form.name.name02, { type : 'hidden' }) }}  
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>フリガナ<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form.kana.kana01.vars.data }}
+                                                {{ form.kana.kana02.vars.data }}
+                                                {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
+                                                {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>E-Mail<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form.email.vars.data }}
+                                                {{ form_widget(form.email.first, { type : 'hidden' }) }}
+                                                {{ form_widget(form.email.second, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>電話番号<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form.phone_number.vars.data }}
+                                                {{ form_widget(form.phone_number, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>FAX</th>
+                                            <td>
+                                                {{ form.fax.vars.data }}
+                                                {{ form_widget(form.fax, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>住所</th>
+                                            <td>
+                                                {# 郵便番号 #}
+                                                <span><span>{{ 'common.postal_symbol'|trans }}</span></span>{{ form.postal_code.vars.data }}
+                                                {{ form_widget(form.postal_code, { type : 'hidden' }) }}
+                                                {# 都道府県・住所 #}
+                                                {{ form.address.pref.vars.data }} {{ form.address.addr01.vars.data }} {{ form.address.addr02.vars.data }}
+                                                {{ form_widget(form.address.pref, { type : 'hidden' }) }}
+                                                {{ form_widget(form.address.addr01, { type : 'hidden' }) }}
+                                                {{ form_widget(form.address.addr02, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>お問合せ内容<span class="hissu">必須</span></th>
+                                            <td>
+                                                {{ form.contents.vars.data }}
+                                                {{ form_widget(form.contents, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>                             
+                                <p class="btnSend">
+                                    <button type="submit"
+                                            class="ec-blockBtn--action"
+                                            name="mode"
+                                            value="complete">{{ 'common.send'|trans }}
+                                    </button>
+                                    <button type="submit"
+                                            class="ec-blockBtn--cancel"
+                                            name="mode"
+                                            value="back">{{ 'common.back'|trans }}
+                                    </button>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- /.post -->
+        </section>
+    </article>
+{% endblock %}
+

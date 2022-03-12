@@ -1,0 +1,173 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['product', 'print_price'] %}
+
+{% block title %}印刷費価格表{% endblock %}
+{% block sub_title %}価格表{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block stylesheet %}
+<style>
+    input[type="number"] {
+        width: 60px;
+    }
+    .delete_th i {
+        color: #333;
+    }
+    a.delete_th:hover i {
+        color: #e76369;
+    }
+    table {
+        overflow-x: auto;
+    }
+</style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+<script>
+    var flag_header_new = false;
+    var flag_header_delete = false;
+    var flag_price_edited = false;
+    var flag_price_new = false;
+    var items = [];
+
+    $(function(){
+        $('.delete_th').click(function() {
+            flag_header_delete = true;
+            var header_id = $(this).attr('value');
+
+            $.post('{{ url("print_price_admin_config") }}', {
+                flag: 'flag_header_delete',
+                header_id: header_id
+            }, function(status, response) {
+                if (response == 'success') 
+                    setTimeout(function(){location.reload()}, 1000);
+            });
+        });
+
+        $('button[type="submit"]').on('click', function(event){
+            event.preventDefault();
+
+            if ($('.new_th').val() != '') {
+                flag_header_new = true;
+                var new_header = $('.new_th').val();
+
+                $.post('{{ url("print_price_admin_config") }}', {
+                    flag: 'flag_header_new',
+                    data: new_header
+                }, function(status, response) {
+                });
+            }
+            if (flag_price_new) {
+                $('tbody .new_price').each(function(){
+                    if ($(this).val() != '') {
+                        var category_id = $(this).parents('tr').find('td').eq(0).attr('value');
+                        var header_id = $(this).parent().index(); 
+                        var price = $(this).val();
+
+                        items.push([category_id, header_id, price]);
+                    }
+                });
+                
+                $.post('{{ url("print_price_admin_config") }}', {
+                    flag: 'flag_price_new',
+                    data: items
+                }, function(status, response) {
+                });
+            }
+
+            if (flag_price_edited) {
+                items = [];
+                $('tbody .edited').each(function(){
+                    if ($(this).text() != '') {
+                        var category_id = $(this).parents('tr').find('td').eq(0).attr('value');
+                        var header_id = $(this).index(); 
+                        var price = $(this).text();
+
+                        items.push([category_id, header_id, price]);
+                    }
+                });
+                console.log(items);
+                $.post('{{ url("print_price_admin_config") }}', {
+                    flag: 'flag_price_edited',
+                    data: items
+                }, function(status, response) {
+                });
+            }
+
+            flag_price_edited = false;
+            flag_price_new = false;
+            setTimeout(function(){location.reload()}, 1000);
+        });
+
+        $('td').on('input', function(){
+            $(this).addClass('edited');
+            flag_price_edited = true;
+        });
+        $('tbody .new_price').on('keyup', function(){
+            flag_price_new = true;
+        });
+    });
+</script>
+{% endblock javascript %}
+
+{% set categoryRepository = repository('ECCUBE\\Entity\\Category') %}
+{% set printCategories = categoryRepository.findOneBy({'name': '印刷方法詳細'}).getChildren %}
+{% set Categories = [] %}
+
+{% for pCategories in printCategories %}
+    {% set Categories = Categories|merge(pCategories.getChildren) %}
+{% endfor %}
+
+{% block main %}
+    <form role="form" method="post">
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <table class="table table-striped">
+                        <thead class="table-active">
+                            <th class="border-top-0 pl-3 pt-2 pb-2">印刷方法名</th>
+                            {% for th in header %}
+                                <th class="border-top-0 pt-2 pb-2">
+                                    {{ th.getPrice }}個以上の単価&nbsp;&nbsp;<a class="delete_th" value="{{ th.getHeaderId }}"><i class="fa fa-trash-alt"></i></a>
+                                </th>
+                            {% endfor %}
+                            <th class="border-top-0 pt-2 pb-2"><input type="text" class="new_th"><br/>個以上の単価</th>
+                        </thead>
+                        <tbody>
+                            {% for index, item in Categories|reverse %}
+                            <tr>
+                                <td class="align-middle" value="{{ item.getId }}">{{ item.getName }}</td>
+                                {% for td in body[index] %}
+                                    <td class="align-middle" contenteditable="true">{{ td.getPrice }}</td>
+                                {% endfor %}
+                                <td class="align-middle"><input type="number" class="new_price"></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="c-conversionArea">
+            <div class="c-conversionArea__container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-6">
+                        <div class="c-conversionArea__leftBlockItem">
+                            <span style="color: white">印刷費価格表</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-ec-conversion px-5"
+                                        type="submit">登録</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

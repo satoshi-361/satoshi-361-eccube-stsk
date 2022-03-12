@@ -1,0 +1,492 @@
+@charset "utf-8";
+@import "base_layout.css";
+@import "common_parts.css";
+#information {
+    border: 1px solid #ededed;
+    padding: 30px;
+    margin: 0px auto;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+#information .body .title {
+    color: #db0000;
+    font-weight: 500;
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 30px;
+}
+
+#information .body .text {
+    display: table-cell;
+    word-break: break-all;
+    font-size: 15px;
+}
+
+#information .body .text .btn_more {
+    margin: 1em 0 0;
+    font-weight: 400;
+}
+
+h1.maintitle {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 40px 0;
+}
+
+h1.maintitle img {
+    max-width: 100%;
+    height: auto;
+}
+
+#main article#main_wrap section {
+    padding: 70px 20px;
+}
+
+#main article#main_wrap section section.widget {
+    padding: 0;
+}
+
+#main article#main_wrap section:nth-child(even) {
+    background: #f4fafb;
+}
+
+#main article#main_wrap section:first-child {
+    padding-top: 0;
+}
+
+#main article#main_wrap section .btn_more {
+    margin: 1em 0 0;
+    font-weight: 400;
+}
+
+.itemBox {
+    margin: 0 20px;
+}
+
+
+/* .itemBox ul {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-justify-content: left;
+    justify-content: left;
+} */
+
+
+/* #main #main_wrap {
+    max-width: 100%;
+    padding: 20px 0;
+} */
+
+.itemBox ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.itemBox ul li {
+    display: block;
+    padding: 10px;
+    margin: 15px 1%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #FFF;
+    /* width: 23%; */
+    width: 100%;
+    border: 1px solid #ededed;
+}
+
+.itemBox .item3 {
+    width: 100%;
+}
+
+.itemBox .image,
+.itemBox .itemimg {
+    text-align: center;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+.itemBox .image img,
+.itemBox .itemimg img {
+    max-width: 100%;
+    height: auto;
+}
+
+_:-ms-lang(x)::-ms-backdrop,
+.itemBox .image img,
+_:-ms-lang(x)::-ms-backdrop,
+.itemBox .itemimg img {
+    width: 100%;
+    height: auto;
+}
+
+.itemBox .body {
+    padding: 5px;
+    word-break: break-all;
+}
+
+.itemBox .body .head {
+    width: 100%;
+    font-size: 13px;
+}
+
+
+/*Parts*/
+
+.itemBox .body .price,
+.itemBox .itemprice {
+    font-weight: 700;
+    text-align: right;
+}
+
+.itemBox .body .name,
+.itemBox .body .itemname {
+    font-weight: 700;
+}
+
+.itemBox a {
+    color: #000;
+    text-decoration: none;
+}
+
+#newitem .itemBox .image,
+#ranking li .image {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+}
+
+em.tax {
+    font-style: normal;
+}
+
+#newitem .itemBox .body .name,
+#ranking .itemBox .body .name {
+    margin: 0 0 15px 0;
+    height: 3.5em;
+}
+
+#newitem .itemBox .body .head .cell.price,
+#ranking .body .head .cell.price {
+    text-align: center;
+    font-size: 16px;
+}
+
+#newitem .itemBox .body .head .cell.price span.ttl,
+#ranking .body .head .cell.price span.ttl,
+em.tax {
+    font-size: 11px;
+    font-weight: 400;
+}
+
+#newitem .itemBox .body .head .cell.item-no,
+#ranking .body .head .cell.item-no {
+    font-size: 12px;
+    text-align: right;
+    color: #c0c0c0;
+    padding: 0 0 10px 0;
+}
+
+#newitem .itemBox .print img,
+#ranking .print img {
+    width: 40px;
+    height: auto;
+    margin: 1px;
+}
+
+
+/*ranking
+************************************************************************************/
+
+#ranking .itemBox ul {
+    margin-top: 70px;
+}
+
+#ranking .itemBox ul li {
+    display: block;
+    padding: 20px 10px;
+    margin: 15px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #FFF;
+    /* width: 25%; */
+    width: 100%;
+    border-left: 1px solid #ededed;
+    border-top: 0;
+    border-bottom: 0;
+    position: relative;
+}
+
+#ranking .itemBox ul li:last-child {
+    border-right: 1px solid #ededed;
+}
+
+#ranking .itemBox ul li:before {
+    width: 50px;
+    height: 49px;
+    display: block;
+    text-indent: -9999px;
+    content: "";
+    position: absolute;
+    top: -55px;
+    left: 0;
+}
+
+#ranking .itemBox ul li:nth-of-type(1) {
+    background: url("../img/top/rank_01_line.png") repeat-x left top, url("../img/top/rank_01_line.png") repeat-x left bottom;
+}
+
+#ranking .itemBox ul li:nth-of-type(1):before {
+    background: url("../img/top/rank_01.png") no-repeat;
+}
+
+#ranking .itemBox ul li:nth-of-type(2) {
+    background: url("../img/top/rank_02_line.png") repeat-x left top, url("../img/top/rank_02_line.png") repeat-x left bottom;
+}
+
+#ranking .itemBox ul li:nth-of-type(2):before {
+    background: url("../img/top/rank_02.png") no-repeat;
+}
+
+#ranking .itemBox ul li:nth-of-type(3) {
+    background: url("../img/top/rank_03_line.png") repeat-x left top, url("../img/top/rank_03_line.png") repeat-x left bottom;
+}
+
+#ranking .itemBox ul li:nth-of-type(3):before {
+    background: url("../img/top/rank_03.png") no-repeat;
+}
+
+#ranking .itemBox ul li:nth-of-type(4) {
+    background: url("../img/top/rank_04_line.png") repeat-x left top, url("../img/top/rank_04_line.png") repeat-x left bottom;
+}
+
+#ranking .itemBox ul li:nth-of-type(4):before {
+    background: url("../img/top/rank_04.png") no-repeat;
+}
+
+
+/*target
+************************************************************************************/
+
+#target .itemBox ul li {
+    padding: 0px;
+    border: 1px solid #afcfd4;
+    display: table;
+}
+
+#target .itemBox ul li .icon {
+    display: table-cell;
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#target .itemBox ul li .icon img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+#target .itemBox ul li .label {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 1em;
+    text-align: center;
+    font-weight: 500;
+}
+
+#target .itemBox ul li .label a {
+    color: #000;
+    text-decoration: none;
+}
+
+#target .itemBox ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0 30px;
+}
+
+
+/*scene
+************************************************************************************/
+
+#scene .itemBox ul li {
+    padding: 0;
+    border: 1px solid #afcfd4;
+    display: block;
+}
+
+#scene .itemBox ul li .label {
+    text-align: center;
+    font-weight: 500;
+    padding-bottom: 20px;
+}
+
+#scene .itemBox ul li .label a {
+    color: #000;
+    text-decoration: none;
+    display: block
+}
+
+
+/*season
+************************************************************************************/
+
+#season .itemBox ul li {
+    width: 30%;
+}
+
+#season .itemBox ul li .image {
+    margin: 0;
+    font-size: 0;
+    line-height: 0;
+}
+
+#season .frame_btn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 35px;
+}
+
+#season .frame_btn ul li {
+    display: inline-block;
+    text-align: center;
+    line-height: 3.0 !important;
+    margin: 0 10px 0 0;
+}
+
+#season .frame_btn ul li.select {}
+
+#season .frame_btn ul li span {
+    width: 45px;
+    height: 45px;
+    display: block;
+    text-indent: -9999px;
+    cursor: pointer;
+}
+
+#season .frame_btn ul li.spring span {
+    background: url("../img/top/season_icon_spring.png") no-repeat;
+    -moz-background-size: 45px auto;
+    -webkit-background-size: 45px auto;
+    background-size: 45px auto;
+}
+
+#season .frame_btn ul li.summer span {
+    background: url("../img/top/season_icon_summer.png") no-repeat;
+    -moz-background-size: 45px auto;
+    -webkit-background-size: 45px auto;
+    background-size: 45px auto;
+}
+
+#season .frame_btn ul li.autumn span {
+    background: url("../img/top/season_icon_autumn.png") no-repeat;
+    -moz-background-size: 45px auto;
+    -webkit-background-size: 45px auto;
+    background-size: 45px auto;
+}
+
+#season .frame_btn ul li.winter span {
+    background: url("../img/top/season_icon_winter.png") no-repeat;
+    -moz-background-size: 45px auto;
+    -webkit-background-size: 45px auto;
+    background-size: 45px auto;
+}
+
+#season .disnon {
+    display: none;
+}
+
+#season .soon {
+    padding: 5em 0;
+    text-align: center;
+}
+
+#season .frame_btn img {
+    width: 100%;
+    height: auto;
+}
+
+
+/*よくある質問
+************************************************************************************/
+
+#faq {
+    border-top: 3px solid #ff0000;
+    background: #FFF !important;
+}
+
+#faq h1 {
+    text-align: center;
+    font-size: 24px;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+#faq h1:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: '';
+    width: 6em;
+    height: 3px;
+    background-color: #ebebeb;
+}
+
+#faq dl dt {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 0 0 10px 1.5em;
+    position: relative;
+}
+
+#faq dl dt:before {
+    content: "Q.";
+    font-size: 18px;
+    color: #ff5d5d;
+    display: block;
+    width: 1.5em;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#faq dl dd {
+    padding: 0 0 30px 1.5em;
+    margin: 0 0 30px 0;
+    border-bottom: 1px solid #ededed;
+    position: relative;
+}
+
+#faq dl dd:before {
+    content: "A.";
+    color: #447d8f;
+    font-size: 16px;
+    font-weight: 700;
+    display: block;
+    width: 1.5em;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/*上書き
+************************************************************************************/
+
+h3.widget_title {
+    display: none;
+}

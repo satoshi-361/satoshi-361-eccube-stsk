@@ -226,8 +226,9 @@ file that was distributed with this source code.
                                 <div class="d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'tooltip.product.csv_format'|trans }}"><span class="align-middle">{{ 'admin.common.csv_format'|trans }}</span><i class="fa fa-question-circle fa-lg fa-lg ml-1"></i></div>
                             </div>
                             <div class="col-6 text-right">
-                                <a href="{{ asset('assets/csvテンプレート.csv', 'user_data') }}" class="btn btn-ec-regular mr-4" download>{{ 'csvテンプレートファイルのダウンロード'|trans }}</a>
-                                <a href="{{ url('admin_product_csv_template', {'type': 'product'}) }}" class="btn btn-ec-regular" id="download-button">{{ 'admin.common.csv_skeleton_download'|trans }}</a>
+                                <a href="{{ asset('assets/csvテンプレート.xlsx', 'user_data') }}" class="btn btn-ec-regular mr-4" download>{{ 'csvテンプレートファイルのダウンロード'|trans }}</a>
+                                <a href="{{ asset('assets/product.xlsx', 'user_data') }}" class="btn btn-ec-regular" download>{{ 'admin.common.csv_skeleton_download'|trans }}</a>
+                                {# <a href="{{ url('admin_product_csv_template', {'type': 'product'}) }}" class="btn btn-ec-regular" id="download-button">{{ 'admin.common.csv_skeleton_download'|trans }}</a> #}
                             </div>
                         </div>
                     </div>

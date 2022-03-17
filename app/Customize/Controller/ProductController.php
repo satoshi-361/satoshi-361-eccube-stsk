@@ -59,6 +59,7 @@ use Eccube\Entity\Master\OrderStatus;
 use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Common\Constant;
 use Eccube\Service\OrderHelper;
+use Eccube\Repository\OrderRepository;
 
 class ProductController extends AbstractController
 {
@@ -98,6 +99,11 @@ class ProductController extends AbstractController
     protected $customerRepository;
 
     /**
+     * @var OrderRepository
+     */
+    protected $orderRepository;
+
+    /**
      * @var BaseInfo
      */
     protected $BaseInfo;
@@ -134,6 +140,7 @@ class ProductController extends AbstractController
      * @param CategoryRepository $categoryRepository
      * @param CustomerRepository $customerRepository
      * @param BaseInfoRepository $baseInfoRepository
+     * @param OrderRepository $orderRepository
      * @param AuthenticationUtils $helper
      * @param OrderHelper $orderHelper
      * @param ProductListMaxRepository $productListMaxRepository
@@ -147,6 +154,7 @@ class ProductController extends AbstractController
         CategoryRepository $categoryRepository,
         CustomerRepository $customerRepository,
         BaseInfoRepository $baseInfoRepository,
+        OrderRepository $orderRepository,
         AuthenticationUtils $helper,
         MailService $mailService,
         OrderHelper $orderHelper,
@@ -159,6 +167,7 @@ class ProductController extends AbstractController
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
         $this->customerRepository = $customerRepository;
+        $this->orderRepository = $orderRepository;
         $this->BaseInfo = $baseInfoRepository->get();
         $this->helper = $helper;
         $this->mailService = $mailService;
@@ -739,7 +748,7 @@ class ProductController extends AbstractController
                             ],
                             'postal_code' =>  $CustomerAddress->getPostalCode(),
                             'address' => [
-                                'pref' =>  $CustomerAddress->getPref(),
+                                'pref' =>  strval($CustomerAddress->getPref()->getId()),
                                 'addr01' =>  $CustomerAddress->getAddr01(),
                                 'addr02' =>  $CustomerAddress->getAddr02(),
                             ],

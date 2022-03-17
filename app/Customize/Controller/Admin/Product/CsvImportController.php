@@ -231,26 +231,26 @@ class CsvImportController extends AbstractCsvImportController
                             return $this->renderWithError($form, $headers);
                         }
 
-                        $Product = new Product();
-                        $this->entityManager->persist($Product);
+                        // $Product = new Product();
+                        // $this->entityManager->persist($Product);
 
-                        // if (StringUtil::isNotBlank($row[$headerByKey['name']]) && isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
-                        //     $name = $row[$headerByKey['name']];
-                        //     $product_code = $row[$headerByKey['product_code']];
+                        if (StringUtil::isNotBlank($row[$headerByKey['name']]) && isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
+                            $name = $row[$headerByKey['name']];
+                            $product_code = $row[$headerByKey['product_code']];
 
-                        //     $tempProduct = $this->productRepository->findOneBy(['name' => $name]);
+                            $tempProduct = $this->productRepository->findOneBy(['name' => $name]);
 
-                        //     if (is_null($tempProduct)) {
-                        //         $Product = new Product();
-                        //         $this->entityManager->persist($Product);
-                        //     } else {
-                        //         if ($tempProduct->getCodeMax() == $product_code)
-                        //             $Product = $tempProduct;
-                        //     }
-                        // } else {
-                        //     $Product = new Product();
-                        //     $this->entityManager->persist($Product);
-                        // }
+                            if (is_null($tempProduct)) {
+                                $Product = new Product();
+                                $this->entityManager->persist($Product);
+                            } else {
+                                if ($tempProduct->getCodeMax() == $product_code)
+                                    $Product = $tempProduct;
+                            }
+                        } else {
+                            $Product = new Product();
+                            $this->entityManager->persist($Product);
+                        }
 
                         $Product->setStatus($this->productStatusRepository->find(\Eccube\Entity\Master\ProductStatus::DISPLAY_SHOW));
 

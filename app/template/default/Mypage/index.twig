@@ -17,6 +17,147 @@ file that was distributed with this source code.
     <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/itms.css') }}" type="text/css">
+    <style>
+        .ec-mypageRole {
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 16px;
+            padding-right: 16px;
+            box-sizing: border-box;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #525263;
+            -webkit-text-size-adjust: 100%;
+            width: 100%;
+        }
+        .ec-historyRole .ec-historyRole__contents {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            color: #525263;
+        }
+        .ec-historyListHeader .ec-historyListHeader__action {
+            margin: 16px 0;
+        }
+        .ec-historyRole .ec-historyRole__detail .ec-imageGrid:nth-of-type(1) {
+            border-top: none;
+        }
+        .ec-imageGrid .ec-imageGrid__img img {
+            max-height: 100px;
+            width: auto;
+        }
+        .ec-imageGrid .ec-imageGrid__content {
+            padding-left: 10px;
+            vertical-align: middle;
+            display: table-cell;
+        }
+        .ec-historyRole .ec-historyRole__detail .ec-historyRole__detailTitle {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .ec-historyRole .ec-historyRole__detail .ec-historyRole__detailPrice {
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        .ec-historyRole .ec-historyRole__detail {
+            width: 100%;
+        }
+        .ec-imageGrid .ec-imageGrid__img {
+            display: table-cell;
+            padding: 10px;
+            width: 100px;
+        }
+        .ec-historyRole .ec-historyRole__header {
+            width: 100%;
+        }
+        .ec-historyListHeader .ec-historyListHeader__date {
+            margin-top: 10px;
+            padding-left: 10px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .ec-historyListHeader .ec-historyListHeader__action {
+            margin: 16px 0;
+        }
+        .ec-historyRole__header .ec-definitions {
+            line-height: 25px;
+        }
+        .ec-historyListHeader__action .ec-inlineBtn {
+                margin: 0.5714285em;
+                padding: 5px 20px;
+                background: #efefef;
+                border: 0;
+                border-radius: 3px;
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                cursor: pointer;
+                color: #333;
+                text-decoration: none;
+                font-family: kozuka-gothic-pro,sans-serif, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic";
+                font-weight: 400;
+        }
+        .ec-historyRole {
+            display: block;
+        }
+        table#order_history {
+            display: none;
+        }
+        @media only screen and (min-width: 768px) {
+            .ec-mypageRole {
+                padding-left: 26px;
+                padding-right: 26px;
+            }
+            .ec-historyRole {
+                display: none;
+            }
+            .ec-historyRole .ec-historyRole__contents {
+                flex-direction: row;
+            }
+            .ec-historyRole .ec-historyRole__header {
+                width: 33.3333%;
+            }
+            .ec-historyListHeader {
+                margin-top: 20px;
+            }
+            .ec-historyListHeader .ec-historyListHeader__date {
+                font-weight: bold;
+                font-size: 20px;
+            }
+            .ec-historyRole .ec-historyRole__detail {
+                width: 66.6666%;
+                border-top: none;
+            }
+            .ec-imageGrid .ec-imageGrid__img {
+                padding: 10px;
+                width: 130px;
+            }
+            table#order_history {
+                margin-top: 20px;
+                display: block;
+            }
+            table, thead, th, tr, td {
+                border: 1px solid #ddd;
+            }
+            table#order_history th {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            table#order_history img {
+                max-width: 80px;
+                height: auto;
+                margin-right: 10px;
+            }
+            table .t-center {
+                text-align: center;
+            }
+            table .d-flex {
+                display: flex;
+                align-items: center
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block main %}
@@ -31,63 +172,86 @@ file that was distributed with this source code.
             {% include 'Mypage/navi.twig' %}
         </div>
         <section class="section">
-            {% if pagination.totalItemCount > 0 %}
-                <p class="ec-para-normal">{{ 'front.mypage.history_count'|trans({'%count%':pagination.totalItemCount}) }}</p>
-                {% for Order in pagination %}
-                    <div class="ec-historyRole">
-                        <div class="ec-historyRole__contents">
-
-                            <div class="ec-historyRole__header">
-                                <div class="ec-historyListHeader">
-                                    <p class="ec-historyListHeader__date">{{ Order.order_date|date_sec }}</p>
-                                    <dl class="ec-definitions">
-                                        <dt>{{ 'front.mypage.order_no'|trans }}</dt>
-                                        <dd>{{ Order.order_no }}</dd>
-                                    </dl>
-                                    {% if (BaseInfo.option_mypage_order_status_display) %}
-                                        <dl class="ec-definitions">
-                                            <dt>{{ 'front.mypage.order_status'|trans }}</dt>
-                                            <dd>{{ Order.CustomerOrderStatus }}</dd>
-                                        </dl>
-                                    {% endif %}
-                                    <p class="ec-historyListHeader__action"><a class="ec-inlineBtn"
-                                                                               href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">{{ 'front.mypage.view_detail'|trans }}</a>
-                                    </p>
+            <div class="ec-mypageRole">     
+                {% if pagination.totalItemCount > 0 %}
+                    <p class="ec-para-normal">{{ 'front.mypage.history_count'|trans({'%count%':pagination.totalItemCount}) }}</p>
+                    <p style="color: red; margin-top: 6px; margin-bottom: 6px">※金額が変更されている商品があるため、再注文時はご注意ください。</p>
+                    
+                    <table class="table table-sm" id="order_history">
+                        <thead>
+                            <tr>
+                                <th style="width: 18%; text-align: center;"> {{ '注文日時'|trans }} </th>
+                                <th style="width: 12%; text-align: center;">{{ '注文番号'|trans }}</th>
+                                <th style="width: 45%; text-align: center;">{{ '商品名'|trans }}</th>
+                                <th style="width: 5%; text-align: center;">{{ '数量'|trans }}</th>
+                                <th style="width: 10%; text-align: center;">{{ '合計金額'|trans }}</th>
+                                <th style="width: 10%; text-align: center;"> {{ 'ご注文状況'|trans }} </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for Order in pagination %}
+                                {% set OrderItem = Order.MergedProductOrderItems()[0] %}
+                                {% set Product = OrderItem.Product %}
+                                <tr>
+                                    <td class="t-center"> {{ Order.order_date|date_sec }} </td>
+                                    <td class="t-center"> {{ Order.id_in_customer }} </td>
+                                    <td> 
+                                        <div class="d-flex" style="padding: 10px">
+                                            <img src="{{ asset(Product.MainListImage|no_image_product, 'save_image') }}"> 
+                                            <p style="font-weight: bold">{{ Product.name }}</p>
+                                        </div>
+                                    </td>
+                                    <td class="t-center"> {{ OrderItem.quantity }} </td>
+                                    <td class="t-center"> {{ Order.payment_total }} </td>
+                                    <td class="t-center"> {{ Order.OrderStatus.name }} </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% for Order in pagination %}
+                        <div class="ec-historyRole">
+                            <div class="ec-historyRole__contents">
+                                <div class="ec-historyRole__header">
+                                    <div class="ec-historyListHeader">
+                                        <p class="ec-historyListHeader__date">
+                                            {{ 'front.mypage.order_no'|trans }}：　{{ Order.id_in_customer }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="ec-historyRole__detail">
+                                    {% for OrderItem in Order.MergedProductOrderItems %}
+                                        <div class="ec-imageGrid">
+                                            <div class="ec-imageGrid__img">
+                                                {% if OrderItem.Product is null %}
+                                                    <img src="{{ asset(''|no_image_product, 'save_image') }}"/>
+                                                {% else %}
+                                                    <img src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}">
+                                                {% endif %}
+                                            </div>
+                                            <div class="ec-imageGrid__content">
+                                                <p class="ec-historyRole__detailTitle">{{ OrderItem.product_name }}</p>
+                                                {% if OrderItem.class_category_name1 is not empty %}
+                                                    {{ OrderItem.class_category_name1 }}
+                                                {% endif %}
+                                                {% if OrderItem.class_category_name2 is not empty %}
+                                                    / {{ OrderItem.class_category_name2 }}
+                                                {% endif %}
+                                                <p class="ec-historyRole__detailPrice">{{ OrderItem.price_inc_tax|price }}
+                                                    × {{ OrderItem.quantity }}個</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                             </div>
-                            <div class="ec-historyRole__detail">
-                                {% for OrderItem in Order.MergedProductOrderItems %}
-                                    <div class="ec-imageGrid">
-                                        <div class="ec-imageGrid__img">
-                                            {% if OrderItem.Product is null %}
-                                                <img src="{{ asset(''|no_image_product, 'save_image') }}"/>
-                                            {% else %}
-                                                <img src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}">
-                                            {% endif %}
-                                        </div>
-                                        <div class="ec-imageGrid__content">
-                                            <p class="ec-historyRole__detailTitle">{{ OrderItem.product_name }}</p>
-                                            {% if OrderItem.class_category_name1 is not empty %}
-                                                {{ OrderItem.class_category_name1 }}
-                                            {% endif %}
-                                            {% if OrderItem.class_category_name2 is not empty %}
-                                                / {{ OrderItem.class_category_name2 }}
-                                            {% endif %}
-                                            <p class="ec-historyRole__detailPrice">{{ OrderItem.price_inc_tax|price }}
-                                                × {{ OrderItem.quantity }}</p>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
                         </div>
+                    {% endfor %}
+                    <div class="pagination_wrapper">
+                        {% include "pager.twig" with {'pages': pagination.paginationData} %}
                     </div>
-                {% endfor %}
-                <div class="ec-pagerRole">
-                    {% include "pager.twig" with {'pages': pagination.paginationData} %}
-                </div>
-            {% else %}
-                <p class="ec-para-normal">{{ 'front.mypage.history_not_found'|trans }}</p>
-            {% endif %}
+                {% else %}
+                    <p class="ec-para-normal">{{ 'front.mypage.history_not_found'|trans }}</p>
+                {% endif %}
+            </div>
         </section>
     </article>
 {% endblock %}

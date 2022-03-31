@@ -14,6 +14,11 @@ file that was distributed with this source code.
 {% set is_sp_sidebar = true %}
 
 {% set categoryRepository = repository('Eccube\\Entity\\Category') %}
+{% set customerFavoriteProductRepository = repository('ECCUBE\\Entity\\CustomerFavoriteProduct') %}
+{% if is_granted('ROLE_USER') %}
+    {% set customerRepository = repository('Eccube\\Entity\\Customer') %}
+    {% set Customer = customerRepository.find(app.user.id) %}
+{% endif %}
 
 {% block stylesheet %}
     <style>
@@ -79,8 +84,16 @@ file that was distributed with this source code.
                             <div class="body">
                                 <div class="item_sku">
                                     <p class="cell item-no">{{ Product.getCodeMax }}</p>
-                                    <a href="{{ url('product_add_favorite', {id: Product.id, category_id: 0 }) }}">
-                                        <img src="{{ asset('assets/img/common/star.svg') }}" alt="" loading="lazy" />
+                                    <a href="{{ url('product_add_favorite', {id: Product.id }) }}">
+                                        {% if is_granted('ROLE_USER') %}
+                                            {% if customerFavoriteProductRepository.isFavorite( Customer, Product ) %}
+                                                <img src="{{ asset('assets/img/common/star-active.svg') }}" alt="">
+                                            {% else %}
+                                                <img src="{{ asset('assets/img/common/star.svg') }}" alt="">
+                                            {% endif %}
+                                        {% else %}
+                                            <img src="{{ asset('assets/img/common/star.svg') }}" alt="">
+                                        {% endif %}
                                     </a>
                                 </div>
                                 <p class="name">
@@ -112,8 +125,16 @@ file that was distributed with this source code.
                             <div class="body">
                                 <div class="item_sku">
                                     <p class="cell item-no">{{ Product.getCodeMax }}</p>
-                                    <a href="{{ url('product_add_favorite', {id: Product.id, category_id: 0 }) }}">
-                                        <img src="{{ asset('assets/img/common/star.svg') }}" alt="" loading="lazy" />
+                                    <a href="{{ url('product_add_favorite', {id: Product.id}) }}">
+                                        {% if is_granted('ROLE_USER') %}
+                                            {% if customerFavoriteProductRepository.isFavorite( Customer, Product ) %}
+                                                <img src="{{ asset('assets/img/common/star-active.svg') }}" alt="">
+                                            {% else %}
+                                                <img src="{{ asset('assets/img/common/star.svg') }}" alt="">
+                                            {% endif %}
+                                        {% else %}
+                                            <img src="{{ asset('assets/img/common/star.svg') }}" alt="">
+                                        {% endif %}
                                     </a>
                                 </div>
                                 <p class="name">
@@ -176,7 +197,6 @@ file that was distributed with this source code.
                     <a href="" value="{{ categoryRepository.findOneBy({'name': '冬'}).id }}"><img src="{{ asset('assets/img/common/winter.png') }}" alt=""></a>
                 </div>
             </div>
-            <p class="btn_more"><a href="season.html">More view</a></p>
         </section>
         <section>
             <p class="textCenter"><img src="{{ asset('assets/img/common/注文・納品の流れ.png') }}" alt=""></p>

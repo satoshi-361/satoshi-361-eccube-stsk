@@ -1,6 +1,4 @@
 @charset "utf-8";
-
-
 .error_msg {
     color: #F00;
 }
@@ -108,8 +106,10 @@ a img:hover {
 }
 
 .reg_describ {
-    padding: 40px 20px 1em 40px;
+    /* padding: 40px 20px 1em 40px; */
+    padding-top: 40px;
     max-width: 210px;
+    text-align: center;
 }
 
 .reg_btn {

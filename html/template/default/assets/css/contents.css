@@ -58,7 +58,7 @@
     background: url(../img/common/吹き出しライン.svg);
     width: 100%;
     display: block;
-    height: 34px;
+    height: 24px;
     background-size: cover;
     background-position: center;
 }
@@ -421,7 +421,9 @@ a.btn-kind1:hover {
     margin: 0 0 30px 0;
 }
 
+
 /* .itemBox ul, */
+
 .itemBox .frameBox {
     display: -webkit-flex;
     display: flex;

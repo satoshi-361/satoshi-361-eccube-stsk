@@ -64,13 +64,13 @@ class ContactType extends AbstractType
                 'required' => false,
             ])
             ->add('postal_code', PostalType::class, [
-                'required' => false,
+                'required' => true,
             ])
             ->add('address', AddressType::class, [
-                'required' => false,
+                'required' => true,
             ])
             ->add('contents', TextareaType::class, [
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],

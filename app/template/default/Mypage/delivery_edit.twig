@@ -89,23 +89,23 @@ file that was distributed with this source code.
                                     </dt>
                                     <dd>
                                         <div class="ec-zipInput{{ has_errors(form.postal_code) ? ' error' }}"><span>{{ 'common.postal_symbol'|trans }}</span>
-                                            {{ form_widget(form.postal_code) }}
-                                            <div class="ec-zipInputHelp">
+                                            {{ form_widget(form.postal_code) }}<br/>
+                                            {# <div class="ec-zipInputHelp">
                                             <a href="https://www.post.japanpost.jp/zipcode/" target="_blank" class="search_address"><span class="yubin">住所検索</span></a>
-                                            <br></div>
+                                            <br></div> #}
                                             {{ form_errors(form.postal_code) }}
                                         </div>
 
                                         <div class="ec-select{{ has_errors(form.address.pref) ? ' error' }}">
-                                            {{ form_widget(form.address.pref) }}
+                                            {{ form_widget(form.address.pref, { 'attr': { 'placeholder': '1140012' }}) }}
                                             {{ form_errors(form.address.pref) }}
                                         </div>
                                         <div class="ec-input{{ has_errors(form.address.addr01) ? ' error' }}">
-                                            {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': 'common.address_sample_01' }}) }}
+                                            {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': '東京都北区田端新町' }}) }}
                                             {{ form_errors(form.address.addr01) }}
                                         </div>
                                         <div class="ec-input{{ has_errors(form.address.addr02) ? ' error' }}">
-                                            {{ form_widget(form.address.addr02,  { 'attr': { 'placeholder': 'common.address_sample_02' }}) }}
+                                            {{ form_widget(form.address.addr02,  { 'attr': { 'placeholder': '1-7-8 相光ビル 3階' }}) }}
                                             {{ form_errors(form.address.addr02) }}
                                         </div>
                                     </dd>
@@ -116,7 +116,7 @@ file that was distributed with this source code.
                                     </dt>
                                     <dd>
                                         <div class="ec-telInput{{ has_errors(form.phone_number) ? ' error' }}">
-                                            {{ form_widget(form.phone_number) }}
+                                            {{ form_widget(form.phone_number,  { 'attr': { 'placeholder': '0359019633' }}) }}
                                             {{ form_errors(form.phone_number) }}
                                         </div>
                                     </dd>

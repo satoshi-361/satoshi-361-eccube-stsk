@@ -37,7 +37,7 @@
                     <p>ご注文後、請求書を発行・お送り致します。<br> 請求書に記載している 弊社振込口座番号にご入金くださいませ。</p>
                 </dd>
                 <dt>運営会社</dt>
-                <dd class="clearfix"> <img src="{{ asset('assets/img/common/footer_logo.png') }}" alt="" class="lf15"> 株式会社 秋冬春夏<br> 〒114-0012
+                <dd class="clearfix" style="line-height: 19px"> <img src="{{ asset('assets/img/common/footer_logo.png') }}" alt="" class="lf15"> 株式会社 秋冬春夏<br> 〒114-0012
                     <br>東京都北区田端新町1-7-8　相光ビル3階<br> TEL.03-5901-9633
                     <br> FAX.03-5901-9634 
                 </dd>
@@ -48,6 +48,43 @@
 <div class="copy">
     <p class="wrapper">当サイト内で掲載している画像や文章、デザインなどを無断で複製・コピー・転用を禁じます。<br> &copy; 2020 Shu-tou-shun-ca corp. All rights Reserved.</p>
 </div>
+<center>
+    <nav class="header-menu hide">
+        <ul>
+            <li>
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ url('logout') }}">
+                        <img src="{{ asset('assets/img/common/ico-h_login.svg') }}" alt="">ログアウト
+                    </a>
+                {% else %}
+                    <a href="{{ url('mypage_login') }}">
+                        <img src="{{ asset('assets/img/common/ico-h_login.svg') }}" alt="">ログイン
+                    </a>
+                {% endif %}
+            </li>
+            <li>
+                <a href="{{ url('mypage') }}">
+                    <img src="{{ asset('assets/img/common/ico-h_mypage.svg') }}" alt="">マイページ
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('mypage_favorite') }}">
+                    <img src="{{ asset('assets/img/common/star.svg') }}" alt="">お気に入り
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('contact') }}">
+                    <img src="{{ asset('assets/img/common/ico-h_contact.svg') }}" alt="">お問い合せ
+                </a>
+            </li>
+            <li onclick="openNav();">
+                <a>
+                    <img src="{{ asset('assets/img/common/menu.png') }}" style="width: 30px;height: auto; padding-bottom: 5px;" alt="">メニュー
+                </a>
+            </li>
+        </ul>
+    </nav>
+</center>
 {% if is_sp_sidebar is defined and is_sp_sidebar == true %}
 <div id="sidebar" class="side_show hide" onclick="openside()">
     <a href="#side">商品検索</a>

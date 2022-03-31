@@ -54,8 +54,12 @@ class TopController extends AbstractController
     public function index(Request $request)
     {
         $Products = $this->productRepository->findAll();
+
+	    $flag = $this->session->get('IS_ORDER_CONFIRMED');
+
+        if ($flag == 'true') return $this->redirectToRoute('order_contact');
         
-        $request->getSession()->set('IS_ORDER_CONFIRMED', 'false');
+        $this->session->set('IS_ORDER_CONFIRMED', 'false');
         $rank = [];
 
         if ($this->productRepository->findOneBy(['name' => '人気ランキング']) != null) {

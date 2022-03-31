@@ -4,10 +4,9 @@
 } */
 
 @font-face {
-  font-family: kozuka-gothic-pro;
-  src: url('./fonts/KozGoProRegular.woff');
+    font-family: kozuka-gothic-pro;
+    src: url('./fonts/KozGoProRegular.woff');
 }
-
 
 * {
     margin: 0px;
@@ -72,7 +71,7 @@ body {
     font-style: normal;
     font-size: 14px;
     color: #222222;
-	line-height: 24px;
+    line-height: 24px;
 }
 
 .show {
@@ -260,7 +259,8 @@ main#main {
     right: 0;
 }
 
-#header .header-menu ul {
+#header .header-menu ul,
+.header-menu.hide ul {
     /* display: table; */
     table-layout: fixed;
     border-collapse: separate;
@@ -492,7 +492,7 @@ nav#globalNav ul li a:hover::after {
     #header nav#globalNav {
         display: none;
     }
-    #header .header-menu {
+    /* #header .header-menu {
         width: 100%;
         box-sizing: border-box;
         position: fixed;
@@ -503,9 +503,34 @@ nav#globalNav ul li a:hover::after {
         right: 0;
         left: 0;
         z-index: 1;
-    }
+    } */
     .slide {
         border: unset;
+    }
+    .header-menu.hide {
+        width: 100%;
+        padding-top: 5px;
+        position: fixed;
+        bottom: 0;
+        box-shadow: 0px 0px 8px #aaa;
+        background-color: white;
+    }
+    .header-menu.hide ul li {
+        padding: 0 7px;
+        font-size: 10px;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .header-menu.hide ul li a {
+        color: #000;
+        text-decoration: none;
+    }
+    .header-menu.hide ul li img {
+        display: block;
+        margin: 0 auto 4px;
+        width: auto;
+        height: auto;
     }
 }
 
@@ -974,7 +999,7 @@ nav#globalNav ul li a:hover::after {
 }
 
 @media only screen and (max-width: 768px) {
-	p.btnSend button {
-		margin-bottom: 20px;
-	}
+    p.btnSend button {
+        margin-bottom: 20px;
+    }
 }

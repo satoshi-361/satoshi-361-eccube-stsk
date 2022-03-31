@@ -43,41 +43,6 @@
                 </a>
             </li>
         </ul>
-        <center class="hide">
-            <ul>
-                <li>
-                    {% if is_granted('ROLE_USER') %}
-                        <a href="{{ url('logout') }}">
-                            <img src="{{ asset('assets/img/common/ico-h_login.svg') }}" alt="">ログアウト
-                        </a>
-                    {% else %}
-                        <a href="{{ url('mypage_login') }}">
-                            <img src="{{ asset('assets/img/common/ico-h_login.svg') }}" alt="">ログイン
-                        </a>
-                    {% endif %}
-                </li>
-                <li>
-                    <a href="{{ url('mypage') }}">
-                        <img src="{{ asset('assets/img/common/ico-h_mypage.svg') }}" alt="">マイページ
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('mypage_favorite') }}">
-                        <img src="{{ asset('assets/img/common/star.svg') }}" alt="">お気に入り
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('contact') }}">
-                        <img src="{{ asset('assets/img/common/ico-h_contact.svg') }}" alt="">お問い合せ
-                    </a>
-                </li>
-                <li onclick="openNav();">
-                    <a>
-                        <img src="{{ asset('assets/img/common/menu.png') }}" style="width: 30px;height: auto; padding-bottom: 5px;" alt="">メニュー
-                    </a>
-                </li>
-            </ul>
-        </center>
         <div class="search show">
             <form method="get" id="searchform" class="searchform" action="{{ path('product_list') }}" role="search">
                 <p><input type="text" name="name" id="head-s-text" class="search-text" placeholder="サイト内検索"></p>

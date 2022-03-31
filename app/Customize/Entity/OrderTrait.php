@@ -18,7 +18,6 @@ trait OrderTrait
      *     type="\Symfony\Component\Form\Extension\Core\Type\NumberType",
      *     options={
      *          "required": false,
-     *          "mapped": false,
      *          "label": false
      *     })
      */
@@ -33,11 +32,23 @@ trait OrderTrait
      *     type="\Symfony\Component\Form\Extension\Core\Type\NumberType",
      *     options={
      *          "required": false,
-     *          "mapped": false,
      *          "label": false
      *     })
      */
     private $print_price;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     * @Eccube\Annotation\FormAppend(
+     *     auto_render=false,
+     *     type="\Symfony\Component\Form\Extension\Core\Type\TextType",
+     *     options={
+     *          "required": false,
+     *          "label": false
+     *     })
+     */
+    private $id_in_customer;
 
     /**
      * Get board_price.
@@ -83,6 +94,30 @@ trait OrderTrait
     public function setPrintPrice($print_price)
     {
         $this->print_price = $print_price;
+        
+        return $this;
+    }
+
+    /**
+     * Get id_in_customer.
+     *
+     * @return id_in_customer
+     */
+    public function getIdInCustomer()
+    {
+        return $this->id_in_customer;
+    }
+
+    /**
+     * Set id_in_customer.
+     *
+     * @param int $id_in_customer
+     *
+     * @return this
+     */
+    public function setIdInCustomer($id_in_customer)
+    {
+        $this->id_in_customer = $id_in_customer;
         
         return $this;
     }

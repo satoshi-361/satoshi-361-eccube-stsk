@@ -118,7 +118,7 @@ file that was distributed with this source code.
             $('#additional_address').on('keyup', '.p-postal-code', function(){
                 var zip = $(this).val();    
                 var element = $(this);            
-                $.getJSON('http://zipcloud.ibsnet.co.jp/api/search?callback=?',
+                $.getJSON('https://zipcloud.ibsnet.co.jp/api/search?callback=?',
                 {
                     zipcode: zip
                 })
@@ -434,11 +434,10 @@ file that was distributed with this source code.
                                     {% endfor %}
                                 </table>
                             {% endif %}
-                        {% else %}
+                        {% endif %}
                         <label for="location_differ" style="margin: 20px">
                             <input type="checkbox" id="location_differ"> 注文者情報と納品場所が異なる場合
                         </label>
-                        {% endif %}
                         <table class="lineBtm" style="margin-top: 4margin-bottom: 10px" id="additional_address">
                         </table>
                         <p class="btnSend"><button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">注文画面へ</button></p>

@@ -56,7 +56,7 @@ file that was distributed with this source code.
                         </div>
                         {% endif %}
                         <div class="login_txt">
-                            <p>マイページのご利用にはログインが必要です。下記よりログインしてお進みください。</p>
+                            <p style="text-align: center">マイページのご利用にはログインが必要です。下記よりログインしてお進みください。</p>
                         </div>
                         <div class="loginbox">
                             <div class="member-box">
@@ -71,21 +71,23 @@ file that was distributed with this source code.
                                     </div>
                                     <div class="" style="padding-left: 10px;">
                                         <p class="input_row">
-                                            <label>メールアドレス<br />{{ form_widget(form.login_email, {'attr': {'class' : 'loginmail', 'style' : 'ime-mode: disabled;', 'size': 20}}) }}</label>
+                                            <label>メールアドレス<br />{{ form_widget(form.login_email, {'attr': {'class' : 'loginmail', 'style' : 'ime-mode: disabled;', 'size': 20, 'autofocus': true}}) }}</label>
                                         </p>
                                         <p class="input_row1">
                                             <label>パスワード<br />
                                             {{ form_widget(form.login_pass,  {'attr': {'class' : 'loginpass', 'size': 20}}) }}</label>
                                         </p>
-                                        <p class="forgetmenot">
-                                            <label>
-                                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                                    <input type="hidden" name="login_memory" value="1">
-                                                {% else %}
-                                                    {{ form_widget(form.login_memory, { 'label': 'ログイン情報を記憶'|trans, 'attr': {'value': 'forever'} }) }}
-                                                {% endif %}
-                                            </label>
-                                        </p>
+                                        {% if BaseInfo.option_remember_me %}
+                                            <p class="forgetmenot">
+                                                <label>
+                                                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                                        <input type="hidden" name="login_memory" value="1">
+                                                    {% else %}
+                                                        {{ form_widget(form.login_memory, { 'label': 'ログイン情報を記憶'|trans }) }}
+                                                    {% endif %}
+                                                </label>
+                                            </p>
+                                        {% endif %}
                                         {% for reset_complete in app.session.flashbag.get('password_reset_complete') %}
                                             <p>{{ reset_complete|trans }}</p>
                                         {% endfor %}

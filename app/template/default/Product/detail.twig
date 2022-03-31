@@ -227,7 +227,7 @@ file that was distributed with this source code.
         </div>
         <div>
         <h1 class="lv_h1">
-            <span>
+            <span style="line-height: 35px">
                 {% if Product.page_title == '' %}
                     {{ Product.name }}
                 {% else %}
@@ -259,15 +259,13 @@ file that was distributed with this source code.
                         </ul>
                     </div>
                 </div>
-                <div class="image_download">
-                    {% if Product.template_file != null %}
-                    <a href="{{ asset(Product.getTemplateFile, 'save_image') }}" download>
-                        <img src="{{ asset('assets/img/common/image_download.png') }}" alt="" style="width: 100%;">
-                    </a>
-                    {% else %}
-                        <img src="{{ asset('assets/img/common/image_download.png') }}" alt="" style="width: 100%;">
-                    {% endif %}
-                </div>
+                {% if Product.template_file != null %}
+                    <div class="image_download">
+                        <a href="{{ asset(Product.getTemplateFile, 'save_image') }}" download>
+                            <img src="{{ asset('assets/img/common/image_download.png') }}" alt="" style="width: 100%;">
+                        </a>
+                    </div>
+                {% endif %}
                 <div class="section_innner">
                     <h2 class="lv_h2">商品仕様</h2>
                     <table>
@@ -634,10 +632,10 @@ file that was distributed with this source code.
                         個数を入力後【計算するボタン】をクリックすると<br/>
                         ≪見積もりダウンロード≫≪注文する≫ボタンが表示されます</p>
                         <li id="aiosl_pdf_dl">
-                            <button type="button" id="aiosl_pdf_dl_btn" onclick="_btnClickAiosl(1)" style="font-size: 12px;"><img style="width: 30px" src="{{ asset('assets/img/common/電卓.svg') }}" alt="">見積書ダウンロード</button>
+                            <a id="aiosl_pdf_dl_btn" onclick="_btnClickAiosl(1)"><img style="width: 30px" src="{{ asset('assets/img/common/電卓.svg') }}" alt="">見積書<br/>ダウンロード</a>
                         </li>
                         <li id="aiosl_order">
-                            <button type="button" id="aiosl_order_btn" onclick="_btnClickAiosl(2)" style="font-size: 12px;"><img style="width: 35px" src="{{ asset('assets/img/common/ベクトルスマートオブジェクト1.svg') }}" alt="">注文する</button>
+                            <a id="aiosl_order_btn" onclick="_btnClickAiosl(2)"><img style="width: 35px" src="{{ asset('assets/img/common/ベクトルスマートオブジェクト1.svg') }}" alt="">注文する</a>
                         </li>
                         <form id="estimate_form" name="estimate_form" action="#" method="post">
                             <input type="hidden" name="IsOrderFlg" value="1">

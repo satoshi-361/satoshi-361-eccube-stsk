@@ -429,8 +429,9 @@ class ProductController extends AbstractController
                 $request
             );
             $this->eventDispatcher->dispatch(EccubeEvents::FRONT_PRODUCT_FAVORITE_ADD_COMPLETE, $event);
-
-            if ($category_id != 0)
+            
+            if ($category_id == '' && $name == '') return $this->redirectToRoute('homepage');
+            else if ($category_id != 0)
                 return $this->redirectToRoute('product_list', ['category_id' => intval($category_id)]);
             else if ( $name != '' )
                 return $this->redirectToRoute('product_list', ['name' => $name]);
@@ -649,12 +650,6 @@ class ProductController extends AbstractController
                 $request->getSession()->set('colors',   $cTemp); 
             } else if (isset($_POST['order']['colors'])) {
                 $request->getSession()->set('colors',   $_POST['order']['colors']); 
-            }
-        }
-        if ($request->getSession()->get('IS_ORDER_CONFIRMED') == 'false' || $request->getSession()->get('IS_ORDER_CONFIRMED') == null) {
-            if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
-                $request->getSession()->set('IS_ORDER_CONFIRMED', 'true');
-                return $this->redirectToRoute('mypage_login');
             }
         }
 
@@ -919,7 +914,7 @@ class ProductController extends AbstractController
                     $request->request->set('order', [
                         Constant::TOKEN_NAME => $tokenManager->getToken('order')->getValue(),
                         'return_link' => '',
-                        'Payment' => '4',
+                        'Payment' => '3',
                         'Customer' => $customer_id,
                         'name' => [
                             'name01' => $Customer['name01'],
@@ -948,14 +943,51 @@ class ProductController extends AbstractController
                     ]);
 
                     $request->setMethod('POST');
-                    $this->forwardToRoute('order_regist');
+                    $response = $this->forwardToRoute('order_regist')->getContent();
+
+                    if ($response != 'false' && $this->isGranted('IS_AUTHENTICATED_FULLY')) {
+                        if (!$this->session->has('ORDER_DATE')) $this->session->set('ORDER_DATE', date('Ymd'));
+                        if (!$this->session->has('ORDER_ID')) $this->session->set('ORDER_ID', 1);
+
+                        $OrderDate = $this->session->get('ORDER_DATE');
+                        if ($OrderDate == date('Ymd')) {
+                            $Order_Id = intval($this->session->get('ORDER_ID')); 
+                            $Order_Id += 1;
+                            $this->session->set('ORDER_ID', $Order_Id);
+                        } else {
+                            $this->session->set('ORDER_DATE', date('Ymd'));
+                            $this->session->set('ORDER_ID', 1);
+                        }
+
+                        $originalOrder = $this->orderRepository->find($response);
+
+                        $ORDER_ID = $this->session->get('ORDER_ID');
+
+                        if ($ORDER_ID < 10)
+                            $response = $this->session->get('ORDER_DATE') . '0' . $ORDER_ID;
+                        else 
+                            $response = $this->session->get('ORDER_DATE') . $ORDER_ID;
+
+                        $originalOrder->setIdInCustomer($response);
+                        $this->entityManager->persist($originalOrder);
+                        $this->entityManager->flush();
+                    }
 
                     $this->mailService->sendCstmOrderMail($Customer, $Order, $additionalAddress, $CustomerAddress);
                     $request->getSession()->set('IS_ORDER_CONFIRMED', 'false');
 
-                    return $this->render('Order/complete.twig');
+                    return $this->render('Order/complete.twig', ['order_id' => $response ]);
             }
         }
+
+        if ($request->getSession()->get('IS_ORDER_CONFIRMED') == 'false' || !$request->getSession()->has('IS_ORDER_CONFIRMED')) { 
+            if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $this->session->set('IS_ORDER_CONFIRMED', 'true');
+                return $this->redirectToRoute('mypage_login');
+            }
+        }
+
+        $request->getSession()->set('IS_ORDER_CONFIRMED', 'false');
 
         return [
             'form' => $form->createView(),
@@ -1202,7 +1234,7 @@ class ProductController extends AbstractController
                             log_warning('URLの形式が不正です。');
                         }
                     }
-                    return new Response('true');
+                    return new Response($TargetOrder->getId());
                 }
             }
         } 

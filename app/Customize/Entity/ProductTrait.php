@@ -72,7 +72,36 @@ trait ProductTrait
      * @ORM\Column(name="template_file", type="string", nullable=true)
      */
     private $template_file;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="test_string", type="string", nullable=true)
+     */
+    private $test_string;
     
+    /**
+     * Get Test String
+     * 
+     * @return string
+     */
+    public function getTestString()
+    {
+        return $this->test_string;
+    }
+
+    /**
+     * @param  string  $test_string
+     *
+     * @return this
+     */
+    public function setTestString($test_string)
+    {
+        $this->test_string = $test_string;
+        
+        return $this;
+    }
+
     /**
      * Get Page Title
      * 

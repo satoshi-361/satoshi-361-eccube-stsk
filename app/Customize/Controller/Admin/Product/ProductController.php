@@ -156,6 +156,24 @@ class ProductController extends AbstractController
      */
     public function index(Request $request, $page_no = null, PaginatorInterface $paginator)
     {
+        // $Products = $this->productRepository->findAll();
+        
+        // foreach($Products as $Product) {
+        //     $ProductClasses = $Product->getProductClasses()->getValues();
+
+        //     $ProductClasses = array_slice($ProductClasses, 0, -1);
+
+        //     foreach($ProductClasses as $ProductClass) {
+        //         $Product->removeProductClass($ProductClass);
+        //         $ProductClass->setProduct(null);
+
+        //         $this->entityManager->persist($Product);
+        //         $this->entityManager->remove($ProductClass);
+        //         $this->entityManager->flush();
+        //     }
+        // }
+        // $this->entityManager->flush();
+
         $builder = $this->formFactory
             ->createBuilder(SearchProductType::class);
 
@@ -346,7 +364,9 @@ class ProductController extends AbstractController
                         throw new UnsupportedMediaTypeHttpException();
                     }
 
-                    $filename = date('mdHis').uniqid('_').'.'.$extension;
+                    // $filename = date('mdHis').uniqid('_').'.'.$extension;
+                    $filename = $image->getClientOriginalName();
+
                     $image->move($this->eccubeConfig['eccube_temp_image_dir'], $filename);
                     $files[] = $filename;
                 }
@@ -508,6 +528,17 @@ class ProductController extends AbstractController
                     $template_file->move($this->eccubeConfig['eccube_save_image_dir'], $filename);
                     $Product->setTemplateFile($filename);
                 }
+
+                $is_delete_template = $form->get('delete_template')->getData();
+                
+                if ($is_delete_template && !empty($Product->getTemplateFile())) {
+                    $fs = new Filesystem();
+                    $filename = $Product->getTemplateFile();
+
+                    $fs->remove($this->eccubeConfig['eccube_save_image_dir'].'/'.$filename);
+
+                    $Product->setTemplateFile(NULL);
+                }
                 
                 // カテゴリの登録
                 // 一度クリア
@@ -573,21 +604,31 @@ class ProductController extends AbstractController
                     $categoriesIdList[$Category->getId()] = true;
                 }
 
-                $body_colors = $form->get('body_color')->getData();
+                $body_colors = $form->get('body_color')->getData(); print_r($body_colors); exit;
 
                 if (StringUtil::isNotBlank($body_colors)) {
                     $categories = explode('/', $body_colors);
-                    $color_category_names = ['ホワイト', 'クリア', 'ブラック', 'ナチュラル', 'レッド', 'ピンク', 'ブルー', 'ネイビー', 'グリーン', 'イエロー', 
-                                            'オレンジ', 'パープル', 'ブラウン', 'ベージュ', 'シルバー・グレー', 'ゴールド'];
+                    // $color_category_names = ['ホワイト', 'クリア', 'ブラック', 'ナチュラル', 'レッド', 'ピンク', 'ブルー', 'ネイビー', 'グリーン', 'イエロー', 
+                    //                         'オレンジ', 'パープル', 'ブラウン', 'ベージュ', 'シルバー・グレー', 'ゴールド'];
+                    $color_category_names = [];
+                    foreach($this->categoryRepository->findOneBy(['name' => '本体カラー'])->getChildren() as $item)
+                        array_push($color_category_names, $item->getName());
         
                     $color_result = [];
                     foreach($categories as $category) 
-                    foreach($color_category_names as $color_name) {
-                        if (str_contains($category, $color_name) || str_contains($color_name, $category)) array_push($color_result, $color_name);
+                    foreach($color_category_names as $key => $color_name) {
+                        if (str_contains($category, $color_name) || str_contains($color_name, $category) ) {
+                            array_push($color_result, $color_name);
+                            break;
+                        } 
+                        else {
+                            if ($key == count($color_category_names) - 1)
+                                array_push($color_result, $category);
+                        }
                     }
                     array_unique($color_result);
 
-                    foreach($color_result as $color) {
+                    foreach($color_result as $key => $color) {
                         $flagToAddColor = true;
                         foreach($Product->getProductCategories() as $ProductCategory)
                             if ($ProductCategory->getCategory()->getName() == $color) {
@@ -598,12 +639,14 @@ class ProductController extends AbstractController
                         if ($flagToAddColor) {
                             $Category = $this->categoryRepository->findOneBy(['name' => $color]);
                             
-                            $ProductCategory = $this->createProductCategory($Product, $Category, $count);
-                            $this->entityManager->persist($ProductCategory);
-                            $count++;
-                            /* @var $Product \Eccube\Entity\Product */
-                            $Product->addProductCategory($ProductCategory);
-                            $categoriesIdList[$Category->getId()] = true;
+                            if (!is_null($Category)) {
+                                $ProductCategory = $this->createProductCategory($Product, $Category, $count);
+                                $this->entityManager->persist($ProductCategory);
+                                $count++;
+                                /* @var $Product \Eccube\Entity\Product */
+                                $Product->addProductCategory($ProductCategory);
+                                $categoriesIdList[$Category->getId()] = true;
+                            }
                         }
                     }
                 }

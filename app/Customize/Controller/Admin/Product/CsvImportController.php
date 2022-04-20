@@ -33,6 +33,7 @@ use Eccube\Repository\Master\ProductStatusRepository;
 use Eccube\Repository\Master\SaleTypeRepository;
 use Eccube\Repository\ProductImageRepository;
 use Eccube\Repository\ProductRepository;
+use Eccube\Repository\ProductClassRepository;
 use Eccube\Repository\TagRepository;
 use Eccube\Repository\TaxRuleRepository;
 use Eccube\Service\CsvImportService;
@@ -95,6 +96,11 @@ class CsvImportController extends AbstractCsvImportController
     protected $productRepository;
 
     /**
+     * @var ProductClassRepository
+     */
+    protected $productClassRepository;
+
+    /**
      * @var TaxRuleRepository
      */
     private $taxRuleRepository;
@@ -128,6 +134,7 @@ class CsvImportController extends AbstractCsvImportController
      * @param ProductImageRepository $productImageRepository
      * @param ProductStatusRepository $productStatusRepository
      * @param ProductRepository $productRepository
+     * @param ProductClassRepository $productClassRepository
      * @param TaxRuleRepository $taxRuleRepository
      * @param BaseInfoRepository $baseInfoRepository
      * @param ValidatorInterface $validator
@@ -143,6 +150,7 @@ class CsvImportController extends AbstractCsvImportController
         ProductImageRepository $productImageRepository,
         ProductStatusRepository $productStatusRepository,
         ProductRepository $productRepository,
+        ProductClassRepository $productClassRepository,
         TaxRuleRepository $taxRuleRepository,
         BaseInfoRepository $baseInfoRepository,
         ValidatorInterface $validator
@@ -155,6 +163,7 @@ class CsvImportController extends AbstractCsvImportController
         $this->productImageRepository = $productImageRepository;
         $this->productStatusRepository = $productStatusRepository;
         $this->productRepository = $productRepository;
+        $this->productClassRepository = $productClassRepository;
         $this->taxRuleRepository = $taxRuleRepository;
         $this->BaseInfo = $baseInfoRepository->get();
         $this->validator = $validator;
@@ -231,28 +240,51 @@ class CsvImportController extends AbstractCsvImportController
                             return $this->renderWithError($form, $headers);
                         }
 
-                        // $Product = new Product();
-                        // $this->entityManager->persist($Product);
+                        // if (StringUtil::isNotBlank($row[$headerByKey['name']]) && isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
+                        //     $name = $row[$headerByKey['name']];
+                        //     $product_code = $row[$headerByKey['product_code']];
 
-                        if (StringUtil::isNotBlank($row[$headerByKey['name']]) && isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
-                            $name = $row[$headerByKey['name']];
-                            $product_code = $row[$headerByKey['product_code']];
+                        //     $tempProduct = $this->productRepository->findOneBy(['name' => $name]);
 
-                            $tempProduct = $this->productRepository->findOneBy(['name' => $name]);
+                        //     if (is_null($tempProduct)) {
+                        //         $Product = new Product();
+                        //         $this->entityManager->persist($Product);
+                        //     } else {
+                        //         if ($tempProduct->getCodeMax() == $product_code)
+                        //             $Product = $tempProduct;
+                        //     }
+                        // } else {
+                        //     $Product = new Product();
+                        //     $this->entityManager->persist($Product);
+                        // }
 
-                            if (is_null($tempProduct)) {
-                                $Product = new Product();
-                                $this->entityManager->persist($Product);
+                        if (isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
+                            $ProductClass = $this->productClassRepository->findOneBy(['code' => $row[$headerByKey['product_code']]]);
+
+                            if (is_null($ProductClass)) {
+                                if (StringUtil::isNotBlank($row[$headerByKey['name']])) {
+                                    $Product = $this->productRepository->findOneBy(['name' => $row[$headerByKey['name']]]);
+
+                                    if (is_null($Product)) {
+                                        $Product = new Product();
+                                        $this->entityManager->persist($Product);
+                                    }
+                                }
                             } else {
-                                if ($tempProduct->getCodeMax() == $product_code)
-                                    $Product = $tempProduct;
+                                $Product = $ProductClass->getProduct();
                             }
                         } else {
-                            $Product = new Product();
-                            $this->entityManager->persist($Product);
+                            if (StringUtil::isNotBlank($row[$headerByKey['name']])) {
+                                $Product = $this->productRepository->findOneBy(['name' => $row[$headerByKey['name']]]);
+
+                                if (is_null($Product)) {
+                                    $Product = new Product();
+                                    $this->entityManager->persist($Product);
+                                }
+                            }
                         }
 
-                        $Product->setStatus($this->productStatusRepository->find(\Eccube\Entity\Master\ProductStatus::DISPLAY_SHOW));
+                        $Product->setStatus($this->productStatusRepository->find(\Eccube\Entity\Master\ProductStatus::DISPLAY_HIDE));
 
                         if (StringUtil::isBlank($row[$headerByKey['name']])) {
                             $message = trans('admin.common.csv_invalid_not_found', ['%line%' => $line, '%name%' => $headerByKey['name']]);
@@ -1469,7 +1501,7 @@ class CsvImportController extends AbstractCsvImportController
     protected function createProductClass($row, Product $Product, $data, $headerByKey, $ClassCategory1 = null, $ClassCategory2 = null)
     {
         // 規格分類1、規格分類2がnullとなる商品を作成
-        $ProductClass = new ProductClass();
+        $ProductClass = end($Product->getProductClasses());
         $ProductClass->setProduct($Product);
         $ProductClass->setVisible(true);
 

@@ -945,33 +945,44 @@ class ProductController extends AbstractController
                     $request->setMethod('POST');
                     $response = $this->forwardToRoute('order_regist')->getContent();
 
-                    if ($response != 'false' && $this->isGranted('IS_AUTHENTICATED_FULLY')) {
-                        if (!$this->session->has('ORDER_DATE')) $this->session->set('ORDER_DATE', date('Ymd'));
-                        if (!$this->session->has('ORDER_ID')) $this->session->set('ORDER_ID', 1);
-
-                        $OrderDate = $this->session->get('ORDER_DATE');
-                        if ($OrderDate == date('Ymd')) {
-                            $Order_Id = intval($this->session->get('ORDER_ID')); 
-                            $Order_Id += 1;
-                            $this->session->set('ORDER_ID', $Order_Id);
-                        } else {
-                            $this->session->set('ORDER_DATE', date('Ymd'));
-                            $this->session->set('ORDER_ID', 1);
-                        }
-
+                    if ($response != 'false') {
                         $originalOrder = $this->orderRepository->find($response);
-
-                        $ORDER_ID = $this->session->get('ORDER_ID');
-
-                        if ($ORDER_ID < 10)
-                            $response = $this->session->get('ORDER_DATE') . '0' . $ORDER_ID;
-                        else 
-                            $response = $this->session->get('ORDER_DATE') . $ORDER_ID;
+    
+                        $response = date('Ymd') . $response;
+                        $response = substr($response, 2);
 
                         $originalOrder->setIdInCustomer($response);
                         $this->entityManager->persist($originalOrder);
                         $this->entityManager->flush();
                     }
+
+                    // if ($response != 'false' && $this->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    //     if (!$this->session->has('ORDER_DATE')) $this->session->set('ORDER_DATE', date('Ymd'));
+                    //     if (!$this->session->has('ORDER_ID')) $this->session->set('ORDER_ID', 1);
+
+                    //     $OrderDate = $this->session->get('ORDER_DATE');
+                    //     if ($OrderDate == date('Ymd')) {
+                    //         $Order_Id = intval($this->session->get('ORDER_ID')); 
+                    //         $Order_Id += 1;
+                    //         $this->session->set('ORDER_ID', $Order_Id);
+                    //     } else {
+                    //         $this->session->set('ORDER_DATE', date('Ymd'));
+                    //         $this->session->set('ORDER_ID', 1);
+                    //     }
+
+                    //     $originalOrder = $this->orderRepository->find($response);
+
+                    //     $ORDER_ID = $this->session->get('ORDER_ID');
+
+                    //     if ($ORDER_ID < 10)
+                    //         $response = $this->session->get('ORDER_DATE') . '0' . $ORDER_ID;
+                    //     else 
+                    //         $response = $this->session->get('ORDER_DATE') . $ORDER_ID;
+
+                    //     $originalOrder->setIdInCustomer($response);
+                    //     $this->entityManager->persist($originalOrder);
+                    //     $this->entityManager->flush();
+                    // }
 
                     $this->mailService->sendCstmOrderMail($Customer, $Order, $additionalAddress, $CustomerAddress);
                     $request->getSession()->set('IS_ORDER_CONFIRMED', 'false');

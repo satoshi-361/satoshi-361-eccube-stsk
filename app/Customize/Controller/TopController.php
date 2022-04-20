@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Eccube\Repository\ProductRepository;
 use Eccube\Repository\CategoryRepository;
 use Eccube\Controller\AbstractController;
+use Eccube\Entity\Master\ProductStatus;
+use Eccube\Repository\Master\ProductStatusRepository;
 
 class TopController extends AbstractController
 {
@@ -27,6 +29,11 @@ class TopController extends AbstractController
      * @var ProductRepository
      */
     protected $productRepository;
+
+    /**
+     * @var ProductStatusRepository
+     */
+    protected $productStatusRepository;
 
     /**
      * @var CategoryRepository
@@ -37,13 +44,16 @@ class TopController extends AbstractController
      * ProductController constructor.
      *
      * @param ProductRepository $productRepository
+     * @param ProductStatusRepository $productStatusRepository
      * @param CategoryRepository $categoryRepository
      */
     public function __construct(
         ProductRepository $productRepository,
+        ProductStatusRepository $productStatusRepository,
         CategoryRepository $categoryRepository
     ) {
         $this->productRepository = $productRepository;
+        $this->productStatusRepository = $productStatusRepository;
         $this->categoryRepository = $categoryRepository;
     }
 
@@ -70,7 +80,15 @@ class TopController extends AbstractController
             }
         }
 
-        $NewItems = $this->productRepository->findBy([], ['create_date' => 'DESC'], 8, 0);
+        $ProductStatus = $this->productStatusRepository->find(ProductStatus::DISPLAY_SHOW);
+
+        $qb = $this->productRepository->createQueryBuilder('p');
+        $qb 
+            ->andWhere('p.Status = 1')
+            ->orderBy('p.create_date', 'DESC')
+            ->setMaxResults(8);
+
+        $NewItems = $qb->getQuery()->getResult();
 
         $Targets = $this->categoryRepository->findBy(['name' => 'ターゲット'])[0]->getChildren();
         $Scenes =  $this->categoryRepository->findBy(['name' => '目的・シーン'])[0]->getChildren();;

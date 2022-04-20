@@ -137,7 +137,7 @@ file that was distributed with this source code.
                 margin-top: 20px;
                 display: block;
             }
-            table, thead, th, tr, td {
+            thead, th, tr, td {
                 border: 1px solid #ddd;
             }
             table#order_history th {
@@ -182,10 +182,9 @@ file that was distributed with this source code.
                             <tr>
                                 <th style="width: 18%; text-align: center;"> {{ '注文日時'|trans }} </th>
                                 <th style="width: 12%; text-align: center;">{{ '注文番号'|trans }}</th>
-                                <th style="width: 45%; text-align: center;">{{ '商品名'|trans }}</th>
-                                <th style="width: 5%; text-align: center;">{{ '数量'|trans }}</th>
-                                <th style="width: 10%; text-align: center;">{{ '合計金額'|trans }}</th>
-                                <th style="width: 10%; text-align: center;"> {{ 'ご注文状況'|trans }} </th>
+                                <th style="width: 50%; text-align: center;">{{ '商品名'|trans }}</th>
+                                <th style="width: 7%; text-align: center;">{{ '数量'|trans }}</th>
+                                <th style="width: 13%; text-align: center;">{{ '合計金額'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -202,8 +201,7 @@ file that was distributed with this source code.
                                         </div>
                                     </td>
                                     <td class="t-center"> {{ OrderItem.quantity }} </td>
-                                    <td class="t-center"> {{ Order.payment_total }} </td>
-                                    <td class="t-center"> {{ Order.OrderStatus.name }} </td>
+                                    <td class="t-center"> {{ Order.payment_total|price }} </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

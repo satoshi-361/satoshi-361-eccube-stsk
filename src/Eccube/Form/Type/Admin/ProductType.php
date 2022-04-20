@@ -22,6 +22,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -198,8 +199,11 @@ class ProductType extends AbstractType
             ->add('price_range', NumberType::class, [
                 'required' => false,
             ])
-            ->add('print_range', TextType::class, [
+            ->add('print_range', TextareaType::class, [
                 'required' => false,
+                'constraints' => [
+                    new Assert\Length(['max' => $this->eccubeConfig['eccube_ltext_len']]),
+                ],
             ])
             ->add('min_quantity', NumberType::class, [
                 'required' => false,
@@ -208,6 +212,11 @@ class ProductType extends AbstractType
                 'label' => false,
                 'mapped' => false,
                 'required' => false,
+            ])
+            ->add('delete_template', CheckboxType::class, [
+                'required' => false,
+                'mapped' => false,
+                'label' => 'デザインテンプレート削除',
             ]);
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {

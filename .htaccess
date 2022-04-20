@@ -97,3 +97,6 @@ DirectoryIndex index.php index.html .ht
 # </RequireAll>
 
 
+RewriteEngine On
+RewriteCond %{HTTPS} !on
+RewriteRule ^(.*)$ https://%{HTTP_HOST} [R=301,L]

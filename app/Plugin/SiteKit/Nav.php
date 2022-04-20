@@ -23,16 +23,16 @@ class Nav implements EccubeNav
     public static function getNav()
     {
         return [
-            'site_kit' => [
-                'name' => 'Site Kit',
-                'icon' => 'fa-google',
-                'children' => [
-                    'gsc_query' => [
-                        'name' => 'ダッシュボード',
-                        'url' => 'site_kit_dashboard',
-                    ],
-                ],
-            ],
+            // 'site_kit' => [
+            //     'name' => 'Site Kit',
+            //     'icon' => 'fa-google',
+            //     'children' => [
+            //         'gsc_query' => [
+            //             'name' => 'ダッシュボード',
+            //             'url' => 'site_kit_dashboard',
+            //         ],
+            //     ],
+            // ],
         ];
     }
 }

@@ -31,6 +31,10 @@ file that was distributed with this source code.
 住所：{% if data.pref.name is defined %} {{ data.pref.name }}{% endif %}{{ data.addr01 }}{{ data.addr02 }}
 電話番号：{{ data.phone_number }}
 メールアドレス：{{ data.email }}
+{% if data.product_name is defined %}
+商品名：{{ data.product_name }}
+商品番号：{{ data.product_code }}
+{% endif %}
 お問い合せ内容：
 
 {{ data.contents }}

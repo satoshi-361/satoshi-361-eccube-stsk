@@ -1,6 +1,6 @@
 {% extends 'default_frame.twig' %}
 
-{% set newsRepository = repository('ECCUBE\\Entity\\News') %}
+{% set newsRepository = repository('Eccube\\Entity\\News') %}
 {% set news = newsRepository.findBy({}, {'publish_date': 'DESC'}, 8, 0) %}
 
 {% block stylesheet %}

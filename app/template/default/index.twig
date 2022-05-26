@@ -14,7 +14,7 @@ file that was distributed with this source code.
 {% set is_sp_sidebar = true %}
 
 {% set categoryRepository = repository('Eccube\\Entity\\Category') %}
-{% set customerFavoriteProductRepository = repository('ECCUBE\\Entity\\CustomerFavoriteProduct') %}
+{% set customerFavoriteProductRepository = repository('Eccube\\Entity\\CustomerFavoriteProduct') %}
 {% if is_granted('ROLE_USER') %}
     {% set customerRepository = repository('Eccube\\Entity\\Customer') %}
     {% set Customer = customerRepository.find(app.user.id) %}
@@ -70,7 +70,7 @@ file that was distributed with this source code.
     <article id="main_wrap">
         <section id="ranking">
             <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_ranking.png') }}" alt="人気ランキング"></h1>
-            <div class="itemBox">
+            <div class="itemBox" style="background-color: #fef9d1">
                 <ul class="wpp-list page_list">
                     {% for Product in ProductRanks if Product != null %}
                     <li>
@@ -111,7 +111,7 @@ file that was distributed with this source code.
         </section>
         <section id="newitem">
             <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_news.png') }}" alt="新着アイテム"></h1>
-            <div class="itemBox">
+            <div class="itemBox" style="background-color: #a1d6ce">
                 <ul class="page_list">
                     {% for Product in NewItems if Product.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
                     <li>
@@ -153,7 +153,7 @@ file that was distributed with this source code.
         </section>
         <section id="target">
             <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_target.png') }}" alt="ターゲットで探す"></h1>
-            <div class="itemBox">
+            <div class="itemBox" style="background-color: #fbdaa5">
                 <ul>
                     {% for item in Targets|reverse %}
                         <li class="item3 category">
@@ -168,7 +168,7 @@ file that was distributed with this source code.
         </section>
         <section id="scene">
             <h1 class="maintitle"><img src="{{ asset('assets/img/top/ttl_scene.png') }}" alt="目的・シーンで探す"></h1>
-            <div class="itemBox">
+            <div class="itemBox" style="background-color: #e5e1ef">
                 <ul>
                     {% for item in Scenes|reverse %}
                         <li class="item3 category image">
@@ -198,7 +198,7 @@ file that was distributed with this source code.
                 </div>
             </div>
         </section>
-        <section>
+        <section style="background-color: #e9f6fe">
             <p class="textCenter"><img src="{{ asset('assets/img/common/注文・納品の流れ.png') }}" alt=""></p>
             <p class="btn_more"><a href="{{ url('homepage')~'user_data/flow' }}">More View</a></p>
         </section>

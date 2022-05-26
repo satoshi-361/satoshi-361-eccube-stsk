@@ -23,6 +23,7 @@ use Eccube\Service\MailService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Eccube\Entity\Product;
 
 class ContactController extends AbstractController
 {
@@ -53,13 +54,19 @@ class ContactController extends AbstractController
     /**
      * お問い合わせ画面.
      *
-     * @Route("/contact", name="contact", methods={"GET", "POST"})
+     * @Route("/contact/query/{id}", name="contact", methods={"GET", "POST"})
      * @Route("/contact", name="contact_confirm", methods={"GET", "POST"})
      * @Template("Contact/index.twig")
      */
-    public function index(Request $request)
+    public function index(Request $request, $id = null)
     {
         $builder = $this->formFactory->createBuilder(ContactType::class);
+        $contents = '';
+
+        if (!is_null($id)) {
+            $Product = $this->getDoctrine()->getRepository(Product::class)->find($id);
+        }
+
 
         if ($this->isGranted('ROLE_USER')) {
             /** @var Customer $user */
@@ -75,7 +82,7 @@ class ContactController extends AbstractController
                     'addr01' => $user->getAddr01(),
                     'addr02' => $user->getAddr02(),
                     'phone_number' => $user->getPhoneNumber(),
-                    'email' => $user->getEmail(),
+                    'email' => $user->getEmail()
                 ]
             );
         }
@@ -98,10 +105,11 @@ class ContactController extends AbstractController
                     return $this->render('Contact/confirm.twig', [
                         'form' => $form->createView(),
                         'Page' => $this->pageRepository->getPageByRoute('contact_confirm'),
+                        'product_id' => $request->get('product_id')
                     ]);
 
                 case 'complete':
-                    $data = $form->getData();
+                    $data = $form->getData(); 
 
                     $event = new EventArgs(
                         [
@@ -123,6 +131,7 @@ class ContactController extends AbstractController
 
         return [
             'form' => $form->createView(),
+            'product_id' => $id
         ];
     }
 

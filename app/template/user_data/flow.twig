@@ -5,12 +5,14 @@
     <link rel="stylesheet" href="{{ asset('assets/css/sp_top.css') }}" type="text/css">
     <style>
         img.alignnone.size-full {
+            width: 100%;
             margin-top: 30px;
+            height: auto;
         }
-        .textCenter.p-relative {
+        .assist.p-relative {
             position: relative
         }
-        .textCenter.p-relative a {
+        .assist.p-relative a {
             font-size: 0.6rem;
             color: white;
             line-height: 13px;
@@ -19,11 +21,11 @@
             right: 9.5%;
             bottom: 20.2%;
         }
-        .textCenter.p-relative a:hover {
+        .assist.p-relative a:hover {
             opacity: 0.8
         }
         @media only screen and (max-width: 768px) {
-            .textCenter.p-relative a {
+            .assist.p-relative a {
                 display: none;
             }
         }
@@ -32,7 +34,6 @@
 
 {% block main %}
     <article id="main_wrap" class="page_flow">
-        
         <div id="breadcrumb">
             <ul>
                 <li><a href="https://www.s-t-s-k.com/test" style="color: #007DD4;">ホーム</a></li>
@@ -42,19 +43,15 @@
         
         <section class="section_first">
             <div class="post text">
-                <br />
-                <section class="text section">
-                    <p class="flow_title"><img class="" src="{{ asset('assets/img/common/flow_title.png') }}" alt=""></p>
-                    <p class="textCenter p-relative">
+                {# <p class="flow_title"><img class="" src="{{ asset('assets/img/common/flow_title.png') }}" alt="" style="width: 100%"></p> #}
+                <h1 class="title_squirrel">注文・納品の流れ</h1>
+                <p class="assist p-relative">
                     <a href="#detail">詳しくは<br/>こちら</a>
                     <img loading="lazy" src="{{ asset('assets/img/common/flow1.png') }}" alt="" width="918" height="1412" class="alignnone size-full" />
-                    </p>
-                    <img loading="lazy" src="{{ asset('assets/img/common/flow2.png') }}" alt="" width="918" height="1412" class="alignnone size-full" />
-                    <img id="detail" loading="lazy" src="{{ asset('assets/img/common/flow3.png') }}" alt="" width="918" height="1412" class="alignnone size-full" />
-                    
-                </section>
+                </p>
+                <img loading="lazy" src="{{ asset('assets/img/common/flow2.png') }}" alt="" width="918" height="1412" class="alignnone size-full" />
+                <img id="detail" loading="lazy" src="{{ asset('assets/img/common/flow3.png') }}" alt="" width="918" height="1412" class="alignnone size-full" />
             </div>
-            <!-- /.post -->
             
         </section>
     </article>

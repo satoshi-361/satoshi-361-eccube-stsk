@@ -29,8 +29,12 @@
         }
     </style>
 </div>
+<div style="margin-bottom: 13px; padding-left: 20px; padding-right: 20px; text-align: center;">
+  <img src="{{ asset('assets/img/top/自動見積りバナー.jpg') }}" style="width: 100%; max-width: 1000px; margin: auto" class="pc">
+  <img src="{{ asset('assets/img/top/自動見積りバナー【スマホ用】.png') }}" style="width: 100%; max-width: 1000px;" class="sp">
+</div>
 
-{% set newsRepository = repository('ECCUBE\\Entity\\News') %}
+{% set newsRepository = repository('Eccube\\Entity\\News') %}
 {% set news = newsRepository.findBy({}, {'publish_date': 'DESC'}, 8, 0) %}
 
 <div id="information" class="wrapper">
@@ -38,7 +42,8 @@
         <p class="title"><img src="{{ asset('assets/img/top/information.png') }}"></p>
         <div class="text">
             <p class="bold">{{ news[0].publish_date|date('Y.m.d') }}　{{ news[0].title }}</p>
-            <p> {{ news[0].description|length > 60 ? news[0].description|striptags|replace({('&nbsp;'):' '})|slice(0, 60)|raw ~ '...' : news[0].description|raw }} </p>
+            <p> {{ news[0].description }} </p>
+            {# <p> {{ news[0].description|length > 60 ? news[0].description|striptags|replace({('&nbsp;'):' '})|slice(0, 60)|raw ~ '...' : news[0].description|raw }} </p> #}
         </div>
         <div class="read_more">
             <p class="btn_more"><a href="{{ url('homepage')~'user_data/news' }}">お知らせ</a></p>

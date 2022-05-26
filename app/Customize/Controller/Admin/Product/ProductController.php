@@ -604,52 +604,52 @@ class ProductController extends AbstractController
                     $categoriesIdList[$Category->getId()] = true;
                 }
 
-                $body_colors = $form->get('body_color')->getData(); print_r($body_colors); exit;
+                // $body_colors = $form->get('body_color')->getData(); 
 
-                if (StringUtil::isNotBlank($body_colors)) {
-                    $categories = explode('/', $body_colors);
-                    // $color_category_names = ['ホワイト', 'クリア', 'ブラック', 'ナチュラル', 'レッド', 'ピンク', 'ブルー', 'ネイビー', 'グリーン', 'イエロー', 
-                    //                         'オレンジ', 'パープル', 'ブラウン', 'ベージュ', 'シルバー・グレー', 'ゴールド'];
-                    $color_category_names = [];
-                    foreach($this->categoryRepository->findOneBy(['name' => '本体カラー'])->getChildren() as $item)
-                        array_push($color_category_names, $item->getName());
+                // if (StringUtil::isNotBlank($body_colors)) {
+                //     $categories = explode('/', $body_colors);
+                //     // $color_category_names = ['ホワイト', 'クリア', 'ブラック', 'ナチュラル', 'レッド', 'ピンク', 'ブルー', 'ネイビー', 'グリーン', 'イエロー', 
+                //     //                         'オレンジ', 'パープル', 'ブラウン', 'ベージュ', 'シルバー・グレー', 'ゴールド'];
+                //     $color_category_names = [];
+                //     foreach($this->categoryRepository->findOneBy(['name' => '本体カラー'])->getChildren() as $item)
+                //         array_push($color_category_names, $item->getName());
         
-                    $color_result = [];
-                    foreach($categories as $category) 
-                    foreach($color_category_names as $key => $color_name) {
-                        if (str_contains($category, $color_name) || str_contains($color_name, $category) ) {
-                            array_push($color_result, $color_name);
-                            break;
-                        } 
-                        else {
-                            if ($key == count($color_category_names) - 1)
-                                array_push($color_result, $category);
-                        }
-                    }
-                    array_unique($color_result);
+                //     $color_result = [];
+                //     foreach($categories as $category) 
+                //     foreach($color_category_names as $key => $color_name) {
+                //         if (str_contains($category, $color_name) || str_contains($color_name, $category) ) {
+                //             array_push($color_result, $color_name);
+                //             break;
+                //         } 
+                //         else {
+                //             if ($key == count($color_category_names) - 1)
+                //                 array_push($color_result, $category);
+                //         }
+                //     }
+                //     array_unique($color_result);
 
-                    foreach($color_result as $key => $color) {
-                        $flagToAddColor = true;
-                        foreach($Product->getProductCategories() as $ProductCategory)
-                            if ($ProductCategory->getCategory()->getName() == $color) {
-                                $flagToAddColor = false;
-                                break;
-                            }
+                //     foreach($color_result as $key => $color) {
+                //         $flagToAddColor = true;
+                //         foreach($Product->getProductCategories() as $ProductCategory)
+                //             if ($ProductCategory->getCategory()->getName() == $color) {
+                //                 $flagToAddColor = false;
+                //                 break;
+                //             }
 
-                        if ($flagToAddColor) {
-                            $Category = $this->categoryRepository->findOneBy(['name' => $color]);
+                //         if ($flagToAddColor) {
+                //             $Category = $this->categoryRepository->findOneBy(['name' => $color]);
                             
-                            if (!is_null($Category)) {
-                                $ProductCategory = $this->createProductCategory($Product, $Category, $count);
-                                $this->entityManager->persist($ProductCategory);
-                                $count++;
-                                /* @var $Product \Eccube\Entity\Product */
-                                $Product->addProductCategory($ProductCategory);
-                                $categoriesIdList[$Category->getId()] = true;
-                            }
-                        }
-                    }
-                }
+                //             if (!is_null($Category)) {
+                //                 $ProductCategory = $this->createProductCategory($Product, $Category, $count);
+                //                 $this->entityManager->persist($ProductCategory);
+                //                 $count++;
+                //                 /* @var $Product \Eccube\Entity\Product */
+                //                 $Product->addProductCategory($ProductCategory);
+                //                 $categoriesIdList[$Category->getId()] = true;
+                //             }
+                //         }
+                //     }
+                // }
 
                 // 画像の登録
                 $add_images = $form->get('add_images')->getData();

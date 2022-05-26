@@ -11,7 +11,7 @@ file that was distributed with this source code.
 {% extends '@admin/default_frame.twig' %}
 
 {% set menus = ['product', 'product_master'] %}
-{% set productRepository = repository('ECCUBE\\Entity\\Product') %}
+{% set productRepository = repository('Eccube\\Entity\\Product') %}
 
 {% block title %}{{ 'admin.product.product_list'|trans }}{% endblock %}
 {% block sub_title %}{{ 'admin.product.product_management'|trans }}{% endblock %}

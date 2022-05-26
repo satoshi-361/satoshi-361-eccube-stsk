@@ -11,6 +11,9 @@ file that was distributed with this source code.
 {% extends 'default_frame.twig' %}
 
 {% set body_class = 'product_page' %}
+{% set printPriceRepository = repository('Plugin\\PrintPrice\\Entity\\Config') %}
+{% set categoryRepository = repository('Eccube\\Entity\\Category') %}
+{% set productRepository = repository('Eccube\\Entity\\Product') %}
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{{ asset('assets/css/contents.css') }}" type="text/css">
@@ -327,6 +330,7 @@ file that was distributed with this source code.
                 </div>
                 <div class="auto-estimation">
                     <div class="aiosl_div" id="aiosl_estimate"><span class="aiosl_title"><img src="{{ asset('assets/img/common/auto_up.svg') }}" alt=""></span>
+                        <p style="color: gray; text-align: left">※注⽂数は［最⼩発注数］以上でご⼊⼒ください。</p>
                         <div class="aiosl_e_color">
                             {% set body_colors = Product.body_color|split('/') %}
                             {# {% if body_colors|length > 0 %} #}
@@ -400,14 +404,12 @@ file that was distributed with this source code.
                                     <dd>
                                         <span id="aiosl_total">---</span>
                                     </dd>
+                                    <p id="no-fee" style="text-align: right">(商品合計40,000円以上で送料無料)</p>
                                 </div>
                             </dl>
                         </div>
                     </div>
                     <script>
-                        {% set printPriceRepository = repository('Plugin\\PrintPrice\\Entity\\Config') %}
-                        {% set categoryRepository = repository('Eccube\\Entity\\Category') %}
-
                         var arr = [];
 
                         {% set printCategories = [] %}
@@ -528,7 +530,7 @@ file that was distributed with this source code.
                                         document.getElementById("aiosl_print_fee").textContent = (printingFee * printingFeeQuantity) + " 円";
                                         document.getElementById("aiosl_print_fee_breakdown").textContent = printFeeBreakdown;
                                     }
-                                    shipmentFee = ((price * total) + dataPlacementFee + (printingFee * printingFeeQuantity)) < 35000 ? 800 : 0;
+                                    shipmentFee = ((price * total) + dataPlacementFee + (printingFee * printingFeeQuantity)) < 40000 ? 1200 : 0;
                                     document.getElementById("aiosl_shipment_fee").textContent = shipmentFee + " 円";;
                                     document.getElementById("aiosl_shipment_fee_breakdown").textContent = "";
                                     var zeinukiTotal = (price * total) + dataPlacementFee + (printingFee * printingFeeQuantity) + shipmentFee;
@@ -596,7 +598,7 @@ file that was distributed with this source code.
                             <a href="{{ url('sample_order_contact', {product_id : Product.id}) }}"><img src="{{ asset('assets/img/common/ico_sample.svg') }}" alt="">サンプル注文する<br>《3個まで》</a>
                         </li>
                         <li>
-                            <a href="{{ url('contact') }}" style="margin-top: 8px"><img style="width: 30px" src="{{ asset('assets/img/common/メール.svg') }}" alt="">お問い合わせ</a>
+                            <a href="{{ url('contact', {id: Product.id}) }}" style="margin-top: 8px"><img style="width: 30px" src="{{ asset('assets/img/common/メール.svg') }}" alt="">お問い合わせ</a>
                         </li>
                         <!--<li><a href="#">見積書ダウンロード</a></li>-->
                         <!-- AIOSL追記分 -->
@@ -666,28 +668,55 @@ file that was distributed with this source code.
             </div>
         </section>
         <section class="section" id="kanren">
-            <h1 class="lv_h2">関連商品</h1>
-            <ul>
-                {% for RelatedProduct in Product.RelatedProducts %}
-                    {% set ChildProduct = RelatedProduct.ChildProduct %}
-                    {% if ChildProduct.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
-                        <li>
-                             <a href="{{ url('product_detail', {'id': ChildProduct.id}) }}" title="{{ ChildProduct.name }}">
-                                <p class="photo"> 
-                                    <img src="{{ asset(ChildProduct.main_list_image|no_image_product, 'save_image') }}" width="400" height="400" alt="{{ ChildProduct.name }}" class="attachment-400x400 size-400x400" loading="lazy">
-                                </p>
-                                <div class="text">
-                                    <div class="head">
-                                        <p class="no">{{ ChildProduct.getCodeMax }}</p>
-                                        <p class="price">{{ ChildProduct.getPrice02IncTaxMin|price }}</p>
+            {% set break = false %}
+            {% for productCategory in Product.ProductCategories if productCategory.Category.Parent != null and productCategory.Category.Parent.name == 'カテゴリ' and break == false %}
+                {% set break = true %}
+                {% set Category = productCategory.Category %}  
+                {% set count = 0 %}
+                
+                <h1 class="lv_h2">関連商品</h1>
+                <ul>
+                    {% for pCategory in Category.ProductCategories|reverse if pCategory.product_id != productCategory.product_id and count < 4 %}
+                        {% set ChildProduct = pCategory.Product %}
+                        {% if ChildProduct.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
+                            <li>
+                                <a href="{{ url('product_detail', {'id': ChildProduct.id}) }}" title="{{ ChildProduct.name }}">
+                                    <p class="photo"> 
+                                        <img src="{{ asset(ChildProduct.main_list_image|no_image_product, 'save_image') }}" width="400" height="400" alt="{{ ChildProduct.name }}" class="attachment-400x400 size-400x400" loading="lazy">
+                                    </p>
+                                    <div class="text">
+                                        <div class="head">
+                                            <p class="no">{{ ChildProduct.getCodeMax }}</p>
+                                            <p class="price">{{ ChildProduct.getPrice02IncTaxMin|price }}</p>
+                                        </div>
+                                        <p>{{ ChildProduct.name }}</p>
                                     </div>
-                                    <p>{{ ChildProduct.name }}</p>
-                                </div>
-                            </a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
+                                </a>
+                            </li>
+                        {% set count = count + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {# {% for RelatedProduct in Category.ProductCategories %}
+                        {% set ChildProduct = RelatedProduct.ChildProduct %}
+                        {% if ChildProduct.Status.id == constant("Eccube\\Entity\\Master\\ProductStatus::DISPLAY_SHOW") %}
+                            <li>
+                                <a href="{{ url('product_detail', {'id': ChildProduct.id}) }}" title="{{ ChildProduct.name }}">
+                                    <p class="photo"> 
+                                        <img src="{{ asset(ChildProduct.main_list_image|no_image_product, 'save_image') }}" width="400" height="400" alt="{{ ChildProduct.name }}" class="attachment-400x400 size-400x400" loading="lazy">
+                                    </p>
+                                    <div class="text">
+                                        <div class="head">
+                                            <p class="no">{{ ChildProduct.getCodeMax }}</p>
+                                            <p class="price">{{ ChildProduct.getPrice02IncTaxMin|price }}</p>
+                                        </div>
+                                        <p>{{ ChildProduct.name }}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %} #}
+                </ul>
+            {% endfor %}      
         </section>
         <section class="section check-products">
             <h1 class="lv_h3">最近見た商品</h1>

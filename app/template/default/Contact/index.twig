@@ -10,6 +10,7 @@ file that was distributed with this source code.
 #}
 {% extends 'default_frame.twig' %}
 
+{% set productRepository = repository('Eccube\\Entity\\Product') %}
 {% form_theme form 'Form/form_div_layout.twig' %}
 
 {% block stylesheet %}
@@ -93,6 +94,22 @@ file that was distributed with this source code.
                                 {{ form_widget(form._token) }}
                                 <table class="lineBtm">
                                     <tbody>
+                                        {% if product_id != null %}
+                                        <tr>
+                                            <th>商品名</th>
+                                            <td>
+                                                {{ form_widget(form.product_name, { 'attr': { 'placeholder': '', 'value': productRepository.find(product_id).name }}) }}
+                                                {{ form_errors(form.product_name) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>商品番号</th>
+                                            <td>
+                                                {{ form_widget(form.product_code, { 'attr': { 'placeholder': '', 'value': productRepository.find(product_id).getCodeMax }}) }}
+                                                {{ form_errors(form.product_code) }}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
                                         <tr>
                                             <th>法人名・団体名</th>
                                             <td>
@@ -162,6 +179,7 @@ file that was distributed with this source code.
                                         </tr>
                                     </tbody>
                                 </table> 
+                                <input type="hidden" name="product_id" value="{{ product_id }}">
                                 <p class="btnSend"><button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">確認画面へ進む</button></p>
                             </form>
                         </div>

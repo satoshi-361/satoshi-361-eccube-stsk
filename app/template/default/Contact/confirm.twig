@@ -85,6 +85,22 @@ file that was distributed with this source code.
                                 {{ form_widget(form._token) }}
                                 <table class="lineBtm">
                                     <tbody>
+                                        {% if product_id != null %}
+                                        <tr>
+                                            <th>商品名</th>
+                                            <td>
+                                                {{ form.product_name.vars.data }}
+                                                {{ form_widget(form.product_name, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>商品番号</th>
+                                            <td>
+                                                {{ form.product_code.vars.data }}
+                                                {{ form_widget(form.product_code, { type : 'hidden' }) }}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
                                         <tr>
                                             <th>法人名・団体名</th>
                                             <td>

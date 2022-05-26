@@ -240,49 +240,49 @@ class CsvImportController extends AbstractCsvImportController
                             return $this->renderWithError($form, $headers);
                         }
 
-                        // if (StringUtil::isNotBlank($row[$headerByKey['name']]) && isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
-                        //     $name = $row[$headerByKey['name']];
-                        //     $product_code = $row[$headerByKey['product_code']];
+                        if (StringUtil::isNotBlank($row[$headerByKey['name']]) && isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
+                            $name = $row[$headerByKey['name']];
+                            $product_code = $row[$headerByKey['product_code']];
 
-                        //     $tempProduct = $this->productRepository->findOneBy(['name' => $name]);
+                            $tempProduct = $this->productRepository->findOneBy(['name' => $name]);
 
-                        //     if (is_null($tempProduct)) {
-                        //         $Product = new Product();
-                        //         $this->entityManager->persist($Product);
-                        //     } else {
-                        //         if ($tempProduct->getCodeMax() == $product_code)
-                        //             $Product = $tempProduct;
-                        //     }
-                        // } else {
-                        //     $Product = new Product();
-                        //     $this->entityManager->persist($Product);
-                        // }
-
-                        if (isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
-                            $ProductClass = $this->productClassRepository->findOneBy(['code' => $row[$headerByKey['product_code']]]);
-
-                            if (is_null($ProductClass)) {
-                                if (StringUtil::isNotBlank($row[$headerByKey['name']])) {
-                                    $Product = $this->productRepository->findOneBy(['name' => $row[$headerByKey['name']]]);
-
-                                    if (is_null($Product)) {
-                                        $Product = new Product();
-                                        $this->entityManager->persist($Product);
-                                    }
-                                }
+                            if (is_null($tempProduct)) {
+                                $Product = new Product();
+                                $this->entityManager->persist($Product);
                             } else {
-                                $Product = $ProductClass->getProduct();
+                                if ($tempProduct->getCodeMax() == $product_code)
+                                    $Product = $tempProduct;
                             }
                         } else {
-                            if (StringUtil::isNotBlank($row[$headerByKey['name']])) {
-                                $Product = $this->productRepository->findOneBy(['name' => $row[$headerByKey['name']]]);
-
-                                if (is_null($Product)) {
-                                    $Product = new Product();
-                                    $this->entityManager->persist($Product);
-                                }
-                            }
+                            $Product = new Product();
+                            $this->entityManager->persist($Product);
                         }
+
+                        // if (isset($row[$headerByKey['product_code']]) && StringUtil::isNotBlank($row[$headerByKey['product_code']])) {
+                        //     $ProductClass = $this->productClassRepository->findOneBy(['code' => $row[$headerByKey['product_code']]]);
+
+                        //     if (is_null($ProductClass)) {
+                        //         if (StringUtil::isNotBlank($row[$headerByKey['name']])) {
+                        //             $Product = $this->productRepository->findOneBy(['name' => $row[$headerByKey['name']]]);
+
+                        //             if (is_null($Product)) {
+                        //                 $Product = new Product();
+                        //                 $this->entityManager->persist($Product);
+                        //             }
+                        //         }
+                        //     } else {
+                        //         $Product = $ProductClass->getProduct();
+                        //     }
+                        // } else {
+                        //     if (StringUtil::isNotBlank($row[$headerByKey['name']])) {
+                        //         $Product = $this->productRepository->findOneBy(['name' => $row[$headerByKey['name']]]);
+
+                        //         if (is_null($Product)) {
+                        //             $Product = new Product();
+                        //             $this->entityManager->persist($Product);
+                        //         }
+                        //     }
+                        // }
 
                         $Product->setStatus($this->productStatusRepository->find(\Eccube\Entity\Master\ProductStatus::DISPLAY_HIDE));
 
@@ -1501,7 +1501,10 @@ class CsvImportController extends AbstractCsvImportController
     protected function createProductClass($row, Product $Product, $data, $headerByKey, $ClassCategory1 = null, $ClassCategory2 = null)
     {
         // 規格分類1、規格分類2がnullとなる商品を作成
-        $ProductClass = end($Product->getProductClasses());
+        if ( $Product->hasProductClass() )
+            $ProductClass = end($Product->getProductClasses());
+        else $ProductClass = new ProductClass();
+
         $ProductClass->setProduct($Product);
         $ProductClass->setVisible(true);
 

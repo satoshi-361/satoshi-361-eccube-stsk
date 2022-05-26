@@ -12,8 +12,8 @@ file that was distributed with this source code.
 
 {% set body_class = 'product_page' %}
 {% set is_sp_sidebar = true %}
-{% set categoryRepository = repository('ECCUBE\\Entity\\Category') %}
-{% set customerFavoriteProductRepository = repository('ECCUBE\\Entity\\CustomerFavoriteProduct') %}
+{% set categoryRepository = repository('Eccube\\Entity\\Category') %}
+{% set customerFavoriteProductRepository = repository('Eccube\\Entity\\CustomerFavoriteProduct') %}
 {% if is_granted('ROLE_USER') %}
     {% set customerRepository = repository('Eccube\\Entity\\Customer') %}
     {% set Customer = customerRepository.find(app.user.id) %}

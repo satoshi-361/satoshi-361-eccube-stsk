@@ -1,11 +1,8 @@
 <!doctype html>
 {#
 This file is part of EC-CUBE
-
 Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
-
 http://www.ec-cube.co.jp/
-
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 #}
@@ -19,7 +16,6 @@ file that was distributed with this source code.
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'AW-10880378925');
         </script>
     {% elseif currentPath == '/order/sample/contact/4252' %}
@@ -29,7 +25,6 @@ file that was distributed with this source code.
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'AW-10880378925');
         </script>
     {% endif %}
@@ -91,7 +86,6 @@ file that was distributed with this source code.
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-28H0G71RNH');
     </script>
 </head>
@@ -181,5 +175,18 @@ file that was distributed with this source code.
     {{ include('snippet.twig', { snippets: plugin_snippets }) }}
 {% endif %}
     <script src="{{ asset('assets/js/customize.js', 'user_data') }}"></script>
+    <script async src="https://s.yimg.jp/images/listing/tool/cv/ytag.js"></script>
+    <script>
+    window.yjDataLayer = window.yjDataLayer || [];
+    function ytag() { yjDataLayer.push(arguments); }
+    ytag({
+      "type":"yss_retargeting",
+      "config": {
+        "yahoo_ss_retargeting_id": "1001247917",
+        "yahoo_sstag_custom_params": {
+        }
+      }
+    });
+    </script>
 </body>
 </html>

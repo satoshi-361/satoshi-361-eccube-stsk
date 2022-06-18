@@ -536,6 +536,9 @@ nav#globalNav ul li a:hover::after {
 
 @media screen and (max-width: 620px) {
     /*sp*/
+    .slide {
+      width: 90%;
+  }
 }
 
 @media screen and (max-width: 480px) {}
@@ -561,8 +564,8 @@ nav#globalNav ul li a:hover::after {
 
 #main #side .inner {
     /*position: -webkit-sticky;
-	position: sticky;
-	top: 0;*/
+    position: sticky;
+    top: 0;*/
     display: block;
 }
 

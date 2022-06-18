@@ -1,54 +1,67 @@
 <div class="slide">
-    <div class="wideslider">
-        <ul>
-            <li><img src="{{ asset('assets/img/common/01-2.jpg') }}" alt=""></li>
-            <li><img src="{{ asset('assets/img/common/02-2.jpg') }}" alt=""></li>
-            <li><img src="{{ asset('assets/img/common/03-2.jpg') }}" alt=""></li>
-            <li><img src="{{ asset('assets/img/common/04-2.jpg') }}" alt=""></li>
-            <li><img src="{{ asset('assets/img/common/05-2.jpg') }}" alt=""></li>
-        </ul>
-    </div>
-    <div class="pagination cstm">
-        <a href="javascript:void(0);" class="pn1"></a>
-        <a href="javascript:void(0);" class="pn2"></a>
-        <a href="javascript:void(0);" class="pn3"></a>
-        <a href="javascript:void(0);" class="pn4"></a>
-        <a href="javascript:void(0);" class="pn5"></a>
-    </div>
-    <style>
-        .pagination.cstm {
-            display: none;
-        }
-        @media only screen and (max-width: 768px) {
-            .pagination.cstm {
-                display: flex;
-                position: unset;
-                margin-top: 20px;
-                opacity: 0.8;
-            }
-        }
-    </style>
+  <div class="wideslider">
+      <ul>
+          <li><img src="{{ asset('assets/img/common/01-2.jpg') }}" alt=""></li>
+          <li><img src="{{ asset('assets/img/common/02-2.jpg') }}" alt=""></li>
+          <li><img src="{{ asset('assets/img/common/03-2.jpg') }}" alt=""></li>
+          <li><img src="{{ asset('assets/img/common/04-2.jpg') }}" alt=""></li>
+          <li><img src="{{ asset('assets/img/common/05-2.jpg') }}" alt=""></li>
+      </ul>
+  </div>
+  <div class="pagination cstm">
+      <a href="javascript:void(0);" class="pn1"></a>
+      <a href="javascript:void(0);" class="pn2"></a>
+      <a href="javascript:void(0);" class="pn3"></a>
+      <a href="javascript:void(0);" class="pn4"></a>
+      <a href="javascript:void(0);" class="pn5"></a>
+  </div>
+  <style>
+      .pagination.cstm {
+          display: none;
+      }
+      @media only screen and (max-width: 768px) {
+          .pagination.cstm {
+              display: flex;
+              position: unset;
+              margin-top: 20px;
+              opacity: 0.8;
+              height: 30px;
+          }
+
+          .pagination.cstm a {
+              height: 30px;
+          }
+      }
+  </style>
 </div>
-<div style="margin-bottom: 13px; padding-left: 20px; padding-right: 20px; text-align: center;">
-  <img src="{{ asset('assets/img/top/自動見積りバナー.jpg') }}" style="width: 100%; max-width: 1000px; margin: auto" class="pc">
-  <img src="{{ asset('assets/img/top/自動見積りバナー【スマホ用】.png') }}" style="width: 100%; max-width: 1000px;" class="sp">
+<div class="lps wrapper">
+  <div>
+      <a href="../LP1/index.html" target="_blank">
+          <img src="{{ asset('assets/img/top/top_LP1.png') }}">
+      </a>
+  </div>
+  <div>
+      <a href="../LP2/index.html" target="_blank">
+          <img src="{{ asset('assets/img/top/top_LP2.png') }}">
+      </a>
+  </div>
 </div>
 
 {% set newsRepository = repository('Eccube\\Entity\\News') %}
 {% set news = newsRepository.findBy({}, {'publish_date': 'DESC'}, 8, 0) %}
 
 <div id="information" class="wrapper">
-    <div class="body">
-        <p class="title"><img src="{{ asset('assets/img/top/information.png') }}"></p>
-        <div class="text">
-            <p class="bold">{{ news[0].publish_date|date('Y.m.d') }}　{{ news[0].title }}</p>
-            <p> {{ news[0].description }} </p>
-            {# <p> {{ news[0].description|length > 60 ? news[0].description|striptags|replace({('&nbsp;'):' '})|slice(0, 60)|raw ~ '...' : news[0].description|raw }} </p> #}
-        </div>
-        <div class="read_more">
-            <p class="btn_more"><a href="{{ url('homepage')~'user_data/news' }}">お知らせ</a></p>
-        </div>
-    </div>
+  <div class="body">
+      <p class="title"><img src="{{ asset('assets/img/top/information.png') }}"></p>
+      <div class="text">
+          <p class="bold">{{ news[0].publish_date|date('Y.m.d') }}　{{ news[0].title }}</p>
+          <p> {{ news[0].description }} </p>
+          {# <p> {{ news[0].description|length > 60 ? news[0].description|striptags|replace({('&nbsp;'):' '})|slice(0, 60)|raw ~ '...' : news[0].description|raw }} </p> #}
+      </div>
+      <div class="read_more">
+          <p class="btn_more"><a href="{{ url('homepage')~'user_data/news' }}">お知らせ</a></p>
+      </div>
+  </div>
 </div>
 
 <main id="main">

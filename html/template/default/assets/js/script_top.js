@@ -47,7 +47,11 @@ $(function() {
             setSlide();
 
             function setSlide() {
-                windowWidth = $(window).width() * 0.8;
+                if ($(window).width() > 620)
+                    windowWidth = $(window).width() * 0.8;
+                else 
+                    windowWidth = $(window).width() * 0.9;
+
                 findList = findWrap.find('li');
                 setParts = (findBase, findWrap, findPrev, findNext, $setElm);
 

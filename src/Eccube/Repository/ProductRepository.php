@@ -337,6 +337,7 @@ class ProductRepository extends AbstractRepository
                 ->andWhere('p.create_date < :create_date_end')
                 ->setParameter('create_date_end', $date);
         }
+        $qb->andWhere('pc.stock_unlimited = false AND pc.stock > 0');
 
         // update_date
         if (!empty($searchData['update_datetime_start']) && $searchData['update_datetime_start']) {

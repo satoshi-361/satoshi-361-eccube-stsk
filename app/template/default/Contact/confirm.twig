@@ -85,7 +85,7 @@ file that was distributed with this source code.
                                 {{ form_widget(form._token) }}
                                 <table class="lineBtm">
                                     <tbody>
-                                        {% if product_id != null %}
+                                        {% if app.session.has('contact_product_id') %}
                                         <tr>
                                             <th>商品名</th>
                                             <td>

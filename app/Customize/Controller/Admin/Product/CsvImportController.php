@@ -1501,9 +1501,23 @@ class CsvImportController extends AbstractCsvImportController
     protected function createProductClass($row, Product $Product, $data, $headerByKey, $ClassCategory1 = null, $ClassCategory2 = null)
     {
         // 規格分類1、規格分類2がnullとなる商品を作成
-        if ( $Product->hasProductClass() )
-            $ProductClass = end($Product->getProductClasses());
-        else $ProductClass = new ProductClass();
+        if ( count($Product->getProductClasses()) ){
+          $ProductClasses = $Product->getProductClasses()->toArray();
+          $ProductClass = end($ProductClasses);
+
+          $count = count($ProductClasses);
+
+          foreach ($ProductClasses as $item) {
+            if (--$count <= 0) {
+                break;
+            }
+            
+            $Product->removeProductClass($item);
+            $this->entityManager->remove($item);
+          }
+        }
+        else
+            $ProductClass = new ProductClass();
 
         $ProductClass->setProduct($Product);
         $ProductClass->setVisible(true);

@@ -105,7 +105,6 @@ class ContactController extends AbstractController
                     return $this->render('Contact/confirm.twig', [
                         'form' => $form->createView(),
                         'Page' => $this->pageRepository->getPageByRoute('contact_confirm'),
-                        'product_id' => $request->get('product_id')
                     ]);
 
                 case 'complete':
@@ -129,9 +128,14 @@ class ContactController extends AbstractController
             }
         }
 
+        if (is_null($id)) {
+            $this->session->remove('contact_product_id');
+        } else {
+            $this->session->set('contact_product_id', $id);
+        }
+
         return [
-            'form' => $form->createView(),
-            'product_id' => $id
+            'form' => $form->createView()
         ];
     }
 

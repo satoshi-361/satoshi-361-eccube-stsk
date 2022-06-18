@@ -30,7 +30,7 @@ use Doctrine\ORM\Mapping as ORM;
     {
     use \Plugin\SiteKit\Entity\BaseInfoTrait;
 
-        /**
+    /**
          * @var int
          *
          * @ORM\Column(name="id", type="integer", options={"unsigned":true})

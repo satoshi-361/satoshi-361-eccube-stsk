@@ -49,6 +49,7 @@ file that was distributed with this source code.
                             商品合計： {{ data.quantity }}　×　{{ data.price }}円　　　<br/>
                             送　料： 800円<br/>
                             税込合計： {{ totalPrice }}円<br/>
+                            消費税： {{ (totalPrice*0.1)|round }}円<br/>
                             ご要望・ご質問： {{ data.contents }}<br/>
 
                             <hr style="border-top: 3px double #8c8b8b;">
